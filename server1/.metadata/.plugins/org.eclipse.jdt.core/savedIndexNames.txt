@@ -1,0 +1,2 @@
+INDEX VERSION 1.129+C:\Users\Administrator\Desktop\magsProj\server1\.metadata\.plugins\org.eclipse.jdt.core
+2461411560.index
