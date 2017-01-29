@@ -18,7 +18,7 @@ import java.util.regex.*;
  * A login screen that offers login via name/password.
  */
 public class LoginActivity extends AppCompatActivity {
-
+//קקי
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
