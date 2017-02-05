@@ -8,7 +8,13 @@ public class Constants
 {
     //opcodes
 
+    public static final int empty_query = 0;
     //client
 
-    public static final int singIn_client = 101;
+    public static final int signIn_client = 101;
+
+
+
+    //time
+    public static final long timeBetweenSends = 1 *1000;
 }

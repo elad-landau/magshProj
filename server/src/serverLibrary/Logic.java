@@ -5,17 +5,18 @@ import java.util.concurrent.locks.*;
 
 import commonLibrary.Message;
 import commonLibrary.Query;
+import commonLibrary.Queue;
 
 public class Logic implements Runnable
 {
-	private LinkedList<Query> queue;
+	private Queue<Query> queue;
 	private Logic instance;
 	private final ReentrantLock lock;
 	
 	
 	protected Logic()
 	{
-		queue = new LinkedList<Query>();
+		queue = new Queue<Query>();
 		lock = new ReentrantLock();
 	}
 	
@@ -40,7 +41,7 @@ public class Logic implements Runnable
 	public void addQuery(Query q)
 	{
 		lock.lock();
-		queue.addLast(q);
+		queue.enqueue(q);
 		lock.unlock();
 	}
 	
@@ -67,8 +68,8 @@ public class Logic implements Runnable
 				lock.lock();
 			}
 			
-			q = queue.getFirst();
-			queue.removeFirst();
+			q = queue.dequeue();
+			
 			
 			lock.unlock();
 			

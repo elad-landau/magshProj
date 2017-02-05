@@ -12,6 +12,8 @@ import java.io.OutputStream;
 public class ClientHandler implements Runnable
 {
 	protected Socket clientSocket = null;
+	InputStream input;
+	OutputStream output;
 	
 	public ClientHandler(Socket clientSocket)
 	{
@@ -19,7 +21,7 @@ public class ClientHandler implements Runnable
 	}
 	
 	
-	/*
+	/* 
 	 * the method that process the client request
 	 * 
 	 * 
@@ -28,14 +30,36 @@ public class ClientHandler implements Runnable
 	 */
 	public void run()
 	{
+		int length;
 		try
 		{
-		InputStream input = clientSocket.getInputStream();
-		OutputStream output = clientSocket.getOutputStream();
+		input = clientSocket.getInputStream();
+		output = clientSocket.getOutputStream();
 		}
 		catch(IOException e)
 		{
 			DBWrapper.getInstance().writeLog("warning", this.getClass().getName(), "error getting data from client : "+e);
+		}
+		
+		while(true)
+		{
+			try
+			{
+				if(input.available()<4) // legnth of int
+				{
+					Thread.sleep(10);
+				}
+			}
+			catch(IOException e)
+			{
+				DBWrapper.getInstance().writeLog("debug", this.getClass().getName(), "cant get 'input' available bytes : "+e.getMessage());
+			}
+			catch(InterruptedException e)
+			{
+				DBWrapper.getInstance().writeLog("debug", this.getClass().getName(), "problem with putting the thread to sleep : "+e.getMessage());
+			}
+			
+			length = input.read(4, off, len)
 		}
 	}
 
