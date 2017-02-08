@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Ahlan</string>
-
+    <string name="title_activity_main">Main</string>
     <string name="title_activity_login">Sing in</string>
+    <string name="title_activity_sing_up">Sing up</string>
 
     <!-- Strings related to login -->
     <string name="prompt_name">User Name</string>
@@ -11,6 +12,12 @@
     <string name="error_invalid_password">This password is invalid</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_incorrect_details">The details are wrong</string>
+
+
+    <!-- Strings related to singup -->\
+    <string name="action_sign_up">Sign up</string>
+
 
 
 </resources>

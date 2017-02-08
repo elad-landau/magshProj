@@ -11,8 +11,15 @@
     tools:context="com.ahlan.ahlanapp.SignUpActivity">
 
     <!-- Sign Up progress -->
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        tools:text="The name must be four characters or more. (Uppercase / lowercase letter / underscore / number)" />
+
     <ProgressBar
-        android:id="@+id/login_progress"
+        android:id="@+id/signup_progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,12 +27,12 @@
         android:visibility="gone" />
 
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/signup_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/log_in_form"
+            android:id="@+id/sign_up_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -35,7 +42,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/userName"
+                    android:id="@+id/UserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_name"
@@ -59,7 +66,7 @@
                 android:maxLines="1" />
 
             <Button
-                android:id="@+id/Login_button"
+                android:id="@+id/sign_up_button"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
