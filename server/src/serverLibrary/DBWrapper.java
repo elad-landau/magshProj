@@ -9,11 +9,15 @@ public class DBWrapper
 {
 	private static DBWrapper instance = null;
 	private Connection connection = null;
+	
 	private final String usersTable = "Users";
 	private final String groupsTable = "Groups";
 	private final String messagesTable = "Messages";
 	private final String logTable = "Log";
 	private SimpleDateFormat DateFormat;
+	
+	public enum LogLevels {INFO , DEBUG , WARNING , ERROR , CRITICAL};
+	
 	
 	protected DBWrapper() {
 		DateFormat = new SimpleDateFormat(ConfigurationManager.getInstance().getDate_format());
@@ -117,7 +121,7 @@ public class DBWrapper
 		{
 			runCommand(sql);
 		}catch(SQLException ex) {
-			writeLog("error", DBWrapper.class.getName(), "not able to create DB table" + tabelName + ". :" + ex.getMessage());
+			writeLog(DBWrapper.LogLevels.WARNING , DBWrapper.class.getName(), "not able to create DB table" + tabelName + ". :" + ex.getMessage());
 		}
 	}
 
@@ -151,7 +155,7 @@ public class DBWrapper
 	 * @param message -the record message.
 	 * @return true if the record has written successfully, false if not.
 	 */
-	public boolean writeLog(String logLevel, String Class, String message)
+	public boolean writeLog(LogLevels logLevel, String Class, String message)
 	{
 		Date date = new Date();
 		

@@ -10,7 +10,7 @@ import commonLibrary.Queue;
 public class Logic implements Runnable
 {
 	private Queue<Query> queue;
-	private Logic instance;
+	private static Logic instance;
 	private final ReentrantLock lock;
 	
 	
@@ -20,7 +20,7 @@ public class Logic implements Runnable
 		lock = new ReentrantLock();
 	}
 	
-	public Logic getInstance()
+	public static Logic getInstance()
 	{
 		if(instance == null)
 			instance = new Logic();
@@ -62,7 +62,7 @@ public class Logic implements Runnable
 				}
 				catch(Exception e)
 				{
-					DBWrapper.getInstance().writeLog("Warning", this.getClass().getName(), "queue faild at sleeping : "+e);
+					DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING , this.getClass().getName(), "queue faild at sleeping : "+e);
 				}
 				
 				lock.lock();

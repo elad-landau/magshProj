@@ -56,7 +56,7 @@ public class Network
 		}
 		catch(IOException e)
 		{
-			DBWrapper.getInstance().writeLog("critical", this.getClass().getName(),"Cannot open the port: "+e);
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.CRITICAL , this.getClass().getName(),"Cannot open the port: "+e);
 		}
 		
 		
@@ -83,7 +83,7 @@ public class Network
 			}
 			catch(IOException e)
 			{
-				DBWrapper.getInstance().writeLog("error",this.getClass().getName(),"Error accepting client :"+e);
+				DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.ERROR ,this.getClass().getName(),"Error accepting client :"+e);
 			}
 			
 			threadPool.execute(new ClientHandler(clientSocket));
@@ -116,7 +116,7 @@ public class Network
 		}
 		catch(IOException e)
 		{
-			DBWrapper.getInstance().writeLog("error", this.getClass().getName(),"Error closing the server: "+e);
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.ERROR , this.getClass().getName(),"Error closing the server: "+e);
 		}
 	}
 }

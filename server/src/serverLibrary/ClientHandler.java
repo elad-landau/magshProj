@@ -1,5 +1,7 @@
 package serverLibrary;
 
+import commonLibrary.*;
+
 import java.net.Socket;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +33,10 @@ public class ClientHandler implements Runnable
 	public void run()
 	{
 		int length;
+		Query q;
+		
+		
+		//connecting to client
 		try
 		{
 		input = clientSocket.getInputStream();
@@ -38,29 +44,110 @@ public class ClientHandler implements Runnable
 		}
 		catch(IOException e)
 		{
-			DBWrapper.getInstance().writeLog("warning", this.getClass().getName(), "error getting data from client : "+e);
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING , this.getClass().getName(), "error getting data from client : "+e);
 		}
 		
+		
+		//contacting with the client
 		while(true)
 		{
-			try
+			
+			length = getMessageLength();
+			if(length == -1)
 			{
-				if(input.available()<4) // legnth of int
-				{
-					Thread.sleep(10);
-				}
-			}
-			catch(IOException e)
-			{
-				DBWrapper.getInstance().writeLog("debug", this.getClass().getName(), "cant get 'input' available bytes : "+e.getMessage());
-			}
-			catch(InterruptedException e)
-			{
-				DBWrapper.getInstance().writeLog("debug", this.getClass().getName(), "problem with putting the thread to sleep : "+e.getMessage());
+				//disconnect client
+				DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.INFO,this.getClass().getName() ,"client hasn't responsed for 1 second");
+				disconnectClient();
+				break;
 			}
 			
-			length = input.read(4, off, len)
+			if(length == 0) // client is connectiong but has nothing to send
+			{
+				continue;
+			}
+			
+			q = getQuery(length);
+			Logic.getInstance().addQuery(q);
+			
 		}
 	}
+	
+	
+	/*
+	 * the method wait and return the length of the message coming from the client
+	 * if client exceeds the time limit of additional 0
+	 */
+	private int getMessageLength()
+	{
+		int length;
+		int count = 0;
+		byte[] buffer = new byte[1024];
+		
+		try
+		{
+			while(input.available()<4 && count <100) // length of int
+			{
+				Thread.sleep(10);
+				count++;
+			}
+			
+			if(count< 100)
+				input.read(buffer, 0, 4);
+			else
+				return -1;
+			
+		}
+		catch(IOException e)
+		{
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.DEBUG, this.getClass().getName(), "cant get 'input' available bytes : "+e.getMessage());
+		}
+		catch(InterruptedException e)
+		{
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.DEBUG, this.getClass().getName(), "problem with putting the thread to sleep : "+e.getMessage());
+		}
+		
+		return Integer.parseInt(buffer.toString());
+		
+	}
 
+	
+	/*
+	 * safety disconnect the client
+	 */
+	private void disconnectClient()
+	{	
+		try
+		{
+			input.close();
+			output.close();
+			clientSocket.close();
+		}
+		catch(IOException e)
+		{
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.DEBUG , this.getClass().getName(), "problem with disconnecting client: + "+e.getMessage());
+		}
+	}
+	
+	
+	/*
+	 * get 'length' bytes from the client, and return it in the form of 'Query'
+	 */
+	private Query getQuery(int length)
+	{
+		byte[] buffer = new byte[1024];
+		Utility util;
+		
+		try
+		{
+		input.read(buffer, 0, length);
+		util = Utility.deserialize(buffer);
+		}
+		catch(Exception e)
+		{
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.ERROR, this.getClass().getName(), "problem with getting message from client : "+e.getMessage());
+			return null;
+		}
+		
+		return (Query)util;
+	}
 }

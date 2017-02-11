@@ -75,7 +75,7 @@ public class ConfigurationManager
 		   } 
 		   else 
 		   {
-			   DBWrapper.getInstance().writeLog("critical", this.getClass().getName(), "property file '" + propFileName + "' not found in the classpath");
+			   DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.CRITICAL , this.getClass().getName(), "property file '" + propFileName + "' not found in the classpath");
 		   }
 		 
 		   // get the property value and print it out
@@ -88,7 +88,7 @@ public class ConfigurationManager
 		   date_format = prop.getProperty("date_format");
 		 
 		  } catch (Exception e) {
-			  DBWrapper.getInstance().writeLog("warning", this.getClass().getName(), "Exception: " + e);
+			  DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING , this.getClass().getName(), "Exception: " + e);
 		  } finally {
 		   try {
 		    inputStream.close();
