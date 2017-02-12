@@ -15,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.regex.Pattern;
 
 /**
  * A login screen that offers sign up via name/password.
@@ -73,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity{
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !Validation.isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -84,34 +83,27 @@ public class SignUpActivity extends AppCompatActivity{
             mNameView.setError(getString(R.string.error_field_required));
             focusView = mNameView;
             cancel = true;
-        } else if (!isNameValid(name)) {
+        } else if (!Validation.isNameValid(name)) {
             mNameView.setError(getString(R.string.error_invalid_name));
             focusView = mNameView;
             cancel = true;
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
+            // There was an error; don't attempt signup and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserSignUpTask(name, password);
-            mAuthTask.execute((Void) null);
+            Network.getInstance().signUp(name,password);
+           // mAuthTask = new UserSignUpTask(name, password);
+            //mAuthTask.execute((Void) null);
         }
     }
 
-    private boolean isNameValid(String name) {
-        Pattern p = Pattern.compile("[^a-zA-Z0-9|_]");
-        return !p.matcher(name).find() && name.length() >= 4;
-    }
 
-    private boolean isPasswordValid(String password) {
-        Pattern p = Pattern.compile("[^a-zA-Z0-9|_]");
-        return !p.matcher(password).find() && password.length() >= 4;
-    }
 
     /**
      * Shows the progress UI and hides the login form.
@@ -203,5 +195,6 @@ public class SignUpActivity extends AppCompatActivity{
             showProgress(false);
         }
     }
+
 }
 

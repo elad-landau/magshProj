@@ -2,6 +2,8 @@
  * Created by Administrator on 1/22/2017.
  */
 
+package com.ahlan.ahlanapp;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,13 +35,13 @@ public class Network implements Runnable
     private long lastSend;
     private Queue<Query> queue;
 
-    private Network instance = null;
+    private static Network instance = null;
     private static Logger logger = Logger.getLogger(Network.class.getName());
 
     private InputStream input;
     private OutputStream output;
 
-    public Network getInstance()
+    public static Network getInstance()
     {
         if(instance == null)
             instance = new Network();
@@ -162,10 +164,19 @@ public class Network implements Runnable
     {
         String[] params = {userName,password}; // need security for password
         Query q = new Query(Constants.signIn_client,params); // need to include the library
-        sendData(q);
+        addToQueue(q);
     }
 
-    //public signup(String email,String )
+    /*
+   deals with the network side of signing up
+    */
+    public void signUp(String userName,String password)
+    {
+        String[] params = {userName,password}; // need security for password
+        Query q = new Query(Constants.signIn_client,params); // need to include the library
+        addToQueue(q);
+    }
+
 
     public void close()
     {

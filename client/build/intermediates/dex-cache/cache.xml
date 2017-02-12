@@ -2,175 +2,157 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\design\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-24.2.1_c1fea06904937c8bc281a7127c9fc808062b1f54\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_4db44bd31ceb18c741f1d53693d1c23d967a4e3f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.1_54dc45dfabb608f3363bca49d90843bc42ff330f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_14cde5553c1976b607d71a57bd7f9585d2793d08\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_b182a60b790b4ff3c88d5ad2f1ded37bfedc0db1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="867dad63c33388ff8c7644b236579355036d075f">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_b00053f30f77602650faac40e8bd66c60d2e93e9\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-24.2.1_a5519cff471b2b1502e8546cf32bb7c3e5fdbd83\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\jars\classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\jars\classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.2.1_9bd4a6ba68edc1f52d543c9a9ce682aae190d203\classes.dex" />
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-24.2.1_712045d04bdea99bb0ccc649c9eaa6e05b14fcfe.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="062cee6374fe9c0da986f6b68c6b26a09ec4a38f">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_4e0a2885b360b9a9a386c846d1ba0ef0637123b2\classes.dex" />
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_919b5e77a21448fb0bafef91814dd9466f78793c.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8f1e378843c5a6a5b0fff55baeeeb7948d53be06">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_791a559adfa504c0e718dc4b8e10301bbc1d5ecf\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-24.2.1_100e57d266cb208b8cfcd4dd10b01f059944854a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-24.2.1_5bdb817d61e47f21d80c18cf9103e59d4725079d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.2.1_00e4203a3a35e683adeabf748cc815e07a385ef1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.1_63f3a8478661955d066967954c30e9d0481e6f2e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.2.1_d0948a46f98ed42e3cd64e1809a90fb9e39b5f56\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
         sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_5e48027a0d565785a64568656f494bdb59d3480c\classes.dex" />
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_247356c0659e4810388d21f2a23cdeed99735e02.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-24.2.1_9ea2c01b75e8b4b931fc9e3d21e0cd682308f9ab.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_76b9438c5192b7bc2f660c0f7cdcb917fc0546ca.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-support-media-compat-24.2.1_ca98f5a5551388c3e1e3c62e4d9f5909421020fd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-24.2.1_0da8b9032160372ba197e4cbdcad415138f369bd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\design\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-design-24.2.1_1d087d643c96e3b644566894c8a70dafab061e28.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-support-fragment-24.2.1_36d1db60eac5ef0c266c906b9f3fb36688cba86c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_6fda8b53ab227356c7bf439fe3e7b46deff9a55c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\support-annotations-24.2.1_1d559e7ed20d144e0afcd6b12511adab899fb1e6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-24.2.1_dafee0f451e43ea6efd6697067aa3367605752bb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
         sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.1_b74278b7a39f783ac2ed03b13104d2b09d9164ce\classes.dex" />
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-support-compat-24.2.1_ae56513c1e2064da11a068b9740595f2410d71ab.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_fc73d316cd2c327a26738b0e3a43408b384cfe58\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\User\Desktop\Ahlan\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
         sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="C:\Users\User\Desktop\Ahlan\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.1_8b182f253334e34daed09fc7a0c572d2f15a7518\classes.dex" />
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-utils-24.2.1_29b23c805814b0357ba6afeb0a8e9f328e50b5e2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-ui-24.2.1_b8dab0f7a98b7c2539efa6dac0f21b3401ad551f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-24.2.1_bb2f6a874ccf2126b6f2df317b06653724521494.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_040e3693633e0cf5882a7acd01782ae24c0575d5.jar" />
     </item>
 
 </items>

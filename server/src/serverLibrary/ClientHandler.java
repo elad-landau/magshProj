@@ -53,6 +53,7 @@ public class ClientHandler implements Runnable
 		{
 			
 			length = getMessageLength();
+			System.out.println("the length is : "+length);
 			if(length == -1)
 			{
 				//disconnect client

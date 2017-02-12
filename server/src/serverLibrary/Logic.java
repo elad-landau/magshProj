@@ -30,6 +30,7 @@ public class Logic implements Runnable
 	
 	public static void main(String args[])
 	{
+		System.out.println("adi");
 		DBWrapper DB = DBWrapper.getInstance();
 		Network net = Network.getInstance();
 		net.serv();
@@ -72,6 +73,8 @@ public class Logic implements Runnable
 			
 			
 			lock.unlock();
+			
+		
 			
 			switch(q.getOpCode())
 			{
