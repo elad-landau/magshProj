@@ -3,9 +3,9 @@ package com.ahlan.ahlanapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,49 +14,56 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import java.util.regex.*;
+
 
 /**
- * A login screen that offers login via name/password.
+ * A login screen that offers sign up via name/password.
  */
-public class LoginActivity extends AppCompatActivity {
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
+public class LoginActivity extends AppCompatActivity{
+
+    private AsyncTask<Void, Void, Boolean> mAuthTask = null;
 
     // UI references.
-    private EditText mNameView;
     private EditText mPasswordView;
-    private View mLoginFormView;
+    private EditText mNameView;
     private View mProgressView;
+    private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
-        mNameView = (EditText) findViewById(R.id.userName);
-        mPasswordView = (EditText) findViewById(R.id.password);
 
-        Button mSignInButton = (Button) findViewById(R.id.Login_button);
-        mSignInButton.setOnClickListener(new OnClickListener() {
+
+        mPasswordView = (EditText) findViewById(R.id.password);
+        mNameView = (EditText) findViewById(R.id.userName);
+        Button mLoginButton = (Button) findViewById(R.id.loginButton);
+        mLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptSignUp(false);
+            }
+        });
+        Button mSignUpButton = (Button) findViewById(R.id.registerButton);
+        mSignUpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptSignUp(true);
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        mProgressView = findViewById(R.id.progress);
     }
 
+
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid name, missing fields, etc.), the
+     * If type is true - Attempts to register the account specified by the login form.
+     * If type us false - Attempts to log in specified by the login form.
+     * If there are form errors (missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptSignUp(final boolean type) {
         if (mAuthTask != null) {
             return;
         }
@@ -73,45 +80,44 @@ public class LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !Validation.isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // Check for a valid user name.
         if (TextUtils.isEmpty(name)) {
             mNameView.setError(getString(R.string.error_field_required));
             focusView = mNameView;
             cancel = true;
-        } else if (!isNameValid(name)) {
+        } else if (!Validation.isNameValid(name)) {
             mNameView.setError(getString(R.string.error_invalid_name));
             focusView = mNameView;
             cancel = true;
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
+            // There was an error; don't attempt sign up and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(name, password);
-            mAuthTask.execute((Void) null);
+            if(type) {
+                mAuthTask = new UserRegisterTask(name, password);
+                mAuthTask.execute((Void) null);
+            }
+            if(!type)
+            {
+                mAuthTask = new UserLoginTask(name, password);
+                mAuthTask.execute((Void) null);
+            }
         }
     }
 
-    private boolean isNameValid(String name) {
-        Pattern p = Pattern.compile("[^a-zA-Z0-9|_]");
-        return !p.matcher(name).find() && name.length() >= 4;
-    }
 
-    private boolean isPasswordValid(String password) {
-        Pattern p = Pattern.compile("[^a-zA-Z0-9|_]");
-        return !p.matcher(password).find() && password.length() >= 4;
-    }
 
     /**
      * Shows the progress UI and hides the login form.
@@ -149,7 +155,51 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Represents an asynchronous login/registration task used to authenticate
+     * Represents an asynchronous registration task used to register
+     * the user.
+     */
+    public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mName;
+        private final String mPassword;
+
+        UserRegisterTask(String name, String password) {
+            mName = name;
+            mPassword = password;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                Network.getInstance().signUp(mName, mPassword);
+            } catch (Exception e) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+            showProgress(false);
+
+            if (success) {
+                finish();
+            } else {
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
+        }
+    }
+
+    /**
+     * Represents an asynchronous login task used to authenticate
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
@@ -164,16 +214,11 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                Network.getInstance().signIn(mName,mPassword);
+            } catch (Exception  e) {
                 return false;
             }
-
-            // TODO: register the new account here.
             return true;
         }
 
@@ -183,15 +228,9 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                try {
-                    Log.d("", "success");
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    finish();
-                }
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_details));
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
         }
@@ -203,3 +242,4 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
+
