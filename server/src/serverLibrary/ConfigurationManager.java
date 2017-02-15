@@ -11,6 +11,8 @@ public class ConfigurationManager
 	 private String result = "";
 	 private InputStream inputStream;
 	 private static ConfigurationManager instance;
+	 private Properties prop;
+	 
 	 
 	 public long group_serial;
 	 public long memberEntity_serial;
@@ -19,6 +21,7 @@ public class ConfigurationManager
 	 public int port;
 	 public int threads_number;
 	 public String date_format;
+	 
 	 
 	
 	 
@@ -64,8 +67,8 @@ public class ConfigurationManager
 	 
 		  try
 		  {
-		   Properties prop = new Properties();
-		   String propFileName = "config.properties";
+		   prop = new Properties();
+		   String propFileName = "resources/config.properties";
 		 
 		   inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 		 
@@ -75,10 +78,13 @@ public class ConfigurationManager
 		   } 
 		   else 
 		   {
-			   DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.CRITICAL , this.getClass().getName(), "property file '" + propFileName + "' not found in the classpath");
+			  //BUUGGGG
+			   //The configuration manager Constructor is on before the logger is up
+			   // DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.CRITICAL , this.getClass().getName(), "property file '" + propFileName + "' not found in the classpath");
 		   }
 		 
 		   // get the property value and print it out
+		   String str = prop.getProperty("memberEntity_serial");
 		   group_serial = Long.parseLong(prop.getProperty("group_serial"));
 		   memberEntity_serial = Long.parseLong(prop.getProperty("memberEntity_serial"));
 		   message_serial = Long.parseLong(prop.getProperty("message_serial"));

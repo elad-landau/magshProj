@@ -63,9 +63,7 @@ public class ClientHandler implements Runnable
 			}
 			
 			if(length == 0) // client is connectiong but has nothing to send
-			{
 				continue;
-			}
 			
 			q = getQuery(length);
 			Logic.getInstance().addQuery(q);

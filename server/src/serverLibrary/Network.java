@@ -49,6 +49,7 @@ public class Network
 		this.port = ConfigurationManager.getInstance().getPort();
 		this.threads_number = ConfigurationManager.getInstance().getThreads_number();
 		threadPool = Executors.newFixedThreadPool(threads_number);
+		System.out.println("started server socket");
 		
 		try
 		{
