@@ -19,15 +19,16 @@ public class DBWrapper
 	public enum LogLevels {INFO , DEBUG , WARNING , ERROR , CRITICAL};
 	
 	
-	protected DBWrapper() {
+	protected DBWrapper() throws  SQLException ,ClassNotFoundException {
 		DateFormat = new SimpleDateFormat(ConfigurationManager.getInstance().getDate_format());
 		
 		try {//Open the data base
 			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection("jdbc:sqlite:serverData.db");
-		} catch (SQLException | ClassNotFoundException ex) {
-			System.out.println(ex.getMessage());
-			System.err.println( ex.getClass().getName() + ": " + ex.getMessage() );
+		} 
+		catch (SQLException | ClassNotFoundException ex) 
+		{
+			throw ex;
 		}
 	}
 	
@@ -127,7 +128,15 @@ public class DBWrapper
 
 	public static DBWrapper getInstance() {
 		if (instance == null) {
+			try
+			{
 			instance = new DBWrapper();
+			}
+			catch(Exception ex)
+			{
+				System.out.println("the problem with db Constructor is : "+ex.getMessage());
+				instance = null;
+			}
 		}
 		return instance;
 	}
@@ -172,11 +181,6 @@ public class DBWrapper
 		return true;
 	}
 
-	
-	
-	
-	
-	
 	
 	
 	

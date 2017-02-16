@@ -31,7 +31,20 @@ public class Logic implements Runnable
 	public static void main(String args[])
 	{
 		System.out.println("adi");
-		DBWrapper.getInstance();
+		if( ConfigurationManager.getInstance() == null  || DBWrapper.getInstance()==null)
+		{
+			System.out.println("server faild to upload");
+			try
+			{
+			Thread.sleep(5000);
+			}
+			catch(Exception e)
+			{
+				
+			}
+			return;
+		}
+		
 		Logic.getInstance().run();
 		Network net = Network.getInstance();
 		net.serv();
