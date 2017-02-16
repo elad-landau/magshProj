@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
+
 public class DBWrapper 
 {
 	private static DBWrapper instance = null;
@@ -19,6 +20,7 @@ public class DBWrapper
 	public enum LogLevels {INFO , DEBUG , WARNING , ERROR , CRITICAL};
 	
 	
+
 	protected DBWrapper() throws  SQLException ,ClassNotFoundException {
 		DateFormat = new SimpleDateFormat(ConfigurationManager.getInstance().getDate_format());
 		
