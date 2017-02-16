@@ -20,7 +20,7 @@ public class DBWrapper
 	
 	
 	protected DBWrapper() {
-		DateFormat = new SimpleDateFormat(ConfigurationManager.getInstance().getDate_format());
+		DateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		
 		try {//Open the data base
 			Class.forName("org.sqlite.JDBC");
