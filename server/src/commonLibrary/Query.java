@@ -35,7 +35,7 @@ public class Query extends Utility
 	public String[] getStr() {return un.getStr();}
 	
 	
-	private class Union
+	private class Union extends Utility
 	{
 		private Message msg;
 		private String[] str;

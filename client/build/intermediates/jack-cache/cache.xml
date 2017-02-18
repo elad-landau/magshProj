@@ -44,12 +44,6 @@
         <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-9ea2c01b75e8b4b931fc9e3d21e0cd682308f9ab.jar" />
     </item>
     <item
-        jar="C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-24\optional\org.apache.http.legacy.jar"
-        revision="25.0.0"
-        sha1="fb7023e781abb70ed1b0442eb611fbed295cae84">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackRuntimeLibraries\debug\jars\8000\40\org.apache.http.legacy-1999918f4eec768e95bc152afde660b4b06fac26.jar" />
-    </item>
-    <item
         jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.2.1\jars\classes.jar"
         revision="25.0.0"
         sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
@@ -92,12 +86,6 @@
         <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-29b23c805814b0357ba6afeb0a8e9f328e50b5e2.jar" />
     </item>
     <item
-        jar="C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-24\android.jar"
-        revision="25.0.0"
-        sha1="d49cc0972df7adf495d3ad3d0cf71c0ec517ace4">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackRuntimeLibraries\debug\jars\8000\40\android-07896d545194e789d7017c98c2288b3078364082.jar" />
-    </item>
-    <item
         jar="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
         revision="25.0.0"
         sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
@@ -112,7 +100,7 @@
     <item
         jar="C:\Users\Administrator\Desktop\magshProj\client\app\libs\commonLibrary.jar"
         revision="25.0.0"
-        sha1="16f5a8f187a2656d7255afc3a82e9e0f0bdfd759">
+        sha1="06cfa40e8d218ece6de583aad8638e116f9c046a">
         <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\commonLibrary-7d86f18f85a3daf05d9311a3fd06edce298ac9e7.jar" />
     </item>
     <item

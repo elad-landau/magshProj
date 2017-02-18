@@ -51,22 +51,10 @@ public class Network implements Runnable
 
     protected Network()
     {
-        ip = "127.0.0.1";
+        ip = "10.0.0.1";
         port = 7070;
         queue = new Queue<Query>();
         lock = new ReentrantLock();
-
-        try {
-            socket = new Socket(ip, port);
-            input = socket.getInputStream();
-            output = socket.getOutputStream();
-            lastSend = System.currentTimeMillis();
-        }
-        catch(IOException e)
-        {
-            logger.log(Level.WARNING,"Can't connect to server : "+e.toString());
-        }
-
 
     }
 
@@ -84,11 +72,24 @@ public class Network implements Runnable
 
     public void run()
     {
+        try {
+            socket = new Socket(ip, port);
+            input = socket.getInputStream();
+            output = socket.getOutputStream();
+            lastSend = System.currentTimeMillis();
+        }
+        catch(IOException e)
+        {
+            logger.log(Level.WARNING,"Can't connect to server : "+e.toString());
+        }
+
+
+
         Query q;
         while(true)
         {
              lock.lock();
-            while(queue.isEmpty() && (lastSend - System.currentTimeMillis() <= Constants.timeBetweenSends))
+            while(queue.isEmpty() && (System.currentTimeMillis() -lastSend <= Constants.timeBetweenSends))
             {
                 lock.unlock();
                 try {

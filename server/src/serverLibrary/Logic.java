@@ -31,6 +31,7 @@ public class Logic implements Runnable
 	public static void main(String args[])
 	{
 		System.out.println("adi");
+		Thread logThread = new Thread(Logic.getInstance());
 		if( ConfigurationManager.getInstance() == null  || DBWrapper.getInstance()==null)
 		{
 			System.out.println("server faild to upload");
@@ -45,7 +46,7 @@ public class Logic implements Runnable
 			return;
 		}
 		
-		Logic.getInstance().run();
+		logThread.start();
 		Network net = Network.getInstance();
 		net.serv();
 
