@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-
 public class DBWrapper 
 {
 	private static DBWrapper instance = null;
@@ -17,20 +16,49 @@ public class DBWrapper
 	private final String logTable = "Log";
 	private SimpleDateFormat DateFormat;
 	
-	public enum LogLevels {INFO , DEBUG , WARNING , ERROR , CRITICAL};
+	private final int uniqueErrorCode = 19;
 	
+	public enum LogLevels {
+	INFO{
+		@Override
+		public String toString() {
+			return "INFO";
+		}
+	},		
+	DEBUG{
+		@Override
+		public String toString() {
+			return "DEBUG";
+		}
+	},
+	WARNING{
+	    @Override
+	    public String toString() {
+	    	return "WARNING";
+	    }
+	},
+	ERROR{
+	    @Override
+	    public String toString() {
+	    	return "ERROR";
+	    }
+	},
+	CRITICAL{
+		@Override
+		public String toString() {
+			return "CRITICAL";
+		}
+	}
+	};
 	
-
-	protected DBWrapper() throws  SQLException ,ClassNotFoundException {
-		DateFormat = new SimpleDateFormat(ConfigurationManager.getInstance().getDate_format());
-		
+	protected DBWrapper() {
+		DateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		try {//Open the data base
 			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection("jdbc:sqlite:serverData.db");
-		} 
-		catch (SQLException | ClassNotFoundException ex) 
-		{
-			throw ex;
+		} catch (SQLException | ClassNotFoundException ex) {
+			System.out.println(ex.getMessage());
+			System.err.println( ex.getClass().getName() + ": " + ex.getMessage() );
 		}
 	}
 	
@@ -51,6 +79,10 @@ public class DBWrapper
 		
 		dataTypes.add("STRING");
 		columnName.add("currentIP");
+		
+		//Turn name into an unique column
+		dataTypes.add("(name)");
+		columnName.add("UNIQUE");
 			
 		createTable(usersTable, dataTypes, columnName);
 		
@@ -130,15 +162,7 @@ public class DBWrapper
 
 	public static DBWrapper getInstance() {
 		if (instance == null) {
-			try
-			{
 			instance = new DBWrapper();
-			}
-			catch(Exception ex)
-			{
-				System.out.println("the problem with db Constructor is : "+ex.getMessage());
-				instance = null;
-			}
 		}
 		return instance;
 	}
@@ -174,7 +198,7 @@ public class DBWrapper
 				logTable +
 				"(logLevel, class, time, message)" +
 				"VALUES ('" +
-				logLevel + "', " + Class + ", '" + DateFormat.format(date) + "', '" + message + "');";
+				logLevel.toString() + "', " + Class + ", '" + DateFormat.format(date) + "', '" + message + "');";
 		try{
 			runCommand(sql);
 		}catch (SQLException ex) {
@@ -184,6 +208,59 @@ public class DBWrapper
 	}
 
 	
+	public boolean signIn(String userName, String password)
+	{
+		ResultSet rs;
+		String sql = "SELECT password FROM " +
+				usersTable +
+				" WHERE name = \"" +
+				userName + "\";";
+		try{
+			rs = runCommand(sql).getResultSet();
+			return password.equals(rs.getString("password"));
+		}catch (SQLException ex) {
+			return false;
+		}
+	}
 	
+	public boolean signUp(String userName, String password, String currentIP) throws Exception
+	{
+		String sql = "INSERT INTO " + usersTable
+				+ "(name, password, currentIP) "
+				+ "VALUES(\""
+				+ userName + "\",\""
+				+ password + "\",\""
+				+ currentIP + "\");";
+		try{
+			runCommand(sql);
+		}catch (SQLException ex) {
+			if(ex.getErrorCode() == uniqueErrorCode)
+			{
+				Exception e = new Exception("Username already exists");
+				throw e;
+			}
+			return false;
+		}
+		return true;
+	}
 	
+	public boolean signUp(String userName, String password) throws Exception
+	{
+		String sql = "INSERT INTO " + usersTable
+				+ "(name, password, currentIP) "
+				+ "VALUES(\""
+				+ userName + "\",\""
+				+ password + "\");";
+		try{
+			runCommand(sql);
+		}catch (SQLException ex) {
+			if(ex.getErrorCode() == uniqueErrorCode)
+			{
+				Exception e = new Exception("Username already exists");
+				throw e;
+			}
+			return false;
+		}
+		return true;
+	}
 }
