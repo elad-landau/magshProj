@@ -30,12 +30,10 @@ public class Logic implements Runnable
 	
 	public static void main(String args[])
 	{
-		System.out.println("adi");
-		DBWrapper.getInstance();
-		Logic.getInstance().run();
-		Network net = Network.getInstance();
-		net.serv();
 
+		DBWrapper DB = DBWrapper.getInstance();
+		//Network net = Network.getInstance();
+		//net.serv();
 	}
 	
 	
@@ -51,8 +49,6 @@ public class Logic implements Runnable
 	public void run()
 	{
 		Query q;
-		System.out.println("logic started a run");
-		
 		
 		while(true)
 		{
