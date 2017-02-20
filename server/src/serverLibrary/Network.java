@@ -75,6 +75,7 @@ public class Network
 	 */
 	private void listenAndAccept()
 	{
+		System.out.println("started listening");
 		while(!isStopped())
 		{
 			clientSocket = null;

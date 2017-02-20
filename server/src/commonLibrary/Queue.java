@@ -8,7 +8,7 @@ public class Queue<T>
 	
 	public Queue()
 	{
-		queue = new LinkedList();
+		queue = new LinkedList<T>();
 	}
 	
 	public boolean isEmpty()

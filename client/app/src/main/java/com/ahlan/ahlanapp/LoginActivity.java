@@ -28,22 +28,28 @@ public class LoginActivity extends AppCompatActivity{
     private EditText mNameView;
     private View mProgressView;
     private View mLoginFormView;
+    Thread networkThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Network.getInstance();
+        networkThread = new Thread(Network.getInstance());
+        networkThread.start();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mNameView = (EditText) findViewById(R.id.userName);
         Button mLoginButton = (Button) findViewById(R.id.loginButton);
+
         mLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptSignUp(false);
             }
         });
+
         Button mSignUpButton = (Button) findViewById(R.id.registerButton);
         mSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -51,6 +57,7 @@ public class LoginActivity extends AppCompatActivity{
                 attemptSignUp(true);
             }
         });
+
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.progress);

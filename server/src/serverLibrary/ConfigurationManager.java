@@ -4,15 +4,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
- 
+
+
 
 public class ConfigurationManager
 {
 	 private String result = "";
-	 private InputStream inputStream;
+	 InputStream inputStream;
 	 private static ConfigurationManager instance;
 	 private Properties prop;
 	 
+	 			
 	 
 	 public long group_serial;
 	 public long memberEntity_serial;
@@ -57,34 +59,41 @@ public class ConfigurationManager
 	public static ConfigurationManager getInstance()
 	 {
 		  if (instance == null) {
-		   instance = new ConfigurationManager();
+			  try
+			  {
+				  instance = new ConfigurationManager();
+			  }
+			  catch(FileNotFoundException e)
+			  {
+				  instance = null;
+				  System.out.println("the problem : "+e.getMessage());
+			  }
 		  }
 		  return instance;
 	 }
 	 
-	 protected ConfigurationManager() 
+	 protected ConfigurationManager() throws FileNotFoundException
 	 {
 	 
 		  try
 		  {
 		   prop = new Properties();
-		   String propFileName = "resources/config.properties";
+		   String propFileName = "config.properties";
 		 
 		   inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 		 
 		   if (inputStream != null) 
 		   {
+			System.out.println("inputStream isnt null");
 		    prop.load(inputStream);
 		   } 
 		   else 
 		   {
-			  //BUUGGGG
-			   //The configuration manager Constructor is on before the logger is up
-			   // DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.CRITICAL , this.getClass().getName(), "property file '" + propFileName + "' not found in the classpath");
+			   throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			   //System.out.println("inputStream is null");
 		   }
 		 
 		   // get the property value and print it out
-		   String str = prop.getProperty("memberEntity_serial");
 		   group_serial = Long.parseLong(prop.getProperty("group_serial"));
 		   memberEntity_serial = Long.parseLong(prop.getProperty("memberEntity_serial"));
 		   message_serial = Long.parseLong(prop.getProperty("message_serial"));
@@ -94,7 +103,7 @@ public class ConfigurationManager
 		   date_format = prop.getProperty("date_format");
 		 
 		  } catch (Exception e) {
-			  DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING , this.getClass().getName(), "Exception: " + e);
+			
 		  } finally {
 		   try {
 		    inputStream.close();
