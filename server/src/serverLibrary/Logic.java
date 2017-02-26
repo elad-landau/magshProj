@@ -32,6 +32,7 @@ public class Logic implements Runnable
 	{
 		System.out.println("adi");
 		Thread logThread = new Thread(Logic.getInstance());
+		DBWrapper DB = DBWrapper.getInstance();
 		if( ConfigurationManager.getInstance() == null  || DBWrapper.getInstance()==null)
 		{
 			System.out.println("server faild to upload");
@@ -50,6 +51,10 @@ public class Logic implements Runnable
 		Network net = Network.getInstance();
 		net.serv();
 
+
+		
+		//Network net = Network.getInstance();
+		//net.serv();
 	}
 	
 	
@@ -65,8 +70,6 @@ public class Logic implements Runnable
 	public void run()
 	{
 		Query q;
-		System.out.println("logic started a run");
-		
 		
 		while(true)
 		{

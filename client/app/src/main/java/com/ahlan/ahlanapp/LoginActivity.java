@@ -179,6 +179,7 @@ public class LoginActivity extends AppCompatActivity{
         protected Boolean doInBackground(Void... params) {
             try {
                 Network.getInstance().signUp(mName, mPassword);
+
             } catch (Exception e) {
                 return false;
             }
