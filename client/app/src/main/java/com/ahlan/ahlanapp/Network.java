@@ -51,7 +51,7 @@ public class Network implements Runnable
 
     protected Network()
     {
-        ip = "10.0.0.1";
+        ip = "192.168.43.134";
         port = 7070;
         queue = new Queue<Query>();
         lock = new ReentrantLock();

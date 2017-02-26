@@ -80,7 +80,7 @@ public class ClientHandler implements Runnable
 	{
 		int length;
 		int count = 0;
-		byte[] buffer = new byte[1024];
+		byte[] buffer = new byte[4];
 		
 		try
 		{
