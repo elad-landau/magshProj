@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
@@ -51,7 +52,7 @@ public class Network implements Runnable
 
     protected Network()
     {
-        ip = "192.168.43.134";
+        ip = "10.0.0.1";
         port = 7070;
         queue = new Queue<Query>();
         lock = new ReentrantLock();
@@ -111,8 +112,8 @@ public class Network implements Runnable
             {
                 lock.unlock();
                 q = new Query(Constants.empty_query,new String[0]);
-            }
 
+            }
             sendData(q);
         }
     }
@@ -127,7 +128,7 @@ public class Network implements Runnable
 
         try {
             byte[] data = q.serialize();
-            int dataLength = data.length;
+            byte[] dataLength = intToByteArray(data.length);
             output.write(dataLength);
             output.write(data);
         }
@@ -178,7 +179,16 @@ public class Network implements Runnable
         addToQueue(q);
     }
 
+    public void waitForAnswer()
+    {
+        try {
+            Thread.sleep(100000);
+        }
+        catch(Exception e)
+        {
 
+        }
+    }
     public void close()
     {
         try {
@@ -188,5 +198,11 @@ public class Network implements Runnable
         {
             logger.log(Level.WARNING,"Problem with closing the port : "+e.toString());
         }
+    }
+
+    public static byte[] intToByteArray(int num)
+    {
+        String str = Integer.toString(num);
+        return ByteBuffer.allocate(4).putInt(num).array();
     }
 }

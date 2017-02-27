@@ -23,14 +23,14 @@ public class Queue<T>
 	
 	public T dequeue()
 	{
-		T item = (T)queue.get(1);
-		queue.remove(1);
+		T item = (T)queue.get(0);
+		queue.remove(0);
 		return item;
 	}
 	
 	public T peek()
 	{
-		T item = (T)queue.get(1);
+		T item = (T)queue.get(0);
 		return item;
 	}
 }

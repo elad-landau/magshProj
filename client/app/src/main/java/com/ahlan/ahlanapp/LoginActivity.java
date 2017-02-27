@@ -179,7 +179,7 @@ public class LoginActivity extends AppCompatActivity{
         protected Boolean doInBackground(Void... params) {
             try {
                 Network.getInstance().signUp(mName, mPassword);
-
+                Network.getInstance().waitForAnswer();
             } catch (Exception e) {
                 return false;
             }
@@ -224,6 +224,7 @@ public class LoginActivity extends AppCompatActivity{
         protected Boolean doInBackground(Void... params) {
             try {
                 Network.getInstance().signIn(mName,mPassword);
+                Network.getInstance().waitForAnswer();
             } catch (Exception  e) {
                 return false;
             }

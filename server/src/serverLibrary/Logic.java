@@ -99,6 +99,7 @@ public class Logic implements Runnable
 			switch(q.getOpCode())
 			{
 			case 0:
+				// do nothing
 				break;
 				
 				

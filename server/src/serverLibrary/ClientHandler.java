@@ -3,6 +3,8 @@ package serverLibrary;
 import commonLibrary.*;
 
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -47,27 +49,32 @@ public class ClientHandler implements Runnable
 			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING , this.getClass().getName(), "error getting data from client : "+e);
 		}
 		
-		
-		//contacting with the client
-		while(true)
+		try
 		{
-			
-			length = getMessageLength();
-			System.out.println("the length is : "+length);
-			if(length == -1)
+			//contacting with the client
+			while(true)
 			{
-				//disconnect client
-				DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.INFO,this.getClass().getName() ,"client hasn't responsed for 1 second");
-				disconnectClient();
-				break;
+				
+				length = getMessageLength();
+				if(length == -1)
+				{
+					//disconnect client
+					DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.INFO,this.getClass().getName() ,"client hasn't responsed for 1 second");
+					disconnectClient();
+					break;
+				}
+				
+				if(length == 0) // client is connecting but has nothing to send
+					continue;
+				
+				q = getQuery(length);
+				Logic.getInstance().addQuery(q);
+				
 			}
-			
-			if(length == 0) // client is connectiong but has nothing to send
-				continue;
-			
-			q = getQuery(length);
-			Logic.getInstance().addQuery(q);
-			
+		}
+		catch(Exception e)
+		{
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.INFO,this.getClass().getName() ,"There's problem communicating with client : "+e.getMessage());
 		}
 	}
 	
@@ -105,7 +112,8 @@ public class ClientHandler implements Runnable
 			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.DEBUG, this.getClass().getName(), "problem with putting the thread to sleep : "+e.getMessage());
 		}
 		
-		return Integer.parseInt(buffer.toString());
+		ByteBuffer wrapped = ByteBuffer.wrap(buffer);
+		return wrapped.getInt();
 		
 	}
 

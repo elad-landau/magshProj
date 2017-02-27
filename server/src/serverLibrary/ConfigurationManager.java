@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class ConfigurationManager
 {
-	 private String result = "";
+	 
 	 InputStream inputStream;
 	 private static ConfigurationManager instance;
 	 private Properties prop;

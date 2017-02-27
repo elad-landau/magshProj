@@ -83,7 +83,7 @@ public class Network
 			{
 				clientSocket = mainSocket.accept();
 			}
-			catch(IOException e)
+			catch(Exception e)
 			{
 				DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.ERROR ,this.getClass().getName(),"Error accepting client :"+e);
 			}
