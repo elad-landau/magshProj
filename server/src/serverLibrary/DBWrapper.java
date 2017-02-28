@@ -247,7 +247,7 @@ public class DBWrapper
 	public boolean signUp(String userName, String password) throws Exception
 	{
 		String sql = "INSERT INTO " + usersTable
-				+ "(name, password, currentIP) "
+				+ "(name, password) "
 				+ "VALUES(\""
 				+ userName + "\",\""
 				+ password + "\");";
@@ -262,5 +262,21 @@ public class DBWrapper
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean isUserExist(String userName)
+	{
+		ResultSet rs;
+		boolean exist = false;
+		String sql = "SELECT * FROM" + usersTable
+				+ "WHERE name = \""
+				+ userName + "\";";
+		try{
+			rs = runCommand(sql).getResultSet();
+			exist = rs.next();
+		}catch (SQLException ex) {
+			return false;
+		}
+		return exist;
 	}
 }
