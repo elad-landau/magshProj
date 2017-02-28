@@ -68,6 +68,7 @@ public class ClientHandler implements Runnable
 					continue;
 				
 				q = getQuery(length);
+				q.setHandler(this);
 				Logic.getInstance().addQuery(q);
 				
 			}
@@ -156,5 +157,28 @@ public class ClientHandler implements Runnable
 		}
 		
 		return (Query)util;
+	}
+	
+	public void sendData(Query q)
+	{
+		try {
+	        byte[] data = q.serialize();
+	        byte[] dataLength = intToByteArray(data.length);
+	        output.write(dataLength);
+	        output.write(data);
+	     }
+	   catch(IOException e)
+		{
+	       DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING,this.getClass().getName(),"cant write to server : "+e.toString());
+	    }
+	    catch (ClassNotFoundException e)
+	    {
+	    	DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING,this.getClass().getName(),"cant convert query into bytes : "+e.toString());
+	    }
+	}
+	
+	public static byte[] intToByteArray(int num)
+	{
+       return ByteBuffer.allocate(4).putInt(num).array();
 	}
 }

@@ -1,26 +1,38 @@
 package commonLibrary;
 
-import java.io.IOException;
+
+import serverLibrary.ClientHandler;
 
 public class Query extends Utility 
 {
 	private int opCode;
 	private Union un;
+	private ClientHandler han;;
 	
 	
 	public Query(int opCode, Message msg)
 	{
 		this.opCode = opCode;
 		this.un = new Union(msg);
+		this.han = null;
 	}
 	
 	public Query(int Opcode,String[] str)
 	{
 		this.opCode = Opcode;
 		this.un = new Union(str);
+		this.han = null;
 	}
 	
 	
+	public ClientHandler getHandler() {
+		return han;
+	}
+
+	public void setHandler(ClientHandler han) {
+		this.han = han;
+	}
+
 	/*
 	 * return false for the union holding Message
 	 * return true for the union holding string

@@ -202,7 +202,6 @@ public class Network implements Runnable
 
     public static byte[] intToByteArray(int num)
     {
-        String str = Integer.toString(num);
         return ByteBuffer.allocate(4).putInt(num).array();
     }
 }
