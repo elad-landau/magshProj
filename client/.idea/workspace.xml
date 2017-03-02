@@ -41,25 +41,13 @@
       <file leaf-file-name="Network.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ahlan/ahlanapp/Network.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="153" column="0" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
+            <state relative-caret-position="190">
+              <caret line="173" column="6" selection-start-line="173" selection-start-column="6" selection-end-line="173" selection-end-column="6" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="method#getMAC#0;class#Network#0" expanded="false" />
-                <element signature="method#signIn#0;class#Network#0" expanded="false" />
-                <element signature="method#signUp#0;class#Network#0" expanded="false" />
-                <element signature="method#waitForAnswer#0;class#Network#0" expanded="false" />
                 <element signature="method#close#0;class#Network#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ahlan/ahlanapp/Constants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -69,7 +57,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="27" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -80,6 +70,11 @@
             <state relative-caret-position="2295">
               <caret line="181" column="54" selection-start-line="181" selection-start-column="54" selection-end-line="181" selection-end-column="54" />
               <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#1445#1446#0" expanded="false" />
+                <element signature="e#1497#1498#0" expanded="false" />
+                <element signature="e#1717#1718#0" expanded="false" />
+                <element signature="e#1768#1769#0" expanded="false" />
                 <element signature="method#showProgress#0;class#LoginActivity#0" expanded="false" />
               </folding>
             </state>
@@ -88,9 +83,6 @@
       </file>
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider editor-type-id="android-manifest">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
               <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
@@ -98,6 +90,9 @@
                 <marker date="1488232078216" expanded="true" signature="1167:1177" ph="..." />
               </folding>
             </state>
+          </provider>
+          <provider editor-type-id="android-manifest">
+            <state />
           </provider>
         </entry>
       </file>
@@ -107,7 +102,23 @@
             <state relative-caret-position="3570">
               <caret line="240" column="35" selection-start-line="240" selection-start-column="35" selection-end-line="240" selection-end-column="35" />
               <folding>
+                <element signature="e#0#27480#0" expanded="false" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#9600#9610#0" expanded="false" />
+                <element signature="e#10985#10995#0" expanded="false" />
+                <element signature="e#12413#12414#0" expanded="false" />
+                <element signature="e#12452#12453#0" expanded="false" />
+                <element signature="e#14281#14282#0" expanded="false" />
+                <element signature="e#14311#14312#0" expanded="false" />
                 <element signature="docComment;method#doInBackground#0;class#AsyncTask#0" expanded="false" />
+                <element signature="e#16750#16751#0" expanded="false" />
+                <element signature="e#16779#16780#0" expanded="false" />
+                <element signature="e#17764#17765#0" expanded="false" />
+                <element signature="e#17803#17804#0" expanded="false" />
+                <element signature="e#25285#25286#0" expanded="false" />
+                <element signature="e#25335#25336#0" expanded="false" />
+                <element signature="e#26427#26428#0" expanded="false" />
+                <element signature="e#26480#26481#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1868,6 +1879,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane />
+      </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -1883,16 +1898,22 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane />
-      </pane>
       <pane id="AndroidView">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="client" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2235,7 +2256,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20726173" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21028744" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2277,14 +2298,8 @@
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ahlan/ahlanapp/Network.java</url>
-          <line>116</line>
-          <properties />
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="32" />
+      <option name="time" value="34" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2294,10 +2309,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#getMAC#0;class#Network#0" expanded="false" />
-            <element signature="method#signIn#0;class#Network#0" expanded="false" />
-            <element signature="method#signUp#0;class#Network#0" expanded="false" />
-            <element signature="method#waitForAnswer#0;class#Network#0" expanded="false" />
             <element signature="method#close#0;class#Network#0" expanded="false" />
           </folding>
         </state>
@@ -2308,6 +2321,11 @@
         <state relative-caret-position="2652">
           <caret line="172" column="23" selection-start-line="172" selection-start-column="23" selection-end-line="172" selection-end-column="23" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1445#1446#0" expanded="false" />
+            <element signature="e#1497#1498#0" expanded="false" />
+            <element signature="e#1717#1718#0" expanded="false" />
+            <element signature="e#1768#1769#0" expanded="false" />
             <element signature="method#showProgress#0;class#LoginActivity#0" expanded="false" />
           </folding>
         </state>
@@ -2350,10 +2368,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#getMAC#0;class#Network#0" expanded="false" />
-            <element signature="method#signIn#0;class#Network#0" expanded="false" />
-            <element signature="method#signUp#0;class#Network#0" expanded="false" />
-            <element signature="method#waitForAnswer#0;class#Network#0" expanded="false" />
             <element signature="method#close#0;class#Network#0" expanded="false" />
           </folding>
         </state>
@@ -2364,6 +2380,11 @@
         <state relative-caret-position="2652">
           <caret line="172" column="23" selection-start-line="172" selection-start-column="23" selection-end-line="172" selection-end-column="23" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1445#1446#0" expanded="false" />
+            <element signature="e#1497#1498#0" expanded="false" />
+            <element signature="e#1717#1718#0" expanded="false" />
+            <element signature="e#1768#1769#0" expanded="false" />
             <element signature="method#showProgress#0;class#LoginActivity#0" expanded="false" />
           </folding>
         </state>
@@ -2406,10 +2427,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#getMAC#0;class#Network#0" expanded="false" />
-            <element signature="method#signIn#0;class#Network#0" expanded="false" />
-            <element signature="method#signUp#0;class#Network#0" expanded="false" />
-            <element signature="method#waitForAnswer#0;class#Network#0" expanded="false" />
             <element signature="method#close#0;class#Network#0" expanded="false" />
           </folding>
         </state>
@@ -2420,6 +2439,11 @@
         <state relative-caret-position="2125">
           <caret line="137" column="23" selection-start-line="137" selection-start-column="23" selection-end-line="137" selection-end-column="23" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1445#1446#0" expanded="false" />
+            <element signature="e#1497#1498#0" expanded="false" />
+            <element signature="e#1717#1718#0" expanded="false" />
+            <element signature="e#1768#1769#0" expanded="false" />
             <element signature="method#showProgress#0;class#LoginActivity#0" expanded="false" />
           </folding>
         </state>
@@ -2462,10 +2486,8 @@
         <state relative-caret-position="544">
           <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#getMAC#0;class#Network#0" expanded="false" />
-            <element signature="method#signIn#0;class#Network#0" expanded="false" />
-            <element signature="method#signUp#0;class#Network#0" expanded="false" />
-            <element signature="method#waitForAnswer#0;class#Network#0" expanded="false" />
             <element signature="method#close#0;class#Network#0" expanded="false" />
           </folding>
         </state>
@@ -2491,10 +2513,8 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#getMAC#0;class#Network#0" expanded="false" />
-            <element signature="method#signIn#0;class#Network#0" expanded="false" />
-            <element signature="method#signUp#0;class#Network#0" expanded="false" />
-            <element signature="method#waitForAnswer#0;class#Network#0" expanded="false" />
             <element signature="method#close#0;class#Network#0" expanded="false" />
           </folding>
         </state>
@@ -2624,9 +2644,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
@@ -2634,6 +2651,9 @@
             <marker date="1488232078216" expanded="true" signature="1167:1177" ph="..." />
           </folding>
         </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-24/java/lang/Thread.java">
@@ -2648,7 +2668,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="27" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="27" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2657,7 +2679,23 @@
         <state relative-caret-position="3570">
           <caret line="240" column="35" selection-start-line="240" selection-start-column="35" selection-end-line="240" selection-end-column="35" />
           <folding>
+            <element signature="e#0#27480#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#9600#9610#0" expanded="false" />
+            <element signature="e#10985#10995#0" expanded="false" />
+            <element signature="e#12413#12414#0" expanded="false" />
+            <element signature="e#12452#12453#0" expanded="false" />
+            <element signature="e#14281#14282#0" expanded="false" />
+            <element signature="e#14311#14312#0" expanded="false" />
             <element signature="docComment;method#doInBackground#0;class#AsyncTask#0" expanded="false" />
+            <element signature="e#16750#16751#0" expanded="false" />
+            <element signature="e#16779#16780#0" expanded="false" />
+            <element signature="e#17764#17765#0" expanded="false" />
+            <element signature="e#17803#17804#0" expanded="false" />
+            <element signature="e#25285#25286#0" expanded="false" />
+            <element signature="e#25335#25336#0" expanded="false" />
+            <element signature="e#26427#26428#0" expanded="false" />
+            <element signature="e#26480#26481#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2667,6 +2705,11 @@
         <state relative-caret-position="2295">
           <caret line="181" column="54" selection-start-line="181" selection-start-column="54" selection-end-line="181" selection-end-column="54" />
           <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1445#1446#0" expanded="false" />
+            <element signature="e#1497#1498#0" expanded="false" />
+            <element signature="e#1717#1718#0" expanded="false" />
+            <element signature="e#1768#1769#0" expanded="false" />
             <element signature="method#showProgress#0;class#LoginActivity#0" expanded="false" />
           </folding>
         </state>
@@ -2688,21 +2731,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ahlan/ahlanapp/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ahlan/ahlanapp/Network.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="153" column="0" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
+        <state relative-caret-position="190">
+          <caret line="173" column="6" selection-start-line="173" selection-start-column="6" selection-end-line="173" selection-end-column="6" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#getMAC#0;class#Network#0" expanded="false" />
-            <element signature="method#signIn#0;class#Network#0" expanded="false" />
-            <element signature="method#signUp#0;class#Network#0" expanded="false" />
-            <element signature="method#waitForAnswer#0;class#Network#0" expanded="false" />
             <element signature="method#close#0;class#Network#0" expanded="false" />
           </folding>
         </state>

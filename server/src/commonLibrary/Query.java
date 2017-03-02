@@ -1,8 +1,5 @@
 package commonLibrary;
 
-
-import serverLibrary.ClientHandler;
-
 public class Query extends Utility 
 {
 	private int opCode;

@@ -223,7 +223,7 @@ public class DBWrapper
 		}
 	}
 	
-	public boolean signUp(String userName, String password, String currentIP) throws Exception
+	public boolean signUp(String userName, String password, String currentIP)
 	{
 		String sql = "INSERT INTO " + usersTable
 				+ "(name, password, currentIP) "
@@ -236,15 +236,14 @@ public class DBWrapper
 		}catch (SQLException ex) {
 			if(ex.getErrorCode() == uniqueErrorCode)
 			{
-				Exception e = new Exception("Username already exists");
-				throw e;
+				this.writeLog(DBWrapper.LogLevels.WARNING, this.getClass().getName(),"Username already exists");
 			}
 			return false;
 		}
 		return true;
 	}
 	
-	public boolean signUp(String userName, String password) throws Exception
+	public boolean signUp(String userName, String password)
 	{
 		String sql = "INSERT INTO " + usersTable
 				+ "(name, password) "
@@ -256,8 +255,7 @@ public class DBWrapper
 		}catch (SQLException ex) {
 			if(ex.getErrorCode() == uniqueErrorCode)
 			{
-				Exception e = new Exception("Username already exists");
-				throw e;
+				this.writeLog(DBWrapper.LogLevels.WARNING, this.getClass().getName(),"Username already exists");
 			}
 			return false;
 		}

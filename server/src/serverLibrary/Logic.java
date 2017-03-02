@@ -125,7 +125,14 @@ public class Logic implements Runnable
 	{
 		Query answer;
 		String[] strs;
-		if(DBWrapper.getInstance().signUp(q.getStr()[0], q.getStr()[1]))
+		
+		if(DBWrapper.getInstance().isUserExist(q.getStr()[0]))
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "username already exist";
+		}
+		else if(DBWrapper.getInstance().signUp(q.getStr()[0], q.getStr()[1]))
 		{
 			strs = new String[1];
 			strs[0] = Integer.toString(Constants.success);
