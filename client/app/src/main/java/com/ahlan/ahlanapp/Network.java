@@ -167,20 +167,13 @@ public class Network implements Runnable
     public void signIn(String userName,String password)
     {
         String[] params = {userName,password}; // need security for password
-        Query q = new Query(Constants.signUp_client,params); // need to include the library
-        addToQueue(q);
+        Query q = new Query(Constants.signIn_client,params); // need to include the library
+        communicateWithServer(q);
     }
 
-    /*
-   deals with the network side of signing up
-   return true if signUp done
-   return false if problem occurred
-    */
-    public boolean signUp(String userName,String password)
+    public boolean communicateWithServer(Query q)
     {
         int length;
-        String[] params = {userName,password}; // need security for password
-        Query q = new Query(Constants.signUp_client,params); // need to include the library
         addToQueue(q);
 
         if(!waitForAnswer())
@@ -194,9 +187,23 @@ public class Network implements Runnable
         }
         catch(Exception e)
         {
-            //TODO
+            logger.log(Level.WARNING,"problem with getting data from server : "+e.getMessage());
         }
         return q.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0;
+    }
+
+
+    /*
+   deals with the network side of signing up
+   return true if signUp done
+   return false if problem occurred
+    */
+    public boolean signUp(String userName,String password)
+    {
+
+        String[] params = {userName,password}; // need security for password
+        Query q = new Query(Constants.signUp_client,params); // need to include the library
+        return communicateWithServer(q);
     }
 
     /*
@@ -209,7 +216,7 @@ public class Network implements Runnable
         try {
             while (input.available() < 4) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (Exception e) {
                     logger.log(Level.WARNING, "cant put thread to sleep");
                     return false;

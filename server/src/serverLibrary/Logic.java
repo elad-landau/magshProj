@@ -108,6 +108,10 @@ public class Logic implements Runnable
 				handleSignUp(q);
 				break;
 				
+				
+			case Constants.signIn_client:
+				handleSignIn(q);
+				break;
 				default:
 					
 			}
@@ -147,5 +151,21 @@ public class Logic implements Runnable
 		
 		answer = new Query(Constants.signUp_server,strs);
 		q.getHandler().sendData(answer);
+	}
+	
+	
+	private void handleSignIn(Query q)
+	{
+		Query answer;
+		String strs[];
+		
+		if(!DBWrapper.getInstance().isUserExist(q.getStr()[0]))
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "username isn't exist";
+		}
+		
+		if(// need db check of username and password)
 	}
 }
