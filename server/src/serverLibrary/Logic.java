@@ -1,11 +1,13 @@
 package serverLibrary;
 
 
+import java.util.Vector;
 import java.util.concurrent.locks.*;
 
 import commonLibrary.Message;
 import commonLibrary.Query;
 import commonLibrary.Queue;
+import commonLibrary.User;
 import commonLibrary.Constants;
 
 
@@ -15,12 +17,13 @@ public class Logic implements Runnable
 	private Queue<Query> queue;
 	private static Logic instance;
 	private final ReentrantLock lock;
-	
+	private Vector<User> onlineUsers;
 	
 	protected Logic()
 	{
 		queue = new Queue<Query>();
 		lock = new ReentrantLock();
+		onlineUsers = new Vector<User>();
 	}
 	
 	public static Logic getInstance()
@@ -152,6 +155,7 @@ public class Logic implements Runnable
 		answer = new Query(Constants.signUp_server,strs);
 		q.getHandler().sendData(answer);
 	}
+
 	
 	
 	private void handleSignIn(Query q)
@@ -166,6 +170,10 @@ public class Logic implements Runnable
 			strs[1] = "username isn't exist";
 		}
 		
-		if(// need db check of username and password)
+		if(DBWrapper.getInstance().isUsernameAndPasswordMatch(q.getStr()[0],q.getStr()[1]))
+		{
+			
+		}
 	}
+
 }

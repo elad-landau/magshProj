@@ -208,7 +208,7 @@ public class DBWrapper
 	}
 
 	
-	public boolean signIn(String userName, String password)
+	public boolean isUsernameAndPasswordMatch(String userName, String password)
 	{
 		ResultSet rs;
 		String sql = "SELECT password FROM " +
