@@ -178,12 +178,10 @@ public class LoginActivity extends AppCompatActivity{
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                Network.getInstance().signUp(mName, mPassword);
-                Network.getInstance().waitForAnswer();
+                return Network.getInstance().signUp(mName, mPassword);
             } catch (Exception e) {
                 return false;
             }
-            return true;
         }
 
         @Override

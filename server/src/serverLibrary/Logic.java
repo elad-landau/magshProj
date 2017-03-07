@@ -1,23 +1,29 @@
 package serverLibrary;
 
-import java.util.LinkedList;
+
+import java.util.Vector;
 import java.util.concurrent.locks.*;
 
 import commonLibrary.Message;
 import commonLibrary.Query;
 import commonLibrary.Queue;
+import commonLibrary.User;
+import commonLibrary.Constants;
+
+
 
 public class Logic implements Runnable
 {
 	private Queue<Query> queue;
 	private static Logic instance;
 	private final ReentrantLock lock;
-	
+	private Vector<User> onlineUsers;
 	
 	protected Logic()
 	{
 		queue = new Queue<Query>();
 		lock = new ReentrantLock();
+		onlineUsers = new Vector<User>();
 	}
 	
 	public static Logic getInstance()
@@ -98,11 +104,17 @@ public class Logic implements Runnable
 			
 			switch(q.getOpCode())
 			{
-			case 0:
+			case Constants.empty_query:
 				// do nothing
+				break;
+			case Constants.signUp_client:
+				handleSignUp(q);
 				break;
 				
 				
+			case Constants.signIn_client:
+				handleSignIn(q);
+				break;
 				default:
 					
 			}
@@ -110,4 +122,58 @@ public class Logic implements Runnable
 		
 		
 	}
+	
+	
+	/*
+	 * handle the user try to register
+	 * send the user query with the result
+	 */
+	private void handleSignUp(Query q)
+	{
+		Query answer;
+		String[] strs;
+		
+		if(DBWrapper.getInstance().isUserExist(q.getStr()[0]))
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "username already exist";
+		}
+		else if(DBWrapper.getInstance().signUp(q.getStr()[0], q.getStr()[1]))
+		{
+			strs = new String[1];
+			strs[0] = Integer.toString(Constants.success);
+		}
+		else
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "There was a problem to register you";
+		}
+			
+		
+		answer = new Query(Constants.signUp_server,strs);
+		q.getHandler().sendData(answer);
+	}
+
+	
+	
+	private void handleSignIn(Query q)
+	{
+		Query answer;
+		String strs[];
+		
+		if(!DBWrapper.getInstance().isUserExist(q.getStr()[0]))
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "username isn't exist";
+		}
+		
+		if(DBWrapper.getInstance().isUsernameAndPasswordMatch(q.getStr()[0],q.getStr()[1]))
+		{
+			
+		}
+	}
+
 }

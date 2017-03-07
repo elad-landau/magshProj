@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.sql.ClientInfoStatus;
 import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
@@ -52,7 +53,7 @@ public class Network implements Runnable
 
     protected Network()
     {
-        ip = "10.0.0.1";
+        ip = "10.8.128.41";
         port = 7070;
         queue = new Queue<Query>();
         lock = new ReentrantLock();
@@ -111,7 +112,8 @@ public class Network implements Runnable
             else
             {
                 lock.unlock();
-                q = new Query(Constants.empty_query,new String[0]);
+                //q = new Query(Constants.empty_query,new String[0]);
+                continue;
 
             }
             sendData(q);
@@ -128,7 +130,7 @@ public class Network implements Runnable
 
         try {
             byte[] data = q.serialize();
-            byte[] dataLength = intToByteArray(data.length);
+            byte[] dataLength = ClientHandler.intToByteArray(data.length);
             output.write(dataLength);
             output.write(data);
         }
@@ -166,28 +168,69 @@ public class Network implements Runnable
     {
         String[] params = {userName,password}; // need security for password
         Query q = new Query(Constants.signIn_client,params); // need to include the library
-        addToQueue(q);
+        communicateWithServer(q);
     }
 
-    /*
-   deals with the network side of signing up
-    */
-    public void signUp(String userName,String password)
+    public boolean communicateWithServer(Query q)
     {
-        String[] params = {userName,password}; // need security for password
-        Query q = new Query(Constants.signIn_client,params); // need to include the library
+        int length;
         addToQueue(q);
-    }
 
-    public void waitForAnswer()
-    {
+        if(!waitForAnswer())
+        {
+            //TODO  take care of failure
+            return false;
+        }
         try {
-            Thread.sleep(100000);
+            length = ClientHandler.getMessageLength(input);
+            q = ClientHandler.getQuery(length,input);
         }
         catch(Exception e)
         {
-
+            logger.log(Level.WARNING,"problem with getting data from server : "+e.getMessage());
         }
+        return q.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0;
+    }
+
+
+    /*
+   deals with the network side of signing up
+   return true if signUp done
+   return false if problem occurred
+    */
+    public boolean signUp(String userName,String password)
+    {
+
+        String[] params = {userName,password}; // need security for password
+        Query q = new Query(Constants.signUp_client,params); // need to include the library
+        return communicateWithServer(q);
+    }
+
+    /*
+    waiting for the server to have query ready
+    return true if it has
+    return false if a problem occurred (write to the log)
+     */
+    public boolean waitForAnswer()
+    {
+        try {
+            while (input.available() < 4) {
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    logger.log(Level.WARNING, "cant put thread to sleep");
+                    return false;
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            logger.log(Level.WARNING,"problem with getting available data from server");
+            return false;
+        }
+        return true;
+
+
     }
     public void close()
     {
@@ -200,9 +243,4 @@ public class Network implements Runnable
         }
     }
 
-    public static byte[] intToByteArray(int num)
-    {
-        String str = Integer.toString(num);
-        return ByteBuffer.allocate(4).putInt(num).array();
-    }
 }
