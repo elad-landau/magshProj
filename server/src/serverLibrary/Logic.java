@@ -34,9 +34,8 @@ public class Logic implements Runnable
 	}
 	
 	
-	public static void main(String args[])
+	public static void main()
 	{
-		System.out.println("adi");
 		Thread logThread = new Thread(Logic.getInstance());
 		DBWrapper DB = DBWrapper.getInstance();
 		if( ConfigurationManager.getInstance() == null  || DBWrapper.getInstance()==null)
@@ -56,11 +55,6 @@ public class Logic implements Runnable
 		logThread.start();
 		Network net = Network.getInstance();
 		net.serv();
-
-
-		
-		//Network net = Network.getInstance();
-		//net.serv();
 	}
 	
 	
