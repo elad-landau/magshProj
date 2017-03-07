@@ -277,8 +277,4 @@ public class DBWrapper
 		}
 		return exist;
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 8cab789a0be277d1448b00a92c7ec40c81deaf92
