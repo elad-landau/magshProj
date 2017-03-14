@@ -214,13 +214,14 @@ public class Network implements Runnable
     public boolean waitForAnswer()
     {
         try {
-            while (input.available() < 4) {
+            while (input == null/*input.available() < 4*/) {
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
                     logger.log(Level.WARNING, "cant put thread to sleep");
                     return false;
                 }
+
             }
         }
         catch(Exception e)

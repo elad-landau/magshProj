@@ -53,14 +53,12 @@ public class Network
 		
 		try
 		{
-		mainSocket = new ServerSocket(port);
+		mainSocket = new ServerSocket(0);
 		}
 		catch(IOException e)
 		{
 			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.CRITICAL , this.getClass().getName(),"Cannot open the port: "+e);
 		}
-		
-		
 	}
 	
 	

@@ -34,7 +34,7 @@ public class Logic implements Runnable
 	}
 	
 	
-	public static void main()
+	public static void main(String[] args)
 	{
 		Thread logThread = new Thread(Logic.getInstance());
 		DBWrapper DB = DBWrapper.getInstance();
