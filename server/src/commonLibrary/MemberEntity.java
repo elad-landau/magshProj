@@ -8,18 +8,9 @@ public abstract class MemberEntity extends Utility
 {
 	
 	private static long serialVersionUID;
-	protected int _id;
 	protected String _name;
 	
 	
-	
-	public int getId() {
-		return this._id;
-	}
-
-	public void setId(int id) {
-		this._id = id;
-	}
 
 	public String getName() {
 		return this._name;
@@ -32,13 +23,11 @@ public abstract class MemberEntity extends Utility
 	
 	public MemberEntity()
 	{
-		this._id = 0;
 		this._name = "";
 	}
 	
-	public MemberEntity(int id,String name)
+	public MemberEntity(String name)
 	{
-		this._id = id;
 		this._name = name;
 		this.serialVersionUID = ConfigurationManager.getInstance().getMemberEntity_serial();
 	}
@@ -46,7 +35,7 @@ public abstract class MemberEntity extends Utility
 	
 	public boolean isEqual(MemberEntity mem)
 	{
-		return (this._id == mem._id && this._name.equals(mem._name));
+		return (this._name.equals(mem._name));
 	}
 	
 	

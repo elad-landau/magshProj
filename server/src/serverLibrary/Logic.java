@@ -37,7 +37,7 @@ public class Logic implements Runnable
 	public static void main(String[] args)
 	{
 		Thread logThread = new Thread(Logic.getInstance());
-		DBWrapper DB = DBWrapper.getInstance();
+		DBWrapper.getInstance();
 		if( ConfigurationManager.getInstance() == null  || DBWrapper.getInstance()==null)
 		{
 			System.out.println("server faild to upload");
@@ -126,6 +126,7 @@ public class Logic implements Runnable
 	{
 		Query answer;
 		String[] strs;
+		User user = null;
 		
 		if(DBWrapper.getInstance().isUserExist(q.getStr()[0]))
 		{
@@ -137,6 +138,8 @@ public class Logic implements Runnable
 		{
 			strs = new String[1];
 			strs[0] = Integer.toString(Constants.success);
+			user = new User(q.getStr()[0], q.getStr()[1],Integer.parseInt( q.getStr()[2]));
+			onlineUsers.addElement(user);
 		}
 		else
 		{
@@ -148,6 +151,8 @@ public class Logic implements Runnable
 		
 		answer = new Query(Constants.signUp_server,strs);
 		q.getHandler().sendData(answer);
+		
+		
 	}
 
 	
@@ -166,7 +171,7 @@ public class Logic implements Runnable
 		
 		if(DBWrapper.getInstance().isUsernameAndPasswordMatch(q.getStr()[0],q.getStr()[1]))
 		{
-			
+			onlineUsers.addElement
 		}
 	}
 
