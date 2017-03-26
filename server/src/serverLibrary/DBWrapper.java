@@ -223,14 +223,14 @@ public class DBWrapper
 		}
 	}
 	
-	public boolean signUp(String userName, String password, String currentIP)
+	public boolean signUp(String userName, String password, int phoneNumber)
 	{
 		String sql = "INSERT INTO " + usersTable
-				+ "(name, password, currentIP) "
+				+ "(name, password, phoneNumber) "
 				+ "VALUES(\""
 				+ userName + "\",\""
 				+ password + "\",\""
-				+ currentIP + "\");";
+				+ phoneNumber + "\");";
 		try{
 			runCommand(sql);
 		}catch (SQLException ex) {

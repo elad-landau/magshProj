@@ -53,7 +53,11 @@ public class Network implements Runnable
 
     protected Network()
     {
+<<<<<<< HEAD
         ip = "10.8.128.39";
+=======
+        ip = "10.8.128.43";
+>>>>>>> 0c263523d7bc81db7edfdc8e78404abaf47ac14e
         port = 7070;
         queue = new Queue<Query>();
         lock = new ReentrantLock();
@@ -215,7 +219,7 @@ public class Network implements Runnable
     public boolean waitForAnswer()
     {
         try {
-            while (input == null/*input.available() < 4*/) {
+            while (/*input == null*/input.available() < 4) {
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
