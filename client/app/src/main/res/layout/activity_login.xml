@@ -81,7 +81,6 @@
             />
 
         <Button
-
             android:id="@+id/registerButton"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
@@ -92,5 +91,6 @@
             android:layout_below="@+id/loginButton"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 </RelativeLayout>

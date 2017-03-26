@@ -69,16 +69,16 @@ public class DBWrapper
 
 		
 		dataTypes.add("INTEGER NOT NULL PRIMARY KEY");
-		columnName.add("ID");
+		columnName.add("phoneNumber");
+		
+		dataTypes.add("INTEGER FOREIGN KEY");
+		columnName.add("id");
 		 
 		dataTypes.add("STRING");
 		columnName.add("name");
 	
 		dataTypes.add("STRING");
 		columnName.add("password");
-		
-		dataTypes.add("STRING");
-		columnName.add("currentIP");
 		
 		//Turn name into an unique column
 		dataTypes.add("(name)");

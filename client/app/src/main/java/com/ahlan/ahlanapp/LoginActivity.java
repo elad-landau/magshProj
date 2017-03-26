@@ -3,6 +3,7 @@ package com.ahlan.ahlanapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
@@ -191,11 +192,7 @@ public class LoginActivity extends AppCompatActivity{
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                Bundle b = new Bundle();
-                b.putString("userName", mName);
-                intent.putExtras(b);
-                startActivity(intent);
+                MoveActivity(mName,MainActivity.class);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -241,11 +238,7 @@ public class LoginActivity extends AppCompatActivity{
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                Bundle b = new Bundle();
-                b.putString("userName", mName);
-                intent.putExtras(b);
-                startActivity(intent);
+               MoveActivity(mName,MainActivity.class);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -258,6 +251,16 @@ public class LoginActivity extends AppCompatActivity{
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+
+    private void MoveActivity(String username, Class activity)
+    {
+        Intent intent = new Intent(LoginActivity.this, activity);
+        Bundle b = new Bundle();
+        b.putString("userName", username);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 }
 

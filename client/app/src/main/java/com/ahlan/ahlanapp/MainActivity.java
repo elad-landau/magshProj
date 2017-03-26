@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar mainBar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(mainBar);
 
         TextView mName = (TextView)findViewById(R.id.textView);
         Bundle b = getIntent().getExtras();

@@ -160,6 +160,18 @@ public class Network implements Runnable
         MACAddress = Network.getMAC(context);
     }
 
+    /*
+      deals with the network side of signing up
+      return true if signUp done
+      return false if problem occurred
+       */
+    public boolean signUp(String userName,String password)
+    {
+
+        String[] params = {userName,password}; // need security for password
+        Query q = new Query(Constants.signUp_client,params); // need to include the library
+        return communicateWithServer(q);
+    }
 
     /*
     deals with the network side of signing in
@@ -193,18 +205,7 @@ public class Network implements Runnable
     }
 
 
-    /*
-   deals with the network side of signing up
-   return true if signUp done
-   return false if problem occurred
-    */
-    public boolean signUp(String userName,String password)
-    {
 
-        String[] params = {userName,password}; // need security for password
-        Query q = new Query(Constants.signUp_client,params); // need to include the library
-        return communicateWithServer(q);
-    }
 
     /*
     waiting for the server to have query ready
