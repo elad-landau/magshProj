@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="client/app/build/generated/source/buildConfig/androidTest/debug"/>
+	<classpathentry kind="src" path="client/app/build/generated/source/buildConfig/debug"/>
+	<classpathentry kind="src" path="client/app/build/generated/source/r/androidTest/debug"/>
+	<classpathentry kind="src" path="client/app/build/generated/source/r/debug"/>
+	<classpathentry kind="src" path="client/app/src/androidTest/java"/>
+	<classpathentry kind="src" path="client/app/src/main/java"/>
+	<classpathentry kind="src" path="client/app/src/test/java"/>
+	<classpathentry kind="src" path="server/src"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-127da6e3178ef92ba9d4bc090452a248b04a4c39.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-39641122c15315cdee28dc7b883abef651c4525a.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-39d297f77edece141c5c8d757815bd0ee40ccb31.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-48485db3a0ac3a4888aeeae56b3ed925c505b4fe.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-6be07904a380fe3703e3e777f02c9a63567158c8.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-8cf185cec779aa22472545c0e4983e8164f63fda.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-9f014d04de5aadd408b1d417bff9dcc5478bdb51.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-c0da97aeba328dc3792b6c41bd4ac24103efa023.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-d472b4dc035cd25b955bcdac129be87f31f1da15.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-e0760418568a0619a5d52777bab71cb4827428f0.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-f247deda964f17b1852c0037e80e63633fd38edf.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/commonLibrary-410c8ba434de042f9423b8bead65f8a9d9f2f7b0.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/internal_impl-24.2.1-038d3644f3627b5815b29b0fc99865d47835dd5c.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/internal_impl-24.2.1-70ebc60bcf31a1e1364f5c4d338c6d1b16364431.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/internal_impl-24.2.1-7f7da51aa8d23e0313459f51cd6d5d3405df0e9a.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/internal_impl-24.2.1-9764798f003b86505ee9f24a842cbfb81a8aad71.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/internal_impl-24.2.1-98555af5d426441705a60afcbe2d157d3698fa8d.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/support-annotations-24.2.1-54dc45dfabb608f3363bca49d90843bc42ff330f.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackRuntimeLibraries/debug/jars/8000/40/android-10e698beac15230a404a5ef6469cb85c1795f84f.jar"/>
+	<classpathentry kind="lib" path="client/app/build/intermediates/transforms/preJackRuntimeLibraries/debug/jars/8000/40/org.apache.http.legacy-b286aff03501f61af390bbbb8b3d9776426a93db.jar"/>
+	<classpathentry kind="lib" path="client/app/libs/commonLibrary.jar"/>
+	<classpathentry kind="lib" path="client/build/generated/mockable-android-24.jar"/>
+	<classpathentry kind="lib" path="client/gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="server/sqlite-jdbc-3.15.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="server/bin"/>
+</classpath>
