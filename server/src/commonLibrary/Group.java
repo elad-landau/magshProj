@@ -15,7 +15,7 @@ public class Group extends MemberEntity
 	
 	public Group(int id, String name, User users[])
 	{
-		super(id,name);
+		super(name);
 		serialVersionUID = ConfigurationManager.getInstance().getGroup_serial();
 		this._users = new ArrayList<User>();
 		
@@ -35,15 +35,6 @@ public class Group extends MemberEntity
 	 * 
 	 * if none have the specific id, return null
 	 */
-	public User GetUserByID(int id)
-	{
-		for(User us : this._users)
-		{
-			if(us.getId() == id)
-				return us;
-		}
-		return null;
-	}
 	
 	
 	public void addUser(User us)
@@ -55,14 +46,6 @@ public class Group extends MemberEntity
 	/*
 	 * remove user from the group by id
 	 */
-	public void removeUser(int id)
-	{
-		for(User curr : this._users)
-		{
-			if(curr.getId() == id)
-				this._users.remove(curr);
-		}
-	}
 	
 	
 	

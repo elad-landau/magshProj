@@ -105,10 +105,14 @@ public class Logic implements Runnable
 				handleSignUp(q);
 				break;
 				
-				
 			case Constants.signIn_client:
 				handleSignIn(q);
 				break;
+				
+			case Constants.sentMessage_client:
+				handleSentMessage(q);
+				break;
+			
 				default:
 					
 			}
@@ -138,7 +142,7 @@ public class Logic implements Runnable
 		{
 			strs = new String[1];
 			strs[0] = Integer.toString(Constants.success);
-			user = new User(q.getStr()[0], q.getStr()[1],Integer.parseInt( q.getStr()[2]));
+			user = new User(q.getStr()[0], q.getStr()[1],Integer.parseInt( q.getStr()[2]) , q.getHandler() );
 			onlineUsers.addElement(user);
 		}
 		else
@@ -171,8 +175,16 @@ public class Logic implements Runnable
 		
 		if(DBWrapper.getInstance().isUsernameAndPasswordMatch(q.getStr()[0],q.getStr()[1]))
 		{
-			onlineUsers.addElement
+			//int phoneNumber = DBWrapper.getPhoneByName(q.getStr()[0]);
+			int phoneNumber = 5;
+			User user = new User(q.getStr()[0],q.getStr()[1] , phoneNumber, q.getHandler());
+			onlineUsers.addElement(user);
 		}
+	}
+	
+	private void handleSentMessage(Query q)
+	{
+		
 	}
 
 }

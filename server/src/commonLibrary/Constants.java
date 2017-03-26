@@ -12,12 +12,14 @@ public class Constants
     //client
     public static final int signUp_client = 101;
     public static final int signIn_client = 102;
+    public static final int sentMessage_client = 103;
 
 
     
     //server
     public static final int signUp_server = 201;
     public static final int signIn_server = 202;
+    public static final int sentMessage_server = 203;
     
 
     //time
