@@ -53,7 +53,7 @@ public class Network
 		
 		try
 		{
-		mainSocket = new ServerSocket(7070);
+		mainSocket = new ServerSocket(ConfigurationManager.getInstance().getPort());
 		}
 		catch(IOException e)
 		{

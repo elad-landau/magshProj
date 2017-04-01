@@ -53,11 +53,7 @@ public class Network implements Runnable
 
     protected Network()
     {
-<<<<<<< HEAD
-        ip = "10.8.128.39";
-=======
-        ip = "10.8.128.43";
->>>>>>> 0c263523d7bc81db7edfdc8e78404abaf47ac14e
+        ip = "127.0.0.1";
         port = 7070;
         queue = new Queue<Query>();
         lock = new ReentrantLock();

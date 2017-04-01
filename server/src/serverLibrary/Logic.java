@@ -156,7 +156,6 @@ public class Logic implements Runnable
 		answer = new Query(Constants.signUp_server,strs);
 		q.getHandler().sendData(answer);
 		
-		
 	}
 
 	
@@ -179,7 +178,20 @@ public class Logic implements Runnable
 			int phoneNumber = 5;
 			User user = new User(q.getStr()[0],q.getStr()[1] , phoneNumber, q.getHandler());
 			onlineUsers.addElement(user);
+			strs = new String[1];
+			strs[0] = Integer.toString(Constants.success);
 		}
+		
+		else
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "username and password don't match";
+		}
+
+		
+		answer = new Query(Constants.signIn_server,strs);
+		q.getHandler().sendData(answer);
 	}
 	
 	private void handleSentMessage(Query q)
