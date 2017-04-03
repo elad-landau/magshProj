@@ -238,7 +238,7 @@ public class LoginActivity extends AppCompatActivity{
             showProgress(false);
 
             if (success) {
-               MoveActivity(mName,MainActivity.class);
+               //MoveActivity(mName,MainActivity.class);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
