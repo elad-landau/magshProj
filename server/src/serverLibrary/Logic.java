@@ -196,7 +196,34 @@ public class Logic implements Runnable
 	
 	private void handleSentMessage(Query q)
 	{
+		Query answer,message;
+		String[] strs;
 		
+		//
+		//
+		//find User by phoneNumber
+		//
+		//
+		int indexOfUser = onlineUsers.indexOf(q.getMsg().getDestination());
+		if(indexOfUser == -1) // not found
+		{
+			strs = new String[2];
+			strs[0] =Integer.toString(Constants.failure);
+			strs[1] = "user not connected";
+			
+			answer = new Query(Constants.sentMessage_server,strs);
+			q.getHandler().sendData(answer);
+		}
+		
+		strs = new String[1];
+		strs[0] =Integer.toString(Constants.success);
+		answer = new Query(Constants.sentMessage_server,strs);
+		
+		message = new Query(Constants.sendMessage_server,q.getMsg());
+		
+		
+		q.getHandler().sendData(answer);
+		onlineUsers.get(indexOfUser).getHan().sendData(message);
 	}
 
 }

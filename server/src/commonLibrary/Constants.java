@@ -20,6 +20,7 @@ public class Constants
     public static final int signUp_server = 201;
     public static final int signIn_server = 202;
     public static final int sentMessage_server = 203;
+    public static final int sendMessage_server = 2030;
     
 
     //time

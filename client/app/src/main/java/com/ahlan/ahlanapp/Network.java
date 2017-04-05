@@ -32,6 +32,7 @@ public class Network implements Runnable
     private String ip;
     private int port;
     private String MACAddress;
+    private int phoneNumber;
 
     private final ReentrantLock lock;
     private long lastSend;
@@ -180,6 +181,13 @@ public class Network implements Runnable
     {
         String[] params = {userName,password}; // need security for password
         Query q = new Query(Constants.signIn_client,params); // need to include the library
+        communicateWithServer(q);
+    }
+
+    public void sentMessage(int destination, String text)
+    {
+        Message msg = new Message(text,phoneNumber,destination);
+        Query q = new Query(Constants.sentMessage_client,msg);
         communicateWithServer(q);
     }
 

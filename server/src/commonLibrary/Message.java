@@ -6,17 +6,18 @@ import serverLibrary.ConfigurationManager;
 public class Message extends Utility
 {
 	private static long serialVersionUID;
-	private int opCode;
 	private String _data;
-	private MemberEntity _addresse;
-	private MemberEntity _addressed;
+	private int _origin;
+	private int _destination;
 	
-	public Message(int opCode,String data, MemberEntity addresse, MemberEntity addressed) 
+	
+	
+	public Message(String data, int origin, int destination) 
 	{
 		
 		this._data = data;
-		this._addresse = addresse;
-		this._addressed = addressed;
+		this._origin = origin;
+		this._destination = destination;
 		this.serialVersionUID = ConfigurationManager.getInstance().getMessage_serial();
 	}
 	
@@ -31,30 +32,23 @@ public class Message extends Utility
 	{
 		this._data = data;
 	}
-	
-	public MemberEntity GetAddresse()
-	{
-		return this._addresse;
-	}
-	
-	public void SetAddresse(MemberEntity addresse)
-	{
-		this._addresse = addresse;
-	}
-	
-	public MemberEntity GetAddressed()
-	{
-		return this._addressed;
-	}
-	
-	public void SetAddressed(MemberEntity addressed)
-	{
-		this._addressed = addressed;
-	}
-	
 
-	
-	
-	
+	public int getOrigin() {
+		return _origin;
+	}
 
+	public void setOrigin(int _origin) {
+		this._origin = _origin;
+	}
+
+	public int getDestination() {
+		return _destination;
+	}
+
+	public void setDestination(int _destination) {
+		this._destination = _destination;
+	}
+	
+	
+	
 }
