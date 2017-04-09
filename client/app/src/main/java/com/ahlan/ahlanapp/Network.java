@@ -8,18 +8,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.sql.ClientInfoStatus;
-import java.util.LinkedList;
+
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-import android.app.DownloadManager;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+
 
 import com.ahlan.ahlanapp.*;
 import commonLibrary.*;
@@ -32,11 +29,12 @@ public class Network implements Runnable
     private String ip;
     private int port;
     private String MACAddress;
-    private int phoneNumber;
+    private String mPhoneNumber;
 
     private final ReentrantLock lock;
     private long lastSend;
-    private Queue<Query> queue;
+    private Queue<Query> outQueue;
+    private Queue<Query> inQueue;
 
     private static Network instance = null;
     private static Logger logger = Logger.getLogger(Network.class.getName());
@@ -56,19 +54,30 @@ public class Network implements Runnable
     {
         ip = "127.0.0.1";
         port = 7070;
-        queue = new Queue<Query>();
+        outQueue = new Queue<Query>();
+        inQueue = new Queue<Query>();
         lock = new ReentrantLock();
 
     }
 
 
     /*
-    add a query to the queue safely
+    add a query to the out queue safely
      */
-    private void addToQueue(Query q)
+    private void addToOutQueue(Query q)
     {
         lock.lock();
-        queue.enqueue(q);
+        outQueue.enqueue(q);
+        lock.unlock();
+    }
+
+    /*
+    add a query to the out queue safely
+     */
+    protected void addToInQueue(Query q)
+    {
+        lock.lock();
+        inQueue.enqueue(q);
         lock.unlock();
     }
 
@@ -92,7 +101,7 @@ public class Network implements Runnable
         while(true)
         {
              lock.lock();
-            while(queue.isEmpty() && (System.currentTimeMillis() -lastSend <= Constants.timeBetweenSends))
+            while(outQueue.isEmpty() && (System.currentTimeMillis() -lastSend <= Constants.timeBetweenSends))
             {
                 lock.unlock();
                 try {
@@ -105,9 +114,9 @@ public class Network implements Runnable
                 }
                 lock.lock();
             }
-            if(!queue.isEmpty())
+            if(!outQueue.isEmpty())
             {
-                q = queue.dequeue();
+                q = outQueue.dequeue();
                 lock.unlock();
             }
             else
@@ -166,10 +175,10 @@ public class Network implements Runnable
       return true if signUp done
       return false if problem occurred
        */
-    public boolean signUp(String userName,String password)
+    public boolean signUp(String userName,String password,String phoneNumber)
     {
-
-        String[] params = {userName,password}; // need security for password
+        mPhoneNumber = phoneNumber;
+        String[] params = {userName,password,phoneNumber}; // need security for password
         Query q = new Query(Constants.signUp_client,params); // need to include the library
         return communicateWithServer(q);
     }
@@ -186,62 +195,23 @@ public class Network implements Runnable
 
     public void sentMessage(int destination, String text)
     {
-        Message msg = new Message(text,phoneNumber,destination);
+        Message msg = new Message(text,mPhoneNumber,destination);
         Query q = new Query(Constants.sentMessage_client,msg);
         communicateWithServer(q);
     }
 
-    public boolean communicateWithServer(Query q)
+    private void communicateWithServer(Query q)
     {
-        int length;
-        addToQueue(q);
+        addToOutQueue(q);
+        waitForAnswer();
+    }
 
-        if(!waitForAnswer())
-        {
-            //TODO  take care of failure
-            return false;
-        }
-        try {
-            length = ClientHandler.getMessageLength(input);
-            q = ClientHandler.getQuery(length,input);
-        }
-        catch(Exception e)
-        {
-            logger.log(Level.WARNING,"problem with getting data from server : "+e.getMessage());
-        }
-        return q.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0;
+    private boolean waitForAnswer()
+    {
+        return false;
     }
 
 
-
-
-    /*
-    waiting for the server to have query ready
-    return true if it has
-    return false if a problem occurred (write to the log)
-     */
-    public boolean waitForAnswer()
-    {
-        try {
-            while (/*input == null*/input.available() < 4) {
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
-                    logger.log(Level.WARNING, "cant put thread to sleep");
-                    return false;
-                }
-
-            }
-        }
-        catch(Exception e)
-        {
-            logger.log(Level.WARNING,"problem with getting available data from server");
-            return false;
-        }
-        return true;
-
-
-    }
     public void close()
     {
         try {

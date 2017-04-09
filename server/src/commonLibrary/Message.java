@@ -7,12 +7,12 @@ public class Message extends Utility
 {
 	private static long serialVersionUID;
 	private String _data;
-	private int _origin;
-	private int _destination;
+	private String _origin; // phone number
+	private String _destination; //phone number
 	
 	
 	
-	public Message(String data, int origin, int destination) 
+	public Message(String data, String origin, String destination) 
 	{
 		
 		this._data = data;
@@ -33,22 +33,23 @@ public class Message extends Utility
 		this._data = data;
 	}
 
-	public int getOrigin() {
+	public String get_origin() {
 		return _origin;
 	}
 
-	public void setOrigin(int _origin) {
+	public void set_origin(String _origin) {
 		this._origin = _origin;
 	}
 
-	public int getDestination() {
+	public String get_destination() {
 		return _destination;
 	}
 
-	public void setDestination(int _destination) {
+	public void set_destination(String _destination) {
 		this._destination = _destination;
 	}
-	
+
+
 	
 	
 }

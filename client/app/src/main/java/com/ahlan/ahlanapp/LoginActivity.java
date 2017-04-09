@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -115,7 +117,9 @@ public class LoginActivity extends AppCompatActivity{
             // perform the user login attempt.
             showProgress(true);
             if(type) {
-                mAuthTask = new UserRegisterTask(name, password);
+                TelephonyManager tMgr = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+                String mPhoneNumber = tMgr.getLine1Number();
+                mAuthTask = new UserRegisterTask(name, password,mPhoneNumber);
                 mAuthTask.execute((Void) null);
             }
             if(!type)
@@ -171,16 +175,18 @@ public class LoginActivity extends AppCompatActivity{
 
         private final String mName;
         private final String mPassword;
+        private final String mPhoneNumber;
 
-        UserRegisterTask(String name, String password) {
+        UserRegisterTask(String name, String password,String phoneNumber) {
             mName = name;
             mPassword = password;
+            mPhoneNumber = phoneNumber;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return Network.getInstance().signUp(mName, mPassword);
+                return Network.getInstance().signUp(mName, mPassword,mPhoneNumber);
             } catch (Exception e) {
                 return false;
             }

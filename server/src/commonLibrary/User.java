@@ -7,10 +7,10 @@ public class User extends MemberEntity
 
 	private static long serialVersionUID;
 	private String password;
-	private int phoneNumber;
+	private String phoneNumber;
 	private ClientHandler han;
 
-	public User(String name,String password,int phoneNumber,ClientHandler han)
+	public User(String name,String password,String phoneNumber,ClientHandler han)
 	{
 		super(name);
 		this.serialVersionUID = ConfigurationManager.getInstance().getUser_serial();
@@ -35,11 +35,11 @@ public class User extends MemberEntity
 		this.password = password;
 	}
 
-	public int getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 	

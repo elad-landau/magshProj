@@ -68,7 +68,7 @@ public class DBWrapper
 		List<String> columnName = new ArrayList<String>();
 
 		
-		dataTypes.add("INTEGER NOT NULL PRIMARY KEY");
+		dataTypes.add("STRING NOT NULL PRIMARY KEY");
 		columnName.add("phoneNumber");
 		
 		dataTypes.add("INTEGER FOREIGN KEY");
@@ -223,7 +223,7 @@ public class DBWrapper
 		}
 	}
 	
-	public boolean signUp(String userName, String password, int phoneNumber)
+	public boolean signUp(String userName, String password, String phoneNumber)
 	{
 		String sql = "INSERT INTO " + usersTable
 				+ "(name, password, phoneNumber) "
