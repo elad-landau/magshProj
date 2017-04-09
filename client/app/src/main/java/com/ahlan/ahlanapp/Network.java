@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,8 +33,7 @@ public class Network implements Runnable
     private String mPhoneNumber;
 
     private final ReentrantLock lock;
-    private long lastSend;
-    private Queue<Query> outQueue;
+    private final Condition alert;
     private Queue<Query> inQueue;
 
     private static Network instance = null;
@@ -54,22 +54,11 @@ public class Network implements Runnable
     {
         ip = "127.0.0.1";
         port = 7070;
-        outQueue = new Queue<Query>();
         inQueue = new Queue<Query>();
         lock = new ReentrantLock();
-
+        alert = lock.newCondition();
     }
 
-
-    /*
-    add a query to the out queue safely
-     */
-    private void addToOutQueue(Query q)
-    {
-        lock.lock();
-        outQueue.enqueue(q);
-        lock.unlock();
-    }
 
     /*
     add a query to the out queue safely
@@ -88,7 +77,7 @@ public class Network implements Runnable
             socket = new Socket(ip, port);
             input = socket.getInputStream();
             output = socket.getOutputStream();
-            lastSend = System.currentTimeMillis();
+            new Thread(SendData.getInstance(output)).start();
         }
         catch(IOException e)
         {
@@ -98,62 +87,21 @@ public class Network implements Runnable
 
 
         Query q;
-        while(true)
-        {
-             lock.lock();
-            while(outQueue.isEmpty() && (System.currentTimeMillis() -lastSend <= Constants.timeBetweenSends))
-            {
-                lock.unlock();
-                try {
-                    Thread.sleep(10);
-                }
-                catch(InterruptedException e)
-                {
-                    logger.log(Level.INFO,"cant put thread to sleep at network 'run' method (no message,time for null" +
-                            "message hasn't come :"+e.toString());
-                }
-                lock.lock();
-            }
-            if(!outQueue.isEmpty())
-            {
-                q = outQueue.dequeue();
-                lock.unlock();
-            }
-            else
-            {
-                lock.unlock();
-                //q = new Query(Constants.empty_query,new String[0]);
-                continue;
-
-            }
-            sendData(q);
-        }
+        q = communicateWithServer();
+        addToInQueue(q);
     }
 
 
-    /*
-     a private method
-     deals with serializtion and the sending of date to the server
-      */
-    private void sendData(Query q)
+    private void parseQuery(Query q)
     {
+        switch(q.getOpCode())
+        {
 
-        try {
-            byte[] data = q.serialize();
-            byte[] dataLength = ClientHandler.intToByteArray(data.length);
-            output.write(dataLength);
-            output.write(data);
-        }
-        catch(IOException e)
-        {
-            logger.log(Level.WARNING,"cant write to server : "+e.toString());
-        }
-        catch (ClassNotFoundException e)
-        {
-            logger.log(Level.WARNING,"cant convert query into bytes : "+e.toString());
+
+            default:
+                break;
         }
     }
-
 
 
     public static String getMAC(Context context)
@@ -175,12 +123,12 @@ public class Network implements Runnable
       return true if signUp done
       return false if problem occurred
        */
-    public boolean signUp(String userName,String password,String phoneNumber)
+    public void signUp(String userName,String password,String phoneNumber)
     {
         mPhoneNumber = phoneNumber;
         String[] params = {userName,password,phoneNumber}; // need security for password
         Query q = new Query(Constants.signUp_client,params); // need to include the library
-        return communicateWithServer(q);
+        SendData.getInstance().addToOutQueue(q);
     }
 
     /*
@@ -190,27 +138,76 @@ public class Network implements Runnable
     {
         String[] params = {userName,password}; // need security for password
         Query q = new Query(Constants.signIn_client,params); // need to include the library
-        communicateWithServer(q);
+        SendData.getInstance().addToOutQueue(q);
     }
 
-    public void sentMessage(int destination, String text)
+
+
+
+    public void sentMessage(String destination, String text)
     {
         Message msg = new Message(text,mPhoneNumber,destination);
         Query q = new Query(Constants.sentMessage_client,msg);
-        communicateWithServer(q);
+        SendData.getInstance().addToOutQueue(q);
     }
 
-    private void communicateWithServer(Query q)
+
+    /*
+    wait until there's a query from server, and return it
+    if there's priblem, return null
+     */
+    public Query communicateWithServer()
     {
-        addToOutQueue(q);
-        waitForAnswer();
+        int length;
+        Query q;
+
+        if(!waitForAnswer())
+        {
+            //TODO  take care of failure
+            return null;
+        }
+        try {
+            length = ClientHandler.getMessageLength(input);
+            q = ClientHandler.getQuery(length,input);
+        }
+        catch(Exception e)
+        {
+            logger.log(Level.WARNING,"problem with getting data from server : "+e.getMessage());
+            q = null;
+        }
+        return q;
     }
 
-    private boolean waitForAnswer()
+
+
+
+    /*
+    waiting for the server to have query ready
+    return true if it has
+    return false if a problem occurred (write to the log)
+     */
+    public boolean waitForAnswer()
     {
-        return false;
-    }
+        try {
+            while (/*input == null*/input.available() < 4) {
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    logger.log(Level.WARNING, "cant put thread to sleep");
+                    return false;
+                }
 
+            }
+        }
+        catch(Exception e)
+        {
+            logger.log(Level.WARNING,"problem with getting available data from server");
+            return false;
+        }
+        return true;
+
+
+    }
 
     public void close()
     {
