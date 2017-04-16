@@ -11,12 +11,14 @@ import java.net.Socket;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.jar.Pack200;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.provider.SyncStateContract;
 
 
 import com.ahlan.ahlanapp.*;
@@ -68,6 +70,25 @@ public class Network implements Runnable
         lock.lock();
         inQueue.enqueue(q);
         lock.unlock();
+        alert.notifyAll();
+    }
+
+    /*
+    saftly get the first object
+    return null if the queue is empty
+     */
+    protected Query getFromInQueue()
+    {
+        Query q;
+
+        lock.lock();
+        if(!inQueue.isEmpty())
+            q = inQueue.dequeue();
+        else
+            q = null;
+        lock.unlock();
+
+        return q;
     }
 
 
@@ -96,9 +117,11 @@ public class Network implements Runnable
     {
         switch(q.getOpCode())
         {
-
-
+            case Constants.sendMessage_server:
+                //TODO send the message to the right activity
+                break;
             default:
+                addToInQueue(q);
                 break;
         }
     }
@@ -123,32 +146,69 @@ public class Network implements Runnable
       return true if signUp done
       return false if problem occurred
        */
-    public void signUp(String userName,String password,String phoneNumber)
+    public boolean signUp(String userName,String password,String phoneNumber)
     {
         mPhoneNumber = phoneNumber;
         String[] params = {userName,password,phoneNumber}; // need security for password
-        Query q = new Query(Constants.signUp_client,params); // need to include the library
+        Query q = new Query(Constants.signUp_client,params);
         SendData.getInstance().addToOutQueue(q);
+
+        Query answer = waitForResponse(Constants.signUp_server);
+        return Integer.getInteger(answer.getStr()[0]) == Constants.success;
+
     }
+
+    /*
+    Generic method for all the methods that communicate with the server.
+    the methid wait until message with the specific opcode arrives
+     */
+    private Query waitForResponse(int opcode)
+    {
+        Query q;
+        while(true) {
+            try {
+                if(inQueue.isEmpty())
+                    alert.await();
+            } catch (InterruptedException e) {
+                logger.log(Level.WARNING, "Problem with condition on singUp :" + e.getMessage());
+            }
+
+            lock.lock();
+            if (inQueue.isEmpty() || inQueue.peek().getOpCode() !=opcode)
+                lock.unlock();
+            else
+                break;
+        }
+        q = inQueue.dequeue();
+        lock.unlock();
+        return q;
+    }
+
 
     /*
     deals with the network side of signing in
      */
-    public void signIn(String userName,String password)
+    public boolean signIn(String userName,String password)
     {
         String[] params = {userName,password}; // need security for password
         Query q = new Query(Constants.signIn_client,params); // need to include the library
         SendData.getInstance().addToOutQueue(q);
+
+        Query answer = waitForResponse(Constants.signIn_server);
+        return Integer.getInteger(answer.getStr()[0]) == Constants.success;
     }
 
 
 
 
-    public void sentMessage(String destination, String text)
+    public boolean sentMessage(String destination, String text)
     {
         Message msg = new Message(text,mPhoneNumber,destination);
         Query q = new Query(Constants.sentMessage_client,msg);
         SendData.getInstance().addToOutQueue(q);
+
+        Query answer = waitForResponse(Constants.sentMessage_server);
+        return Integer.getInteger(answer.getStr()[0]) == Constants.success;
     }
 
 
@@ -177,7 +237,6 @@ public class Network implements Runnable
         }
         return q;
     }
-
 
 
 
