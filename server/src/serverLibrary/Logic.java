@@ -198,21 +198,37 @@ public class Logic implements Runnable
 	{
 		Query answer,message;
 		String[] strs;
-		
+		User us;
+		int indexOfUser = -2;//magic number to show odd behavoir, because -1 is already taken
 		//
 		//
 		//find User by phoneNumber
 		//
 		//
-		int indexOfUser = onlineUsers.indexOf(q.getMsg().getDestination());
+		us = DBWrapper.getInstance().getUser(q.getMsg().get_destination());
+		if(us == null)
+		{
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING, this.getClass().getName(), "Didnt get the user to send to");
+			indexOfUser = -1;
+		}
+		else
+			for(int i =0;i<onlineUsers.size();i++)
+				if(us.equals(onlineUsers.elementAt(i)))
+					indexOfUser = i;
+		
+		if(indexOfUser == -2)
+			indexOfUser = -1; //there was no online user found. 
+		
+		
 		if(indexOfUser == -1) // not found
 		{
 			strs = new String[2];
 			strs[0] =Integer.toString(Constants.failure);
-			strs[1] = "user not connected";
+			strs[1] = "user not connected/exists";
 			
 			answer = new Query(Constants.sentMessage_server,strs);
 			q.getHandler().sendData(answer);
+			return;
 		}
 		
 		strs = new String[1];

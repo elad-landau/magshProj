@@ -279,7 +279,7 @@ public class DBWrapper
 		return exist;
 	}
 	
-	public User getUser(String phoneNumber) throws SQLException
+	public User getUser(String phoneNumber) 
 	{
 		ClientHandler han = null;
 		ResultSet rs;
@@ -287,9 +287,16 @@ public class DBWrapper
 				usersTable +
 				" WHERE phoneNumber = \"" +
 				phoneNumber + "\";";
+		try{
 		rs = runCommand(sql).getResultSet();
 		rs.getString("");
 		User user = new User(rs.getString("name"), rs.getString("password"), phoneNumber, han);
 		return user;
+		}
+		catch(SQLException e)
+		{
+			this.writeLog(DBWrapper.LogLevels.ERROR, this.getClass().getName(), "problem with getting the user who has the phone :"+phoneNumber+", :"+e.getMessage());
+			return null;
+		}
 	}
 }
