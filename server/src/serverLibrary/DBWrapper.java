@@ -1,5 +1,6 @@
 package serverLibrary;
 
+import commonLibrary.*;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
@@ -276,5 +277,19 @@ public class DBWrapper
 			return false;
 		}
 		return exist;
+	}
+	
+	public User getUser(String phoneNumber) throws SQLException
+	{
+		ClientHandler han = null;
+		ResultSet rs;
+		String sql = "SELECT * FROM " +
+				usersTable +
+				" WHERE phoneNumber = \"" +
+				phoneNumber + "\";";
+		rs = runCommand(sql).getResultSet();
+		rs.getString("");
+		User user = new User(rs.getString("name"), rs.getString("password"), phoneNumber, han);
+		return user;
 	}
 }
