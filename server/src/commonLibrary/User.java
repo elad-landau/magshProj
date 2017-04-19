@@ -18,7 +18,12 @@ public class User extends MemberEntity
 		this.phoneNumber = phoneNumber;
 		this.han = han;
 	}
-
+	
+	public boolean equals(User user)
+	{
+		return this.phoneNumber == user.phoneNumber;
+	}
+	
 	public ClientHandler getHan() {
 		return han;
 	}
