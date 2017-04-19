@@ -82,8 +82,8 @@ public class DBWrapper
 		columnName.add("password");
 		
 		//Turn name into an unique column
-		dataTypes.add("(name)");
-		columnName.add("UNIQUE");
+		//dataTypes.add("(name)");
+		//columnName.add("UNIQUE");
 			
 		createTable(usersTable, dataTypes, columnName);
 		
