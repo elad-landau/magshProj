@@ -69,10 +69,10 @@ public class DBWrapper
 		List<String> columnName = new ArrayList<String>();
 
 		
-		dataTypes.add("STRING NOT NULL PRIMARY KEY");
+		dataTypes.add("STRING NOT NULL");
 		columnName.add("phoneNumber");
 		
-		dataTypes.add("INTEGER FOREIGN KEY");
+		dataTypes.add("INTEGER PRIMARY KEY");
 		columnName.add("id");
 		 
 		dataTypes.add("STRING");
@@ -81,9 +81,9 @@ public class DBWrapper
 		dataTypes.add("STRING");
 		columnName.add("password");
 		
-		//Turn name into an unique column
-		//dataTypes.add("(name)");
-		//columnName.add("UNIQUE");
+		//Turn phoneNumber into an unique column
+		dataTypes.add("(phoneNumber)");
+		columnName.add("UNIQUE");
 			
 		createTable(usersTable, dataTypes, columnName);
 		
