@@ -37,7 +37,7 @@ public class Logic implements Runnable
 	public static void main(String[] args)
 	{
 		Thread logicThread = new Thread(Logic.getInstance());
-		DBWrapper.getInstance().createAllTables();
+		DBWrapper.getInstance();
 		if( ConfigurationManager.getInstance() == null  || DBWrapper.getInstance()==null)
 		{
 			System.out.println("server faild to upload");
