@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity{
     // UI references.
     private EditText mPasswordView;
     private EditText mNameView;
+    private EditText mPhoneNumber;
     private View mProgressView;
     private View mLoginFormView;
     Thread networkThread;
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity{
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mNameView = (EditText) findViewById(R.id.userName);
+        mPhoneNumber = (EditText) findViewById(R.id.phoneNumber);
         Button mLoginButton = (Button) findViewById(R.id.loginButton);
 
         mLoginButton.setOnClickListener(new OnClickListener() {
@@ -82,10 +84,12 @@ public class LoginActivity extends AppCompatActivity{
         // Reset errors.
         mNameView.setError(null);
         mPasswordView.setError(null);
+        mPhoneNumber.setError(null);
 
         // Store values at the time of the login attempt.
         String name = mNameView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String phoneNumber = mPhoneNumber.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -117,9 +121,10 @@ public class LoginActivity extends AppCompatActivity{
             // perform the user login attempt.
             showProgress(true);
             if(type) {
-                TelephonyManager tMgr = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
-                String mPhoneNumber = tMgr.getLine1Number();
-                mAuthTask = new UserRegisterTask(name, password,mPhoneNumber);
+
+
+                //String mPhoneNumber = "0585259393";
+                mAuthTask = new UserRegisterTask(name, password,phoneNumber);
                 mAuthTask.execute((Void) null);
             }
             if(!type)
@@ -188,6 +193,7 @@ public class LoginActivity extends AppCompatActivity{
             try {
                 return Network.getInstance().signUp(mName, mPassword,mPhoneNumber);
             } catch (Exception e) {
+
                 return false;
             }
         }
@@ -230,12 +236,10 @@ public class LoginActivity extends AppCompatActivity{
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                Network.getInstance().signIn(mName,mPassword);
-                Network.getInstance().waitForAnswer();
+                 return Network.getInstance().signIn(mName,mPassword);
             } catch (Exception  e) {
                 return false;
             }
-            return true;
         }
 
         @Override

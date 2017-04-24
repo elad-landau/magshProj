@@ -19,6 +19,7 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.provider.SyncStateContract;
+import android.util.Log;
 
 
 import com.ahlan.ahlanapp.*;
@@ -109,7 +110,7 @@ public class Network implements Runnable
 
         Query q;
         q = communicateWithServer();
-        addToInQueue(q);
+        parseQuery(q);
     }
 
 
@@ -167,8 +168,13 @@ public class Network implements Runnable
         Query q;
         while(true) {
             try {
-                if(inQueue.isEmpty())
-                    alert.await();
+                if(inQueue.isEmpty()) {
+                    Log.d("DEBUG",this.getClass().getName());
+                    System.out.println(this.getClass().getName());
+                    synchronized (Network.getInstance()) {
+                        alert.await();
+                    }
+                }
             } catch (InterruptedException e) {
                 logger.log(Level.WARNING, "Problem with condition on singUp :" + e.getMessage());
             }
@@ -250,7 +256,7 @@ public class Network implements Runnable
         try {
             while (/*input == null*/input.available() < 4) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (Exception e) {
                     logger.log(Level.WARNING, "cant put thread to sleep");
                     return false;

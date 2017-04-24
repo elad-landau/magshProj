@@ -64,6 +64,7 @@ public class Logic implements Runnable
 		lock.lock();
 		queue.enqueue(q);
 		lock.unlock();
+		System.out.println("added query");
 	}
 	
 	
@@ -138,7 +139,7 @@ public class Logic implements Runnable
 			strs[0] = Integer.toString(Constants.failure);
 			strs[1] = "username already exist";
 		}
-		else if(DBWrapper.getInstance().signUp(q.getStr()[0], q.getStr()[1]))
+		else if(DBWrapper.getInstance().signUp(q.getStr()[0], q.getStr()[1],q.getStr()[2]))
 		{
 			strs = new String[1];
 			strs[0] = Integer.toString(Constants.success);
@@ -175,7 +176,7 @@ public class Logic implements Runnable
 		if(DBWrapper.getInstance().isUsernameAndPasswordMatch(q.getStr()[0],q.getStr()[1]))
 		{
 			//int phoneNumber = DBWrapper.getPhoneByName(q.getStr()[0]);
-			String phoneNumber = "5";
+			String phoneNumber = DBWrapper.getInstance().getPhoneByName(q.getStr()[0]);
 			User user = new User(q.getStr()[0],q.getStr()[1] , phoneNumber, q.getHandler());
 			onlineUsers.addElement(user);
 			strs = new String[1];
@@ -200,11 +201,8 @@ public class Logic implements Runnable
 		String[] strs;
 		User us;
 		int indexOfUser = -2;//magic number to show odd behavoir, because -1 is already taken
-		//
-		//
-		//find User by phoneNumber
-		//
-		//
+		
+		
 		us = DBWrapper.getInstance().getUser(q.getMsg().get_destination());
 		if(us == null)
 		{

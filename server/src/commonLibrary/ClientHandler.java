@@ -118,13 +118,13 @@ public class ClientHandler implements Runnable
 		
 		try
 		{
-			while(input.available()<4 && count <100) // length of int
+			while(input.available()<4 && count <1000) // length of int
 			{
-				Thread.sleep(10);
+				Thread.sleep(1000);
 				count++;
 			}
 			
-			if(count< 100)
+			if(count< 1000)
 				input.read(buffer, 0, 4);
 			else
 				return -1;

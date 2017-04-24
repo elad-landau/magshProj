@@ -52,6 +52,16 @@
         android:layout_below="@id/userName"
         android:layout_marginRight="44dp" />
 
+        <EditText
+            android:id = "@+id/phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="phone number"
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_below="@id/password"
+            android:layout_marginRight="44dp"/>
+
 
         <TextView
             android:text="@string/validation_details"

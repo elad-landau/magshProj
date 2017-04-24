@@ -197,9 +197,9 @@ public class DBWrapper
 		
 		String sql = "INSERT INTO " +
 				logTable +
-				"(logLevel, class, time, message)" +
-				"VALUES ('" +
-				logLevel.toString() + "', " + Class + ", '" + DateFormat.format(date) + "', '" + message + "');";
+				"(logLevel, class, time, message) " +
+				"VALUES(\"" +
+				logLevel.toString() +"\", \"" + Class + "\" , '" + DateFormat.format(date) + "', \"" + message + "\");";
 		try{
 			runCommand(sql);
 		}catch (SQLException ex) {
@@ -229,9 +229,9 @@ public class DBWrapper
 		String sql = "INSERT INTO " + usersTable
 				+ "(phoneNumber, name, password ) "
 				+ "VALUES(\""
-				+ phoneNumber + "\""
+				+ phoneNumber + "\", \""
 				+ userName + "\",\""
-				+ password + "\",\");";
+				+ password + "\");";
 		try{
 			runCommand(sql);
 		}catch (SQLException ex) {
@@ -267,8 +267,8 @@ public class DBWrapper
 	{
 		ResultSet rs;
 		boolean exist = false;
-		String sql = "SELECT * FROM" + usersTable
-				+ "WHERE name = \""
+		String sql = "SELECT * FROM " + usersTable
+				+ " WHERE name = \""
 				+ userName + "\";";
 		try{
 			rs = runCommand(sql).getResultSet();
@@ -296,6 +296,24 @@ public class DBWrapper
 		catch(SQLException e)
 		{
 			this.writeLog(DBWrapper.LogLevels.ERROR, this.getClass().getName(), "problem with getting the user who has the phone :"+phoneNumber+", :"+e.getMessage());
+			return null;
+		}
+	}
+	
+	public String getPhoneByName(String userName)
+	{
+		ResultSet rs;
+		String sql = "select phoneNumber from "+usersTable+" where name = \""+userName+"\" ;";
+		
+		try
+		{
+			rs = runCommand(sql).getResultSet();
+			//rs.getString("");
+			return rs.getString("phoneNumber");
+		}
+		catch(SQLException e)
+		{
+			this.writeLog(DBWrapper.LogLevels.ERROR, this.getClass().getName(), "problem with getting the phoneNumber who has the name :"+userName+", :"+e.getMessage());
 			return null;
 		}
 	}
