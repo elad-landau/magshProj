@@ -36,11 +36,12 @@ public class Network implements Runnable
     private String mPhoneNumber;
 
     private final ReentrantLock lock;
-    private final Condition alert;
     private Queue<Query> inQueue;
+    private static final class lock {}
+    private final Object lockO;
 
     private static Network instance = null;
-    private static Logger logger = Logger.getLogger(Network.class.getName());
+    private static Logger logger;
 
     private InputStream input;
     private OutputStream output;
@@ -58,8 +59,11 @@ public class Network implements Runnable
         ip = "10.0.0.1";
         port = 7070;
         inQueue = new Queue<Query>();
+
         lock = new ReentrantLock();
-        alert = lock.newCondition();
+        lockO = new lock();
+
+        logger = Logger.getLogger(Network.class.getName());
     }
 
 
@@ -71,7 +75,9 @@ public class Network implements Runnable
         lock.lock();
         inQueue.enqueue(q);
         lock.unlock();
-        alert.notifyAll();
+        synchronized (lockO) {
+            lockO.notifyAll();
+        }
     }
 
     /*
@@ -155,7 +161,7 @@ public class Network implements Runnable
         SendData.getInstance().addToOutQueue(q);
 
         Query answer = waitForResponse(Constants.signUp_server);
-        return Integer.getInteger(answer.getStr()[0]) == Constants.success;
+        return answer.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0;
 
     }
 
@@ -168,13 +174,14 @@ public class Network implements Runnable
         Query q;
         while(true) {
             try {
-                if(inQueue.isEmpty()) {
-                    Log.d("DEBUG",this.getClass().getName());
-                    System.out.println(this.getClass().getName());
-                    synchronized (Network.getInstance()) {
-                        alert.await();
+                synchronized (lockO) {
+               // lock.lock();
+                while(inQueue.isEmpty()) {
+                //    lock.unlock();
+                        lockO.wait();
                     }
                 }
+
             } catch (InterruptedException e) {
                 logger.log(Level.WARNING, "Problem with condition on singUp :" + e.getMessage());
             }
@@ -201,7 +208,9 @@ public class Network implements Runnable
         SendData.getInstance().addToOutQueue(q);
 
         Query answer = waitForResponse(Constants.signIn_server);
-        return Integer.getInteger(answer.getStr()[0]) == Constants.success;
+        if(answer.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0)
+            return true;
+        return false;
     }
 
 

@@ -238,6 +238,7 @@ public class LoginActivity extends AppCompatActivity{
             try {
                  return Network.getInstance().signIn(mName,mPassword);
             } catch (Exception  e) {
+                Log.e("ERROR",e.getMessage());
                 return false;
             }
         }
