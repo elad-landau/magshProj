@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
+
 public class DBWrapper 
 {
 	private static DBWrapper instance = null;
@@ -87,42 +88,21 @@ public class DBWrapper
 			
 		createTable(usersTable, dataTypes, columnName);
 		
-		
-		dataTypes.clear();
-		columnName.clear();
-		
-		dataTypes.add("INTEGER NOT NULL PRIMARY KEY");
-		columnName.add("ID");
-		
-		dataTypes.add("STRING");
-		columnName.add("name");
-		
-		dataTypes.add("INTEGER ARRAY[50]");
-		columnName.add("users");
-		
-		createTable(groupsTable, dataTypes, columnName);
-		
-		
-		dataTypes.clear();
-		columnName.clear();
-		
-		dataTypes.add("INTEGER");
-		columnName.add("toUserID");
-		
-		dataTypes.add("INTEGER");
-		columnName.add("fromUserID");
-		
-		dataTypes.add("INTEGER");
-		columnName.add("groupID");
 
-		dataTypes.add("TEXT");
+		dataTypes.clear();
+		columnName.clear();
+		
+		dataTypes.add("INTEGER");
+		columnName.add("destination");
+		
+		dataTypes.add("INTEGER");
+		columnName.add("origin");
+
+		dataTypes.add("STRING");
 		columnName.add("messageText");
 		
 		dataTypes.add("TIME");
 		columnName.add("sendTime");
-		
-		dataTypes.add("STRING");
-		columnName.add("sendStatus");
 		
 		createTable(messagesTable, dataTypes, columnName);
 		
@@ -288,10 +268,10 @@ public class DBWrapper
 				" WHERE phoneNumber = \"" +
 				phoneNumber + "\";";
 		try{
-		rs = runCommand(sql).getResultSet();
-		rs.getString("");
-		User user = new User(rs.getString("name"), rs.getString("password"), phoneNumber, han);
-		return user;
+			rs = runCommand(sql).getResultSet();
+			rs.getString("");
+			User user = new User(rs.getString("name"), rs.getString("password"), phoneNumber, han);
+			return user;
 		}
 		catch(SQLException e)
 		{
@@ -316,5 +296,35 @@ public class DBWrapper
 			this.writeLog(DBWrapper.LogLevels.ERROR, this.getClass().getName(), "problem with getting the phoneNumber who has the name :"+userName+", :"+e.getMessage());
 			return null;
 		}
+	}
+	
+	public Vector<Message> getChat(String userName)
+	{
+		Vector<Message> messages = new Vector<Message>();
+		Message message = new Message();
+		ResultSet rs;
+		String sql = "select * from " +
+			messagesTable +
+			" where name = \"" +
+			userName +
+			"\" ;";
+			
+		try
+		{
+			rs = runCommand(sql).getResultSet();
+			while (rs.next()) {
+				message.setDestination(rs.getInt("destination"));
+				message.setOrigin(rs.getInt("origin"));
+				message.SetData(rs.getString("messageText"));
+				message.SetSentTime(rs.getTime("sendTime"));
+				messages.add(message);
+			}
+		}
+		catch(SQLException e)
+		{
+			this.writeLog(DBWrapper.LogLevels.ERROR, this.getClass().getName(), "problem with getting the phoneNumber who has the name :"+userName+", :"+e.getMessage());
+			return null;
+		}
+		return messages;
 	}
 }
