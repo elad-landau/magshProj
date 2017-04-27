@@ -298,6 +298,13 @@ public class DBWrapper
 		}
 	}
 	
+	
+	public void saveMessage(Message msg)
+	{
+		
+	}
+	
+	
 	public Vector<Message> getChat(String userName)
 	{
 		Vector<Message> messages = new Vector<Message>();
@@ -313,8 +320,8 @@ public class DBWrapper
 		{
 			rs = runCommand(sql).getResultSet();
 			while (rs.next()) {
-				message.setDestination(rs.getInt("destination"));
-				message.setOrigin(rs.getInt("origin"));
+				message.set_destination(rs.getString("destination"));
+				message.set_origin(rs.getString("origin"));
 				message.SetData(rs.getString("messageText"));
 				message.SetSentTime(rs.getTime("sendTime"));
 				messages.add(message);
