@@ -3,15 +3,12 @@ package com.ahlan.ahlanapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +21,7 @@ import android.widget.EditText;
  * A login screen that offers sign up via name/password.
  */
 public class LoginActivity extends AppCompatActivity{
-
     private AsyncTask<Void, Void, Boolean> mAuthTask = null;
-
     // UI references.
     private EditText mPasswordView;
     private EditText mNameView;
@@ -38,7 +33,9 @@ public class LoginActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
+
 
         Network.getInstance();
         networkThread = new Thread(Network.getInstance());
@@ -129,7 +126,7 @@ public class LoginActivity extends AppCompatActivity{
             }
             if(!type)
             {
-                mAuthTask = new UserLoginTask(name, password);
+                mAuthTask = new UserLoginTask(name, password, phoneNumber);
                 mAuthTask.execute((Void) null);
             }
         }
@@ -176,7 +173,7 @@ public class LoginActivity extends AppCompatActivity{
      * Represents an asynchronous registration task used to register
      * the user.
      */
-    public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mName;
         private final String mPassword;
@@ -204,8 +201,7 @@ public class LoginActivity extends AppCompatActivity{
             showProgress(false);
 
             if (success) {
-                MoveActivity(mName,MainActivity.class);
-                finish();
+                MoveActivity(mPhoneNumber);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -223,14 +219,16 @@ public class LoginActivity extends AppCompatActivity{
      * Represents an asynchronous login task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mName;
         private final String mPassword;
+        private final String mPhoneNumber;
 
-        UserLoginTask(String name, String password) {
+        UserLoginTask(String name, String password, String phoneNumber) {
             mName = name;
             mPassword = password;
+            mPhoneNumber = phoneNumber;
         }
 
         @Override
@@ -249,8 +247,7 @@ public class LoginActivity extends AppCompatActivity{
             showProgress(false);
 
             if (success) {
-               //MoveActivity(mName,MainActivity.class);
-                finish();
+               MoveActivity(mPhoneNumber);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -265,13 +262,12 @@ public class LoginActivity extends AppCompatActivity{
     }
 
 
-    private void MoveActivity(String username, Class activity)
+    private void MoveActivity(String phoneNumber)
     {
-        Intent intent = new Intent(LoginActivity.this, activity);
-        Bundle b = new Bundle();
-        b.putString("userName", username);
-        intent.putExtras(b);
-        startActivity(intent);
+        Intent intent = getIntent();
+        intent.putExtra("phoneNumber", phoneNumber);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
 

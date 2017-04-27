@@ -13,22 +13,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.List;
+import java.util.Vector;
+
+import commonLibrary.*;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    int mPhoneNumber;
+    public static final int RESULT_REQ = 1;
+    private User mUser;
+    private EditText userNumber;
+    private Vector<List<Message>> chats;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, RESULT_REQ);
+
         setContentView(R.layout.activity_main);
+        userNumber = (EditText) findViewById(R.id.textView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {//send message activity
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG) //open message chat
                         .setAction("Action", null).show();
             }
@@ -42,6 +55,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            mUser.setPhoneNumber(data.getStringExtra("phoneNumber"));
+            userNumber.setText(mUser.getPhoneNumber());
+        } catch (Exception ex) {
+            finish();
+        }
+
     }
 
     @Override
