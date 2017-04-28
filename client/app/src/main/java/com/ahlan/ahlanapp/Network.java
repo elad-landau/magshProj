@@ -9,30 +9,23 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.jar.Pack200;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.provider.SyncStateContract;
-import android.util.Log;
 
-
-import com.ahlan.ahlanapp.*;
 import commonLibrary.*;
 
 
 
-public class Network implements Runnable
+class Network implements Runnable
 {
     private Socket socket;
     private String ip;
     private int port;
-    private String MACAddress;
     private String mPhoneNumber;
 
     private final ReentrantLock lock;
@@ -44,7 +37,6 @@ public class Network implements Runnable
     private static Logger logger;
 
     private InputStream input;
-    private OutputStream output;
 
     public static Network getInstance()
     {
@@ -104,7 +96,7 @@ public class Network implements Runnable
         try {
             socket = new Socket(ip, port);
             input = socket.getInputStream();
-            output = socket.getOutputStream();
+            OutputStream output = socket.getOutputStream();
             new Thread(SendData.getInstance(output)).start();
         }
         catch(IOException e)
@@ -145,7 +137,7 @@ public class Network implements Runnable
 
     public void setMAC(Context context)
     {
-        MACAddress = Network.getMAC(context);
+        String MACAddress = Network.getMAC(context);
     }
 
     /*

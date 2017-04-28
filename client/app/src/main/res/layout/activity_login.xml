@@ -8,7 +8,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background=" #37e1d9"
     tools:context="com.ahlan.ahlanapp.LoginActivity">
 
     <!-- progress -->
@@ -25,10 +24,10 @@
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -37,88 +36,91 @@
         </android.support.design.widget.TextInputLayout>
 
         <TextView
-            android:id = "@+id/welcomeText"
+            android:id="@+id/welcomeText"
+            style="@android:style/TextAppearance.Holo.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="4dp"
-            android:typeface="monospace"
-            android:gravity="center"
-            style="@android:style/TextAppearance.Holo.Large"
             android:layout_marginBottom="21dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
             android:text="Ahlan"
-            />
+            android:typeface="monospace" />
 
 
         <EditText
             android:id="@+id/userName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/welcomeText"
+            android:layout_marginRight="44dp"
             android:hint="@string/prompt_name"
             android:inputType="text"
             android:maxLines="1"
-            android:layout_below="@id/welcomeText"
-            android:layout_marginRight="44dp" />
+            android:textColor="@color/colorPrimaryDark" />
 
-    <EditText
+        <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/userName"
+            android:layout_marginRight="44dp"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
             android:maxLines="1"
-        android:layout_below="@id/userName"
-        android:layout_marginRight="44dp" />
+            android:textColor="@color/colorPrimaryDark" />
 
         <EditText
-            android:id = "@+id/phoneNumber"
+            android:id="@+id/phoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/password"
+            android:layout_marginRight="44dp"
             android:hint="phone number"
             android:inputType="text"
             android:maxLines="1"
-            android:layout_below="@id/password"
-            android:layout_marginRight="44dp"/>
+            android:textColor="@color/colorPrimaryDark" />
 
 
         <TextView
-            android:text="@string/validation_details"
+            android:id="@+id/validationDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/validationDetails"
-            android:textSize="12sp"
             android:layout_below="@id/password"
+            android:layout_marginTop="100dp"
             android:fontFamily="sans-serif"
-            android:layout_marginRight="14dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginTop="100dp"/>
+            android:text="@string/validation_details"
+            android:textSize="12sp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
 
         <Button
-        android:id="@+id/loginButton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/action_login"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:layout_below="@id/validationDetails"
-        android:layout_alignParentRight="true"
-            android:layout_marginTop="60dp"
+            android:id="@+id/loginButton"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/validationDetails"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginTop="60dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/action_login"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/registerButton"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/action_register"
-            android:textAllCaps="false"
-            android:layout_marginTop="11dp"
-            android:layout_below="@+id/loginButton"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_below="@+id/loginButton"
+            android:layout_marginTop="11dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/action_register"
+            android:textAllCaps="false" />
 
     </RelativeLayout>
 </RelativeLayout>
