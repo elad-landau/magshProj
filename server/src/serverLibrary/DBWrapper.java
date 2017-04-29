@@ -269,7 +269,7 @@ public class DBWrapper
 				phoneNumber + "\";";
 		try{
 			rs = runCommand(sql).getResultSet();
-			rs.getString("");
+			//rs.getString("");
 			User user = new User(rs.getString("name"), rs.getString("password"), phoneNumber, han);
 			return user;
 		}

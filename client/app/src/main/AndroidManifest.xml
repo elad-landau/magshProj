@@ -16,13 +16,10 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-<<<<<<< HEAD
 
-
-=======
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
->>>>>>> 5cd20cfe96e8322939d65e9bf0ee79bdabff4c24
+
             </intent-filter>
         </activity>
         <activity

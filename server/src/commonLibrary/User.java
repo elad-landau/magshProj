@@ -21,7 +21,20 @@ public class User extends MemberEntity
 	
 	public boolean equals(User user)
 	{
-		return this.phoneNumber == user.phoneNumber;
+		String thisPhone;
+		String dstPhone;
+		
+		if(this.phoneNumber.charAt(0) != '0')
+			thisPhone = "0" + this.phoneNumber;
+		else
+			thisPhone = this.phoneNumber;
+		
+		if(user.phoneNumber.charAt(0) != '0')
+			dstPhone = "0" + user.phoneNumber;
+		else
+			dstPhone = user.phoneNumber;
+		
+		return thisPhone.compareTo(dstPhone) == 0;
 	}
 	
 	public ClientHandler getHan() {

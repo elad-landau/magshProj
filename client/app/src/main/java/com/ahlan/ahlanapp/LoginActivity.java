@@ -16,6 +16,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import commonLibrary.Message;
+
 
 /**
  * A login screen that offers sign up via name/password.
@@ -264,10 +266,23 @@ public class LoginActivity extends AppCompatActivity{
 
     private void MoveActivity(String phoneNumber)
     {
-        Intent intent = getIntent();
+        Intent intent = new Intent(this,ChatActivity.class);
         intent.putExtra("phoneNumber", phoneNumber);
         setResult(RESULT_OK, intent);
+        sendMessage("for testing",phoneNumber,"0585259393");
+        startActivity(intent);
         finish();
+    }
+
+    private void sendMessage(String text,String phoneNumber, String DestPhoneNumber)
+    {
+        Message msg = new Message(text,phoneNumber,DestPhoneNumber);
+        //messages.add(msg);
+
+        if(Network.getInstance().sendMessage(msg))
+            Log.i("message","yeah");
+        else
+            Log.i("message","nope");
     }
 }
 

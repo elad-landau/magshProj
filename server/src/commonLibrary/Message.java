@@ -22,6 +22,16 @@ public class Message extends Utility
 		this._destination = destination;
 		this.serialVersionUID = ConfigurationManager.getInstance().getMessage_serial();
 	}
+	
+	
+	public Message(String data, String origin, String destination) 
+	{
+		this._sentTime = new Date();
+		this._data = data;
+		this._origin = origin;
+		this._destination = destination;
+		//this.serialVersionUID = ConfigurationManager.getInstance().getMessage_serial();
+	}
 
 	public Message() {
 		this._sentTime = new Date();
