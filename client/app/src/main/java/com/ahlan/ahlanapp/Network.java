@@ -106,10 +106,11 @@ class Network implements Runnable
         }
 
 
-
-        Query q;
-        q = communicateWithServer();
-        parseQuery(q);
+        while(true) {
+            Query q;
+            q = communicateWithServer();
+            parseQuery(q);
+        }
     }
 
 
@@ -119,6 +120,7 @@ class Network implements Runnable
         {
             case Constants.sendMessage_server:
                 //TODO send the message to the right activity
+                Log.d("message","appertly success :"+q.getMsg().GetData());
                 break;
             default:
                 addToInQueue(q);
