@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import commonLibrary.*;
 
@@ -48,7 +49,7 @@ class Network implements Runnable
 
     protected Network()
     {
-        ip = "10.0.0.1";
+        ip = "10.0.0.6";
         port = 7070;
         inQueue = new Queue<Query>();
 
@@ -105,10 +106,11 @@ class Network implements Runnable
         }
 
 
-
-        Query q;
-        q = communicateWithServer();
-        parseQuery(q);
+        while(true) {
+            Query q;
+            q = communicateWithServer();
+            parseQuery(q);
+        }
     }
 
 
@@ -118,6 +120,7 @@ class Network implements Runnable
         {
             case Constants.sendMessage_server:
                 //TODO send the message to the right activity
+                Log.d("message","appertly success :"+q.getMsg().GetData());
                 break;
             default:
                 addToInQueue(q);
@@ -125,7 +128,7 @@ class Network implements Runnable
         }
     }
 
-
+/*
     public static String getMAC(Context context)
     {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -139,7 +142,7 @@ class Network implements Runnable
     {
         String MACAddress = Network.getMAC(context);
     }
-
+*/
     /*
       deals with the network side of signing up
       return true if signUp done
@@ -155,6 +158,15 @@ class Network implements Runnable
         Query answer = waitForResponse(Constants.signUp_server);
         return answer.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0;
 
+    }
+
+    public boolean sendMessage(Message msg)
+    {
+        Query q = new Query(Constants.sentMessage_client,msg);
+        SendData.getInstance().addToOutQueue(q);
+
+        Query answer = waitForResponse(Constants.sentMessage_server);
+        return answer.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0;
     }
 
     /*
@@ -259,7 +271,7 @@ class Network implements Runnable
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
-                    logger.log(Level.WARNING, "cant put thread to sleep");
+                    Log.e("message", "cant put thread to sleep");
                     return false;
                 }
 
@@ -267,7 +279,7 @@ class Network implements Runnable
         }
         catch(Exception e)
         {
-            logger.log(Level.WARNING,"problem with getting available data from server");
+            Log.e("message", "problem with getting available data from server");
             return false;
         }
         return true;

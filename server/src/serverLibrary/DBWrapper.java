@@ -269,7 +269,7 @@ public class DBWrapper
 				phoneNumber + "\";";
 		try{
 			rs = runCommand(sql).getResultSet();
-			rs.getString("");
+			//rs.getString("");
 			User user = new User(rs.getString("name"), rs.getString("password"), phoneNumber, han);
 			return user;
 		}
@@ -298,6 +298,13 @@ public class DBWrapper
 		}
 	}
 	
+	
+	public void saveMessage(Message msg)
+	{
+		
+	}
+	
+	
 	public Vector<Message> getChat(String userName)
 	{
 		Vector<Message> messages = new Vector<Message>();
@@ -313,8 +320,8 @@ public class DBWrapper
 		{
 			rs = runCommand(sql).getResultSet();
 			while (rs.next()) {
-				message.setDestination(rs.getInt("destination"));
-				message.setOrigin(rs.getInt("origin"));
+				message.set_destination(rs.getString("destination"));
+				message.set_origin(rs.getString("origin"));
 				message.SetData(rs.getString("messageText"));
 				message.SetSentTime(rs.getTime("sendTime"));
 				messages.add(message);
