@@ -234,7 +234,7 @@ public class LoginActivity extends AppCompatActivity{
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                 return Network.getInstance().signIn(mName,mPassword);
+                return Network.getInstance().signIn(mName,mPassword);
             } catch (Exception  e) {
                 Log.e("ERROR",e.getMessage());
                 return false;

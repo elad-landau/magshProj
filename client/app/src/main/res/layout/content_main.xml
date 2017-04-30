@@ -8,10 +8,22 @@
     tools:context="com.ahlan.ahlanapp.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="368dp"
         android:layout_height="495dp"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
-  </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+        </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
