@@ -2,6 +2,7 @@ package com.ahlan.ahlanapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,27 +23,35 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        Bundle b = getIntent().getExtras();
+        mLayout = (LinearLayout) findViewById(R.id.messagesLayout);
+
+
+        /*Bundle b = getIntent().getExtras();
         if(b != null) {
             chatName =  b.getString("chatName");
             phoneNumber = b.getString("phoneNumber");
-        }
-        mLayout = (LinearLayout) findViewById(R.id.messagesLayout);
-        for(int i= 0; i<messages.size(); i++)
-            onGetMessage(messages.get(i));
+        }*/
+        chatName =  "chatName";
+        phoneNumber = "phoneNumber";
 
+
+        onGetMessage(new Message("data", phoneNumber, "dest4"));
+        onGetMessage(new Message("data", phoneNumber, "dest4"));
+        onGetMessage(new Message("data", phoneNumber, "dest4"));
     }
 
     protected void onGetMessage(Message message) {
-        final Toolbar.LayoutParams lparams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
-        final TextView textView = new TextView(this);
-        textView.setLayoutParams(lparams);
-        textView.setText(message.get_destination());
-        mLayout.addView(textView);
+        TextView textView1 = new TextView(this);
+        textView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+                LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+        textView1.setText(message.GetData());
+        textView1.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
+        textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
+        mLayout.addView(textView1);
 
-        sendMessage("Message for testing","0585259393");
+        //sendMessage("Message for testing","0585259393");
     }
-
+/*
     private void sendMessage(String text,String DestPhoneNumber)
     {
         Message msg = new Message(text,phoneNumber,DestPhoneNumber);
@@ -53,5 +62,5 @@ public class ChatActivity extends AppCompatActivity {
         else
             Log.i("message","nope");
 
-    }
+    }*/
 }
