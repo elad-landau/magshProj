@@ -160,6 +160,25 @@ class Network implements Runnable
 
     }
 
+
+    /*
+    contants the server the ask the details of the user whos have the phonenumber paramter
+    return null if there's problem, or the details (username,phonenumber)
+     */
+    public String[] getUserByPhone(String phoneNumber)
+    {
+        String[] params = {phoneNumber};
+        Query q = new Query(Constants.getUser_client,params);
+        SendData.getInstance().addToOutQueue(q);
+
+        Query answer = waitForResponse(Constants.getUser_server);
+        if(answer.getStr()[0].compareTo(Integer.toString(Constants.failure)) == 0)
+            return null;
+        String[] arr =  {answer.getStr()[1],answer.getStr()[2]};
+        return arr;
+    }
+
+
     public boolean sendMessage(Message msg)
     {
         Query q = new Query(Constants.sentMessage_client,msg);

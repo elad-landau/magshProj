@@ -114,6 +114,10 @@ public class Logic implements Runnable
 				handleSentMessage(q);
 				break;
 			
+			case Constants.getUser_client:
+				handleGetUser(q);
+				break;
+				
 				default:
 					
 			}
@@ -121,6 +125,35 @@ public class Logic implements Runnable
 		
 		
 	}
+	
+	/*
+	 * take care of the client ask to get a user details(username and phoneNumber)
+	 * the method send the client the details, or reason of failure
+	 */
+	private void handleGetUser(Query q)
+	{
+		Query answer;
+		String[] strs;
+		User us = DBWrapper.getInstance().getUser(q.getStr()[0]);
+		
+		if (us == null)
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "problem with get the user";
+		}
+		else
+		{
+			strs = new String[3];
+			strs[0] = Integer.toString(Constants.success);
+			strs[1] = us.getName();
+			strs[2] = us.getPhoneNumber();
+		}
+		
+		answer = new Query(Constants.getUser_server,strs);
+		q.getHandler().sendData(answer);
+	}
+	
 	
 	
 	/*

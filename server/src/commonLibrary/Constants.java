@@ -13,6 +13,7 @@ public class Constants
     public static final int signUp_client = 101;
     public static final int signIn_client = 102;
     public static final int sentMessage_client = 103;
+    public static final int getUser_client = 104;
 
 
     
@@ -21,6 +22,7 @@ public class Constants
     public static final int signIn_server = 202;
     public static final int sentMessage_server = 203;
     public static final int sendMessage_server = 2030;
+    public static final int getUser_server = 204;
     
 
     //time
