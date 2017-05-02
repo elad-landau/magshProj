@@ -17,7 +17,8 @@ public class ChatActivity extends AppCompatActivity {
     private List<Message> messages;
     private String chatName;
     private LinearLayout mLayout;
-    private String phoneNumber;
+    private String thisPhoneNumber;
+    private String destPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +32,21 @@ public class ChatActivity extends AppCompatActivity {
             chatName =  b.getString("chatName");
             phoneNumber = b.getString("phoneNumber");
         }*/
-        chatName =  "chatName";
-        phoneNumber = "phoneNumber";
+        chatName =  "chatName"; // the destenation phone number
+        thisPhoneNumber = "phoneNumber"; // the src phonenumber
+
+        Network.getInstance().addToChatList(this); //add this chat to the chat lists
 
 
-        onGetMessage(new Message("data", phoneNumber, "dest4"));
-        onGetMessage(new Message("data", phoneNumber, "dest4"));
-        onGetMessage(new Message("data", phoneNumber, "dest4"));
+        onGetMessage(new Message("data", thisPhoneNumber, "dest4"));
+        onGetMessage(new Message("data", thisPhoneNumber, "dest4"));
+        onGetMessage(new Message("data", thisPhoneNumber, "dest4"));
+    }
+
+
+    public String getChatName()
+    {
+        return chatName;
     }
 
     protected void onGetMessage(Message message) {
@@ -48,13 +57,11 @@ public class ChatActivity extends AppCompatActivity {
         textView1.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
         textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
         mLayout.addView(textView1);
-
-        //sendMessage("Message for testing","0585259393");
     }
-/*
+
     private void sendMessage(String text,String DestPhoneNumber)
     {
-        Message msg = new Message(text,phoneNumber,DestPhoneNumber);
+        Message msg = new Message(text,thisPhoneNumber,DestPhoneNumber);
         messages.add(msg);
 
         if(Network.getInstance().sendMessage(msg))
@@ -62,5 +69,5 @@ public class ChatActivity extends AppCompatActivity {
         else
             Log.i("message","nope");
 
-    }*/
+    }
 }

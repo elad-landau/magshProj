@@ -269,7 +269,7 @@ public class LoginActivity extends AppCompatActivity{
         Intent intent = new Intent(this,ChatActivity.class);
         intent.putExtra("phoneNumber", phoneNumber);
         setResult(RESULT_OK, intent);
-        sendMessage("for testing",phoneNumber,"0585259393");
+        //sendMessage("for testing",phoneNumber,"0585259393");
         startActivity(intent);
         finish();
     }
