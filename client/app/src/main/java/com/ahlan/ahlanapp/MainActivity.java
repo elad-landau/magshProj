@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.Vector;
@@ -26,16 +27,18 @@ public class MainActivity extends AppCompatActivity
 
     public static final int RESULT_REQ = 1;
     private User mUser;
-    private EditText userNumber;
+    private TextView userNumber;
+    private Button mButtom;
     private Vector<List<Message>> chats;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, RESULT_REQ);
+        //Intent intent = new Intent(this, LoginActivity.class);
+        //startActivityForResult(intent, RESULT_REQ);
 
         setContentView(R.layout.activity_main);
-        userNumber = (EditText) findViewById(R.id.textView);
+        userNumber = (TextView) findViewById(R.id.textView);
+        mButtom = (Button) findViewById(R.id.button2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -52,6 +55,16 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        mButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                //intent.putExtra("phoneNumber", "05222222");
+                //intent.putExtra("chatName", "hyosh");
+                startActivity(intent);
+            }
+        });
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
