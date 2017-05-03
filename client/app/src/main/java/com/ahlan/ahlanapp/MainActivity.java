@@ -2,8 +2,10 @@ package com.ahlan.ahlanapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,9 +17,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Vector;
 
 import commonLibrary.*;
@@ -27,18 +34,15 @@ public class MainActivity extends AppCompatActivity
 
     public static final int RESULT_REQ = 1;
     private User mUser;
-    private TextView userNumber;
-    private Button mButtom;
+    private LinearLayout mLayout;
     private Vector<List<Message>> chats;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Intent intent = new Intent(this, LoginActivity.class);
-        //startActivityForResult(intent, RESULT_REQ);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, RESULT_REQ);
 
         setContentView(R.layout.activity_main);
-        userNumber = (TextView) findViewById(R.id.textView);
-        mButtom = (Button) findViewById(R.id.button2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -49,25 +53,45 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
+        mLayout = (LinearLayout) findViewById(R.id.ChatLayout);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        mButtom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                //intent.putExtra("phoneNumber", "05222222");
-                //intent.putExtra("chatName", "hyosh");
-                startActivity(intent);
-            }
-        });
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        createAllChatsButtons();
+    }
+
+    private void createAllChatsButtons() {
+        for (int i = 0; i < chats.size(); i++)
+        {
+            Button button = new Button(this);
+            button.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+            button.setText(Network.getInstance().getUserByPhone(getChatPhone(i)).toString());
+            button.setId(Integer.parseInt(getChatPhone(i)));
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Network.getInstance().addToChatList(); //add this chat to the chat lists
+                    Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                    //intent.putExtra("chatName", button.getText());
+                    //intent.putExtra("phoneNumber", button.getId());
+                    startActivity(intent);
+                }
+            });
+        mLayout.addView(button);
+        }
+    }
+
+    private String getChatPhone(int i) {
+        if(this.chats.get(i).get(0).get_destination() == this.mUser.getPhoneNumber())
+            return this.chats.get(i).get(0).get_origin();
+        return this.chats.get(i).get(0).get_destination();
     }
 
     @Override
@@ -75,7 +99,6 @@ public class MainActivity extends AppCompatActivity
         try {
             super.onActivityResult(requestCode, resultCode, data);
             mUser.setPhoneNumber(data.getStringExtra("phoneNumber"));
-            userNumber.setText(mUser.getPhoneNumber());
         } catch (Exception ex) {
             finish();
         }
@@ -117,7 +140,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    //@SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
