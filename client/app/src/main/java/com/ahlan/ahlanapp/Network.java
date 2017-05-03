@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,12 +34,15 @@ class Network implements Runnable
     private final ReentrantLock lock;
     private Queue<Query> inQueue;
     private static final class lock {}
-    private final Object lockO;
+    private final Object lockMessages;
+    private final Object lockChats;
 
     private static Network instance = null;
     private static Logger logger;
 
     private InputStream input;
+
+    private List<ChatActivity> chats;
 
     public static Network getInstance()
     {
@@ -54,10 +59,15 @@ class Network implements Runnable
         inQueue = new Queue<Query>();
 
         lock = new ReentrantLock();
-        lockO = new lock();
+        lockMessages = new lock();
+        lockChats = new lock();
 
         logger = Logger.getLogger(Network.class.getName());
+
+        chats = new ArrayList<ChatActivity>();
     }
+
+
 
 
     /*
@@ -68,10 +78,23 @@ class Network implements Runnable
         lock.lock();
         inQueue.enqueue(q);
         lock.unlock();
-        synchronized (lockO) {
-            lockO.notifyAll();
+        synchronized (lockMessages) {
+            lockMessages.notifyAll();
         }
     }
+
+    /*
+    safetly add chat to the list
+     */
+    public void addToChatList(ChatActivity chat)
+    {
+        synchronized (lockChats)
+        {
+            chats.add(chat);
+        }
+    }
+
+
 
     /*
     saftly get the first object
@@ -120,6 +143,7 @@ class Network implements Runnable
         {
             case Constants.sendMessage_server:
                 //TODO send the message to the right activity
+                gotMessage(q.getMsg());
                 Log.d("message","appertly success :"+q.getMsg().GetData());
                 break;
             default:
@@ -127,6 +151,25 @@ class Network implements Runnable
                 break;
         }
     }
+
+    private void gotMessage(Message msg)
+    {
+        String destPhone = msg.get_destination();
+
+        for(int i =0;i<chats.size();i++)
+        {
+            if(chats.get(i).getChatName().compareTo(destPhone) == 0)
+            {
+                chats.get(i).onGetMessage(msg);
+                return;
+            }
+        }
+
+        Log.e("message","dont have that chat open");
+        //maybe open the chat?
+    }
+
+
 
 /*
     public static String getMAC(Context context)
@@ -160,6 +203,25 @@ class Network implements Runnable
 
     }
 
+
+    /*
+    contants the server the ask the details of the user whos have the phonenumber paramter
+    return null if there's problem, or the details (username,phonenumber)
+     */
+    public String[] getUserByPhone(String phoneNumber)
+    {
+        String[] params = {phoneNumber};
+        Query q = new Query(Constants.getUser_client,params);
+        SendData.getInstance().addToOutQueue(q);
+
+        Query answer = waitForResponse(Constants.getUser_server);
+        if(answer.getStr()[0].compareTo(Integer.toString(Constants.failure)) == 0)
+            return null;
+        String[] arr =  {answer.getStr()[1],answer.getStr()[2]};
+        return arr;
+    }
+
+
     public boolean sendMessage(Message msg)
     {
         Query q = new Query(Constants.sentMessage_client,msg);
@@ -178,11 +240,11 @@ class Network implements Runnable
         Query q;
         while(true) {
             try {
-                synchronized (lockO) {
+                synchronized (lockMessages) {
                // lock.lock();
                 while(inQueue.isEmpty()) {
                 //    lock.unlock();
-                        lockO.wait();
+                        lockMessages.wait();
                     }
                 }
 
