@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import commonLibrary.*;
 public class ChatActivity extends AppCompatActivity {
     private List<Message> messages;
     private String chatName;
+    private TextView mChatTitel;
     private LinearLayout mLayout;
     private String thisPhoneNumber;
     private String destPhoneNumber;
@@ -33,9 +35,14 @@ public class ChatActivity extends AppCompatActivity {
             phoneNumber = b.getString("phoneNumber");
         }*/
         chatName =  "chatName"; // the destenation phone number
+        /*
+        TODO : the name of the chat should be the destination device phone number
+         */
         thisPhoneNumber = "phoneNumber"; // the src phonenumber
+        mChatTitel = (TextView) findViewById(R.id.chatName);
+        mChatTitel.setText(chatName);
 
-        Network.getInstance().addToActiveChatList(this); //add this chat to the chat lists
+        Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
 
 
         onGetMessage(new Message("data", thisPhoneNumber, "dest4"));
@@ -62,8 +69,6 @@ public class ChatActivity extends AppCompatActivity {
         textView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
         textView1.setText(message.GetData());
-        textView1.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
-        textView1.setPadding(20, 20, 20, 20);// in pixels (left, top, right, bottom)
         mLayout.addView(textView1);
     }
 
@@ -72,7 +77,7 @@ public class ChatActivity extends AppCompatActivity {
         Message msg = new Message(text,thisPhoneNumber,DestPhoneNumber);
         messages.add(msg);
 
-        if(Network.getInstance().sendMessage(msg))
+        if(true)//Network.getInstance().sendMessage(msg))
             Log.i("message","yeah");
         else
             Log.i("message","nope");
