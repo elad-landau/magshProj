@@ -7,7 +7,7 @@ public class Query extends Utility
 	private ClientHandler han;;
 	
 	
-	public Query(int opCode, Message msg)
+	public Query(int opCode, Message[] msg)
 	{
 		this.opCode = opCode;
 		this.un = new Union(msg);
@@ -40,17 +40,17 @@ public class Query extends Utility
 	}
 	
 	public int getOpCode() {return opCode;}
-	public Message getMsg() { return un.getMsg();}
+	public Message[] getMsg() { return un.getMsg();}
 	public String[] getStr() {return un.getStr();}
 	
 	
 	private class Union extends Utility
 	{
-		private Message msg;
+		private Message[] msg;
 		private String[] str;
 		private boolean msgOrStr;
 		
-		public Union(Message msg)
+		public Union(Message[] msg)
 		{
 			this.msg = msg;
 			str = null;
@@ -72,7 +72,7 @@ public class Query extends Utility
 			return msgOrStr;
 		}
 		
-		public Message getMsg() {return msg;}
+		public Message[] getMsg() {return msg;}
 		public String[] getStr() {return str;}
 		
 		

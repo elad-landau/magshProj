@@ -37,7 +37,7 @@ public class Logic implements Runnable
 	public static void main(String[] args)
 	{
 		Thread logicThread = new Thread(Logic.getInstance());
-		DBWrapper.getInstance();
+		DBWrapper.getInstance().createAllTables();
 		if( ConfigurationManager.getInstance() == null  || DBWrapper.getInstance()==null)
 		{
 			System.out.println("server faild to upload");
@@ -118,6 +118,14 @@ public class Logic implements Runnable
 				handleGetUser(q);
 				break;
 				
+			case Constants.isUserExists_client:
+				handleIsUserExists(q);
+				break;
+				
+			case Constants.getMessagesHistory_client:
+				handleGetMessagesHistory(q);
+				break;
+				
 				default:
 					
 			}
@@ -125,6 +133,46 @@ public class Logic implements Runnable
 		
 		
 	}
+	
+	/*
+	 * get the history chat of two number from the db,and send it back to the client
+	 */
+	private void handleGetMessagesHistory(Query q)
+	{
+		Vector<Message> messagesV;
+		Message[] messagesA;
+		Query answer;
+		
+		
+		messagesV = DBWrapper.getInstance().getChat(q.getStr()[0], q.getStr()[1]);
+		messagesA = new Message[messagesV.size()];
+		
+		for(int i =0;i<messagesV.size();i++)
+			messagesA[i] = messagesV.get(i);
+		
+		answer = new Query(Constants.getMessagesHistory_server,messagesA);
+		q.getHandler().sendData(answer);
+	}
+	
+	
+	/*
+	 * check if user with the phone number describes in the query is exists
+	 * return success if yes, or failure to no or for a problem
+	 */
+	private void handleIsUserExists(Query q)
+	{
+		Query answer;
+		String[] strs = new String[1];
+		
+		if(DBWrapper.getInstance().isUserExistByPhone(q.getStr()[0]))
+			strs[0] = Integer.toString(Constants.success);
+		else
+			strs[0] = Integer.toString(Constants.failure);
+		
+		answer = new Query(Constants.isUserExists_server,strs);
+		q.getHandler().sendData(answer);
+	}
+	
 	
 	/*
 	 * take care of the client ask to get a user details(username and phoneNumber)
@@ -166,7 +214,7 @@ public class Logic implements Runnable
 		String[] strs;
 		User user = null;
 		
-		if(DBWrapper.getInstance().isUserExist(q.getStr()[0]))
+		if(DBWrapper.getInstance().isUserExistByName(q.getStr()[0]))
 		{
 			strs = new String[2];
 			strs[0] = Integer.toString(Constants.failure);
@@ -199,44 +247,51 @@ public class Logic implements Runnable
 		Query answer;
 		String strs[];
 		
-		if(!DBWrapper.getInstance().isUserExist(q.getStr()[0]))
+		if(!DBWrapper.getInstance().isUserExistByName(q.getStr()[0]))
 		{
 			strs = new String[2];
 			strs[0] = Integer.toString(Constants.failure);
 			strs[1] = "username isn't exist";
 		}
 		
-		if(DBWrapper.getInstance().isUsernameAndPasswordMatch(q.getStr()[0],q.getStr()[1]))
-		{
-			//int phoneNumber = DBWrapper.getPhoneByName(q.getStr()[0]);
-			String phoneNumber = DBWrapper.getInstance().getPhoneByName(q.getStr()[0]);
-			User user = new User(q.getStr()[0],q.getStr()[1] , phoneNumber, q.getHandler());
-			onlineUsers.addElement(user);
-			strs = new String[1];
-			strs[0] = Integer.toString(Constants.success);
-		}
-		
 		else
 		{
-			strs = new String[2];
-			strs[0] = Integer.toString(Constants.failure);
-			strs[1] = "username and password don't match";
+			if(DBWrapper.getInstance().isUsernameAndPasswordMatch(q.getStr()[0],q.getStr()[1]))
+			{
+				//int phoneNumber = DBWrapper.getPhoneByName(q.getStr()[0]);
+				String phoneNumber = DBWrapper.getInstance().getPhoneByName(q.getStr()[0]);
+				User user = new User(q.getStr()[0],q.getStr()[1] , phoneNumber, q.getHandler());
+				onlineUsers.addElement(user);
+				strs = new String[1];
+				strs[0] = Integer.toString(Constants.success);
+			}
+			
+			else
+			{
+				strs = new String[2];
+				strs[0] = Integer.toString(Constants.failure);
+				strs[1] = "username and password don't match";
+			}
 		}
-
 		
 		answer = new Query(Constants.signIn_server,strs);
 		q.getHandler().sendData(answer);
 	}
 	
+	
+	/*
+	 * take care of message sent - save it and send it forword to the destination
+	 * return to the origin if succeed or not
+	 */
 	private void handleSentMessage(Query q)
 	{
-		Query answer,message;
+		Query answer,message; //answer - the query back to origin. message - the query to the destination
 		String[] strs;
 		User us;
 		int indexOfUser = -2;//magic number to show odd behavoir, because -1 is already taken
 		
 		
-		us = DBWrapper.getInstance().getUser(q.getMsg().get_destination());
+		us = DBWrapper.getInstance().getUser(q.getMsg()[0].get_destination());
 		if(us == null)
 		{
 			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING, this.getClass().getName(), "Didnt get the user to send to");
@@ -267,7 +322,7 @@ public class Logic implements Runnable
 		answer = new Query(Constants.sentMessage_server,strs);
 		
 		message = new Query(Constants.sendMessage_server,q.getMsg());
-		
+		DBWrapper.getInstance().saveMessage(q.getMsg()[0]);
 		
 		q.getHandler().sendData(answer);
 		onlineUsers.get(indexOfUser).getHan().sendData(message);

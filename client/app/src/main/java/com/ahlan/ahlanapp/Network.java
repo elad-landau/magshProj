@@ -42,7 +42,7 @@ class Network implements Runnable
 
     private InputStream input;
 
-    private List<ChatActivity> chats;
+    private List<ChatActivity> activeChats;
 
     public static Network getInstance()
     {
@@ -54,7 +54,7 @@ class Network implements Runnable
 
     protected Network()
     {
-        ip = "192.168.14.147";
+        ip = "10.0.0.6";
         port = 7070;
         inQueue = new Queue<Query>();
 
@@ -64,7 +64,7 @@ class Network implements Runnable
 
         logger = Logger.getLogger(Network.class.getName());
 
-        chats = new ArrayList<ChatActivity>();
+        activeChats = new ArrayList<ChatActivity>();
     }
 
 
@@ -86,11 +86,22 @@ class Network implements Runnable
     /*
     safetly add chat to the list
      */
-    public void addToChatList(ChatActivity chat)
+    public void addToActiveChatList(ChatActivity chat)
     {
         synchronized (lockChats)
         {
-            chats.add(chat);
+            activeChats.add(chat);
+        }
+    }
+
+    /*
+    saftly remove chat from the list
+     */
+    public void removeFromActiveChatList(ChatActivity chat)
+    {
+        synchronized (lockChats)
+        {
+            activeChats.remove(chat);
         }
     }
 
@@ -137,14 +148,17 @@ class Network implements Runnable
     }
 
 
+    /*
+    parse queries that got from the server
+     */
     private void parseQuery(Query q)
     {
         switch(q.getOpCode())
         {
             case Constants.sendMessage_server:
                 //TODO send the message to the right activity
-                gotMessage(q.getMsg());
-                Log.d("message","appertly success :"+q.getMsg().GetData());
+                gotMessage(q.getMsg()[0]);
+                Log.d("message","appertly success :"+q.getMsg()[0].GetData());
                 break;
             default:
                 addToInQueue(q);
@@ -152,22 +166,27 @@ class Network implements Runnable
         }
     }
 
+    /*
+    take care of message that sent to this device by another device
+     */
     private void gotMessage(Message msg)
     {
         String destPhone = msg.get_destination();
 
-        for(int i =0;i<chats.size();i++)
+        synchronized(lockChats)
         {
-            if(chats.get(i).getChatName().compareTo(destPhone) == 0)
-            {
-                chats.get(i).onGetMessage(msg);
-                return;
+            for (int i = 0; i < activeChats.size(); i++) {
+                if (activeChats.get(i).getChatName().compareTo(destPhone) == 0) {
+                    activeChats.get(i).onGetMessage(msg);
+                    return;
+                }
             }
         }
-
-        Log.e("message","dont have that chat open");
+        //Log.e("message","dont have that chat open");
         //maybe open the chat?
+        // the user will get his message from the server
     }
+
 
 
 
@@ -191,7 +210,7 @@ class Network implements Runnable
       return true if signUp done
       return false if problem occurred
        */
-    public boolean signUp(String userName,String password,String phoneNumber)
+    public boolean signUp(String userName,String password,String phoneNumber, LoginActivity.UserRegisterTask registerTask)
     {
         mPhoneNumber = phoneNumber;
         String[] params = {userName,password,phoneNumber}; // need security for password
@@ -199,7 +218,39 @@ class Network implements Runnable
         SendData.getInstance().addToOutQueue(q);
 
         Query answer = waitForResponse(Constants.signUp_server);
+        if (answer.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0)
+            return true;
+        registerTask.setFailure(answer.getStr()[1]);
+        return false;
+
+    }
+
+    /*
+    return true if there's user exists with this phone
+    return false if not, or error occured
+     */
+    public boolean isUserExists(String phoneNumber)
+    {
+        String[] params = {phoneNumber};
+        Query q = new Query(Constants.isUserExists_client,params);
+        SendData.getInstance().addToOutQueue(q);
+
+        Query answer = waitForResponse(Constants.getUser_server);
         return answer.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0;
+    }
+
+    /*
+    ask the server for the history messages of this client and the parameter account
+    return array of the messages
+     */
+    public Message[] getMessagesHistory(String targetPhoneNumber)
+    {
+        String[] params = {mPhoneNumber,targetPhoneNumber};
+        Query q = new Query(Constants.getMessagesHistory_client,params);
+        SendData.getInstance().addToOutQueue(q);
+
+        Query answer = waitForResponse(Constants.getMessagesHistory_server);
+        return answer.getMsg();
 
     }
 
@@ -224,7 +275,8 @@ class Network implements Runnable
 
     public boolean sendMessage(Message msg)
     {
-        Query q = new Query(Constants.sentMessage_client,msg);
+        Message[] msgs = {msg}; //query work with array of messages
+        Query q = new Query(Constants.sentMessage_client,msgs);
         SendData.getInstance().addToOutQueue(q);
 
         Query answer = waitForResponse(Constants.sentMessage_server);
@@ -267,7 +319,7 @@ class Network implements Runnable
     /*
     deals with the network side of signing in
      */
-    public boolean signIn(String userName,String password)
+    public boolean signIn(String userName,String password , LoginActivity.UserLoginTask loginTask)
     {
         String[] params = {userName,password}; // need security for password
         Query q = new Query(Constants.signIn_client,params); // need to include the library
@@ -276,6 +328,7 @@ class Network implements Runnable
         Query answer = waitForResponse(Constants.signIn_server);
         if(answer.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0)
             return true;
+        loginTask.setFailure(answer.getStr()[1]);
         return false;
     }
 
@@ -284,7 +337,7 @@ class Network implements Runnable
 
     public boolean sentMessage(String destination, String text)
     {
-        Message msg = new Message(text,mPhoneNumber,destination);
+        Message[] msg = {new Message(text,mPhoneNumber,destination)};
         Query q = new Query(Constants.sentMessage_client,msg);
         SendData.getInstance().addToOutQueue(q);
 

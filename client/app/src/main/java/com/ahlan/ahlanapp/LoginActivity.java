@@ -175,11 +175,12 @@ public class LoginActivity extends AppCompatActivity{
      * Represents an asynchronous registration task used to register
      * the user.
      */
-    private class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
+    protected class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mName;
         private final String mPassword;
         private final String mPhoneNumber;
+        private String reasonOfFailure;
 
         UserRegisterTask(String name, String password,String phoneNumber) {
             mName = name;
@@ -187,10 +188,15 @@ public class LoginActivity extends AppCompatActivity{
             mPhoneNumber = phoneNumber;
         }
 
+        public void setFailure(String reasonOfFailure)
+        {
+            this.reasonOfFailure = reasonOfFailure;
+        }
+
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return Network.getInstance().signUp(mName, mPassword,mPhoneNumber);
+                return Network.getInstance().signUp(mName, mPassword,mPhoneNumber , this);
             } catch (Exception e) {
 
                 return false;
@@ -205,7 +211,7 @@ public class LoginActivity extends AppCompatActivity{
             if (success) {
                 MoveActivity(mPhoneNumber);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError(reasonOfFailure);
                 mPasswordView.requestFocus();
             }
         }
@@ -221,11 +227,13 @@ public class LoginActivity extends AppCompatActivity{
      * Represents an asynchronous login task used to authenticate
      * the user.
      */
-    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    protected class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mName;
         private final String mPassword;
         private final String mPhoneNumber;
+        private String reasonOfFailure;
+
 
         UserLoginTask(String name, String password, String phoneNumber) {
             mName = name;
@@ -233,10 +241,15 @@ public class LoginActivity extends AppCompatActivity{
             mPhoneNumber = phoneNumber;
         }
 
+        public void setFailure(String reasonOfFailure)
+        {
+            this.reasonOfFailure = reasonOfFailure;
+        }
+
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return Network.getInstance().signIn(mName,mPassword);
+                return Network.getInstance().signIn(mName,mPassword,this);
             } catch (Exception  e) {
                 Log.e("ERROR",e.getMessage());
                 return false;
@@ -251,7 +264,7 @@ public class LoginActivity extends AppCompatActivity{
             if (success) {
                MoveActivity(mPhoneNumber);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError(reasonOfFailure);
                 mPasswordView.requestFocus();
             }
         }
@@ -270,7 +283,7 @@ public class LoginActivity extends AppCompatActivity{
         intent.putExtra("phoneNumber", phoneNumber);
         setResult(RESULT_OK, intent);
         //sendMessage("for testing",phoneNumber,"0585259393");
-        startActivity(intent);
+        this.startActivity(intent);
         finish();
     }
 

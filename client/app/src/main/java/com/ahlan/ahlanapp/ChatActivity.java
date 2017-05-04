@@ -35,7 +35,7 @@ public class ChatActivity extends AppCompatActivity {
         chatName =  "chatName"; // the destenation phone number
         thisPhoneNumber = "phoneNumber"; // the src phonenumber
 
-        Network.getInstance().addToChatList(this); //add this chat to the chat lists
+        Network.getInstance().addToActiveChatList(this); //add this chat to the chat lists
 
 
         onGetMessage(new Message("data", thisPhoneNumber, "dest4"));
@@ -43,6 +43,12 @@ public class ChatActivity extends AppCompatActivity {
         onGetMessage(new Message("data", thisPhoneNumber, "dest4"));
     }
 
+
+    protected void onDestroy()
+    {
+        Network.getInstance().removeFromActiveChatList(this);
+        super.onDestroy();
+    }
 
     public String getChatName()
     {
@@ -50,6 +56,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     protected void onGetMessage(Message message) {
+        messages.add(message);
+
         TextView textView1 = new TextView(this);
         textView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT));

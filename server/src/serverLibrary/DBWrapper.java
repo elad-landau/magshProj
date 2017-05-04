@@ -92,10 +92,10 @@ public class DBWrapper
 		dataTypes.clear();
 		columnName.clear();
 		
-		dataTypes.add("INTEGER");
+		dataTypes.add("STRING");
 		columnName.add("destination");
 		
-		dataTypes.add("INTEGER");
+		dataTypes.add("STRING");
 		columnName.add("origin");
 
 		dataTypes.add("STRING");
@@ -243,7 +243,30 @@ public class DBWrapper
 		return true;
 	}
 	
-	public boolean isUserExist(String userName)
+	
+
+	/*
+	 * return true if there's user with this nubmer
+	 */
+	public boolean isUserExistByPhone(String phoneNumber)
+	{
+		ResultSet rs;
+		boolean exist = false;
+		String sql = "SELECT * FROM " + usersTable
+				+ " WHERE phoneNumber = \""
+				+ phoneNumber + "\";";
+		try{
+			rs = runCommand(sql).getResultSet();
+			exist = rs.next();
+		}catch (SQLException ex) {
+			return false;
+		}
+		return exist;
+	}
+	
+	
+	
+	public boolean isUserExistByName(String userName)
 	{
 		ResultSet rs;
 		boolean exist = false;
@@ -299,22 +322,43 @@ public class DBWrapper
 	}
 	
 	
-	public void saveMessage(Message msg)
+	/*
+	 * the the message text to the server
+	 * return true if succeed, or false if not
+	 */
+	public boolean saveMessage(Message msg)
 	{
-		
+		String sql = "INSERT INTO " + messagesTable
+				+ "(destination, origin, messageText, sendTime ) "
+				+ "VALUES(\""
+				+ msg.get_destination() + "\", \""
+				+ msg.get_origin() + "\",\""
+				+ msg.GetData() + "\", \""
+				+ msg.GetSentTime() + "\");";
+		try{
+			runCommand(sql);
+		}catch (SQLException ex) {
+			if(ex.getErrorCode() == uniqueErrorCode)
+			{
+				this.writeLog(DBWrapper.LogLevels.WARNING, this.getClass().getName(),"problem with saving message :"+ex.getMessage());
+			}
+			return false;
+		}
+		return true;
 	}
 	
-	
-	public Vector<Message> getChat(String userName)
+	/*
+	 * return vector of all the messages between the two numbers
+	 */
+	public Vector<Message> getChat(String firstNumber,String secondNumber)
 	{
 		Vector<Message> messages = new Vector<Message>();
 		Message message = new Message();
 		ResultSet rs;
 		String sql = "select * from " +
 			messagesTable +
-			" where name = \"" +
-			userName +
-			"\" ;";
+			" where ( origin = \"" + firstNumber+"\" AND destination = \""+secondNumber+"\") "+
+			" OR (origin = \""+secondNumber+"\" AND destination = \""+firstNumber+"\") ; ";
 			
 		try
 		{
@@ -329,7 +373,8 @@ public class DBWrapper
 		}
 		catch(SQLException e)
 		{
-			this.writeLog(DBWrapper.LogLevels.ERROR, this.getClass().getName(), "problem with getting the phoneNumber who has the name :"+userName+", :"+e.getMessage());
+			this.writeLog(DBWrapper.LogLevels.ERROR, this.getClass().getName(), "problem with getting messages between the numbers :"
+		+firstNumber+", "+secondNumber+". : "+e.getMessage());
 			return null;
 		}
 		return messages;
