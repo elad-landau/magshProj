@@ -126,6 +126,10 @@ public class Logic implements Runnable
 				handleGetMessagesHistory(q);
 				break;
 				
+			case Constants.getAllMessages_client:
+				handleGetAllMessages(q);
+				break;
+				
 				default:
 					
 			}
@@ -133,6 +137,28 @@ public class Logic implements Runnable
 		
 		
 	}
+	
+	/*
+	 * get all of the messages of specific user
+	 */
+	private void handleGetAllMessages(Query q)
+	{
+		Query answer;
+		Vector<Message> messagesV;
+		Message[] messagesA;
+		
+		messagesV = DBWrapper.getInstance().getAllMessages(q.getStr()[0]);
+		messagesA = new Message[messagesV.size()];
+		
+		for(int i =0;i<messagesV.size();i++)
+			messagesA[i] = messagesV.get(i);
+		
+		answer = new Query(Constants.getAllMessages_server,messagesA);
+		q.getHandler().sendData(answer);
+		
+	}
+	
+	
 	
 	/*
 	 * get the history chat of two number from the db,and send it back to the client

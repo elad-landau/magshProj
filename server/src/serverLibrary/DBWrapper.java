@@ -347,6 +347,42 @@ public class DBWrapper
 		return true;
 	}
 	
+
+	/*
+	 * return vector of all the messages of a user;
+	 */
+	public Vector<Message> getAllMessages(String phoneNumber)
+	{
+		Vector<Message> messages = new Vector<Message>();
+		Message message = new Message();
+		ResultSet rs;
+		String sql = "select * from " +
+			messagesTable +
+			" where origin = \"" + phoneNumber+"\"  "+
+			" OR  destination = \""+phoneNumber+"\" ; ";
+			
+		try
+		{
+			rs = runCommand(sql).getResultSet();
+			while (rs.next()) {
+				message.set_destination(rs.getString("destination"));
+				message.set_origin(rs.getString("origin"));
+				message.SetData(rs.getString("messageText"));
+				message.SetSentTime(rs.getTime("sendTime"));
+				messages.add(message);
+			}
+		}
+		catch(SQLException e)
+		{
+			this.writeLog(DBWrapper.LogLevels.ERROR, this.getClass().getName(), "problem with getting messages of :"+phoneNumber
+		+". : "+e.getMessage());
+			return null;
+		}
+		return messages;
+	}
+
+	
+	
 	/*
 	 * return vector of all the messages between the two numbers
 	 */

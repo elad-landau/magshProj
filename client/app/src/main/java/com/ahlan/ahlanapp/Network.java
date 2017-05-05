@@ -256,10 +256,25 @@ class Network implements Runnable
 
 
     /*
+    ask the server for the history messages of this client and the parameter account
+    return array of the messages
+     */
+    public Message[] getAllMessages()
+    {
+        String[] params = {mPhoneNumber};
+        Query q = new Query(Constants.getAllMessages_client,params);
+        SendData.getInstance().addToOutQueue(q);
+
+        Query answer = waitForResponse(Constants.getMessagesHistory_server);
+        return answer.getMsg();
+
+    }
+
+    /*
     contants the server the ask the details of the user whos have the phonenumber paramter
     return null if there's problem, or the details (username,phonenumber)
      */
-    public String[] getUserByPhone(String phoneNumber)
+    public User getUserByPhone(String phoneNumber)
     {
         String[] params = {phoneNumber};
         Query q = new Query(Constants.getUser_client,params);
@@ -268,8 +283,7 @@ class Network implements Runnable
         Query answer = waitForResponse(Constants.getUser_server);
         if(answer.getStr()[0].compareTo(Integer.toString(Constants.failure)) == 0)
             return null;
-        String[] arr =  {answer.getStr()[1],answer.getStr()[2]};
-        return arr;
+        return new User(answer.getStr()[1],answer.getStr()[2]);
     }
 
 

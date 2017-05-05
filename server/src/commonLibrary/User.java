@@ -19,6 +19,15 @@ public class User extends MemberEntity
 		this.han = han;
 	}
 	
+	public User(String name,String phoneNumber)
+	{
+		super(name);
+		this.serialVersionUID = 0;
+		this.password = "";
+		this.phoneNumber = phoneNumber;
+		this.han = null;
+	}
+	
 	public boolean equals(User user)
 	{
 		String thisPhone;

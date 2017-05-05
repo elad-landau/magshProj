@@ -15,7 +15,8 @@ public class Constants
     public static final int sentMessage_client = 103;
     public static final int getUser_client = 104;
     public static final int isUserExists_client = 105;
-    public static final int getMessagesHistory_client = 206;
+    public static final int getMessagesHistory_client = 106;
+    public static final int getAllMessages_client = 107;
     
 
     
@@ -27,6 +28,7 @@ public class Constants
     public static final int getUser_server = 204;
     public static final int isUserExists_server = 205;
     public static final int getMessagesHistory_server = 206;
+    public static final int getAllMessages_server = 207;
     
 
     //time
