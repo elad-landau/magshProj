@@ -1,11 +1,17 @@
 package com.ahlan.ahlanapp;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,8 +45,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, RESULT_REQ);
+        //Intent intent = new Intent(this, LoginActivity.class);
+        //startActivityForResult(intent, RESULT_REQ);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -67,25 +73,32 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void createAllChatsButtons() {
-        for (int i = 0; i < chats.size(); i++)
+        for (int i = 0; i < /*chats.size()*/10; i++)
         {
             Button button = new Button(this);
             button.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                     LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
-            button.setText(Network.getInstance().getUserByPhone(getChatPhone(i)).toString());
-            button.setId(Integer.parseInt(getChatPhone(i)));
+            button.setText(/*Network.getInstance().getUserByPhone(getChatPhone(i)).toString()*/ "dany");
+            button.setId(/*Integer.parseInt(getChatPhone(i))*/Integer.parseInt("054444444"));
+
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //Network.getInstance().addToChatList(); //add this chat to the chat lists
                     Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                    //intent.putExtra("chatName", button.getText());
+                    //intent.putExtra("chatName", button.getText().toString());
                     //intent.putExtra("phoneNumber", button.getId());
+                    //intent.putExtra("userPhoneNumber", Integer.parseInt(getUser().getPhoneNumber()));
                     startActivity(intent);
                 }
             });
         mLayout.addView(button);
         }
+    }
+
+    public User getUser()
+    {
+        return mUser;
     }
 
     private String getChatPhone(int i) {

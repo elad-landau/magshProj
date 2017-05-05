@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,8 +21,8 @@ public class ChatActivity extends AppCompatActivity {
     private String chatName;
     private TextView mChatTitel;
     private LinearLayout mLayout;
-    private String thisPhoneNumber;
-    private String destPhoneNumber;
+    private int thisPhoneNumber;
+    private int destPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +30,25 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         mLayout = (LinearLayout) findViewById(R.id.messagesLayout);
 
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                chatName = null;
+                destPhoneNumber = -1;
+                thisPhoneNumber = -1;
+            } else {
+                chatName = extras.getString("chatName");
+                destPhoneNumber = extras.getInt("phoneNumber");
+                thisPhoneNumber = extras.getInt("userPhoneNumber");
+            }
+        } else {
+            chatName = (String) savedInstanceState.getSerializable("chatName");
+            destPhoneNumber = (int) savedInstanceState.getSerializable("phoneNumber");
+            thisPhoneNumber = (int) savedInstanceState.getSerializable("userPhoneNumber");
+        }
 
-        /*Bundle b = getIntent().getExtras();
-        if(b != null) {
-            chatName =  b.getString("chatName");
-            phoneNumber = b.getString("phoneNumber");
-        }*/
-        chatName =  "chatName"; // the destenation phone number
-        thisPhoneNumber = "phoneNumber"; // the src phonenumber
         mChatTitel = (TextView) findViewById(R.id.chatName);
         mChatTitel.setText(chatName);
-
-
-
-        onGetMessage(new Message("data", thisPhoneNumber, "dest4"));
-        onGetMessage(new Message("data", thisPhoneNumber, "dest4"));
-        onGetMessage(new Message("data", thisPhoneNumber, "dest4"));
     }
 
 
@@ -53,16 +58,16 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     protected void onGetMessage(Message message) {
-        TextView textView1 = new TextView(this);
-        textView1.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
+        TextView textView = new TextView(this);
+        textView.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
-        textView1.setText(message.GetData());
-        mLayout.addView(textView1);
+        textView.setText(/*message.GetData()*/"SGRDTHJNL");
+        mLayout.addView(textView);
     }
 
-    private void sendMessage(String text,String DestPhoneNumber)
+    private void sendMessage(String text)
     {
-        Message msg = new Message(text,thisPhoneNumber,DestPhoneNumber);
+        Message msg = new Message(text,Integer.toString(thisPhoneNumber),Integer.toString(destPhoneNumber));
         messages.add(msg);
 
         if(true)//Network.getInstance().sendMessage(msg))
