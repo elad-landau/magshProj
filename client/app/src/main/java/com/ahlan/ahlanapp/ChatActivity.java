@@ -49,8 +49,17 @@ public class ChatActivity extends AppCompatActivity {
 
         mChatTitel = (TextView) findViewById(R.id.chatName);
         mChatTitel.setText(chatName);
+
+        Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
+
     }
 
+
+    protected void onDestroy()
+    {
+        Network.getInstance().removeFromActiveChatList(this);
+        super.onDestroy();
+    }
 
     public String getChatName()
     {
@@ -61,8 +70,10 @@ public class ChatActivity extends AppCompatActivity {
         TextView textView = new TextView(this);
         textView.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
+
         textView.setText(/*message.GetData()*/"SGRDTHJNL");
         mLayout.addView(textView);
+        messages.add(message);
     }
 
     private void sendMessage(String text)
