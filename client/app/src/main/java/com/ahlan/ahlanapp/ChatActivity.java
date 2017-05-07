@@ -66,12 +66,13 @@ public class ChatActivity extends AppCompatActivity {
         return chatName;
     }
 
+    //TODO:Create text view dynamically
     protected void onGetMessage(Message message) {
         TextView textView = new TextView(this);
         textView.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
 
-        textView.setText(/*message.GetData()*/"SGRDTHJNL");
+        textView.setText(message.GetData());
         mLayout.addView(textView);
         messages.add(message);
     }

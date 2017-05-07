@@ -3,6 +3,7 @@ package com.ahlan.ahlanapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
@@ -248,12 +249,13 @@ public class LoginActivity extends AppCompatActivity{
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            try {
+            return true;
+            /*try {
                 return Network.getInstance().signIn(mName,mPassword,this);
             } catch (Exception  e) {
                 Log.e("ERROR",e.getMessage());
                 return false;
-            }
+            }*/
         }
 
         @Override
@@ -276,26 +278,14 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-
+    //TODO: Give the father activity (Main) parameter end finish
     private void MoveActivity(String phoneNumber)
     {
-        Intent intent = new Intent(this,ChatActivity.class);
+        Intent intent = getIntent();
         intent.putExtra("phoneNumber", phoneNumber);
-        setResult(RESULT_OK, intent);
-        //sendMessage("for testing",phoneNumber,"0585259393");
-        this.startActivity(intent);
+        setResult(Activity.RESULT_OK, intent);
         finish();
     }
 
-    private void sendMessage(String text,String phoneNumber, String DestPhoneNumber)
-    {
-        Message msg = new Message(text,phoneNumber,DestPhoneNumber);
-        //messages.add(msg);
-
-        if(Network.getInstance().sendMessage(msg))
-            Log.i("message","yeah");
-        else
-            Log.i("message","nope");
-    }
 }
 

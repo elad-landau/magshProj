@@ -19,6 +19,14 @@ public class User extends MemberEntity
 		this.han = han;
 	}
 	
+	public User(String name,String password,String phoneNumber)
+	{
+		super(name);
+		this.serialVersionUID = ConfigurationManager.getInstance().getUser_serial();
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+	}
+	
 	public boolean equals(User user)
 	{
 		String thisPhone;
