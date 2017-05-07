@@ -1,6 +1,7 @@
 package commonLibrary;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import serverLibrary.ConfigurationManager;
@@ -11,7 +12,8 @@ public class Message extends Utility
 	private String _data;
 	private String _origin; // phone number
 	private String _destination; //phone number
-	private Date _sentTime;
+	private String _sentTime;
+	private static final SimpleDateFormat DateFormat  = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
 	
 	public Message(String data, String origin, String destination, Date sentTime) 
@@ -26,7 +28,7 @@ public class Message extends Utility
 	
 	public Message(String data, String origin, String destination) 
 	{
-		this._sentTime = new Date();
+		this._sentTime = DateFormat.format(new Date());
 		this._data = data;
 		this._origin = origin;
 		this._destination = destination;
@@ -34,7 +36,7 @@ public class Message extends Utility
 	}
 
 	public Message() {
-		this._sentTime = new Date();
+		this._sentTime = DateFormat.format(new Date());
 		this._data = "";
 		this._origin = "";
 		this._destination = "";
@@ -70,15 +72,19 @@ public class Message extends Utility
 		this._destination = _destination;
 	}
 
-	public Date GetSentTime()
+	public String GetSentTime()
 	{
 		return this._sentTime;	
 	}
 	
-	public void SetSentTime(Date sentTime)
+	public void SetSentTime(String sentTime)
 	{
 		this._sentTime = sentTime;
 	}
-	
-	
+	/*
+	public void SetSentTime(String sentTime)
+	{
+		this._sentTime = new Date(sentTime);
+	}
+	*/
 }

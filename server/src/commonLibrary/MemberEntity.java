@@ -32,6 +32,12 @@ public abstract class MemberEntity extends Utility
 		this.serialVersionUID = ConfigurationManager.getInstance().getMemberEntity_serial();
 	}
 	
+	public MemberEntity(String name, long serial)
+	{
+		this._name = name;
+		this.serialVersionUID = serial;
+	}
+	
 	
 	public boolean isEqual(MemberEntity mem)
 	{

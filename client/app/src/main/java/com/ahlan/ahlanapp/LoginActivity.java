@@ -16,7 +16,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import commonLibrary.Message;
+import commonLibrary.User;
 
 
 /**
@@ -249,7 +253,7 @@ public class LoginActivity extends AppCompatActivity{
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return Network.getInstance().signIn(mName,mPassword,this);
+                return Network.getInstance().signIn(mName,mPassword,mPhoneNumber,this);
             } catch (Exception  e) {
                 Log.e("ERROR",e.getMessage());
                 return false;
@@ -279,23 +283,15 @@ public class LoginActivity extends AppCompatActivity{
 
     private void MoveActivity(String phoneNumber)
     {
-        Intent intent = new Intent(this,ChatActivity.class);
+        Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("phoneNumber", phoneNumber);
         setResult(RESULT_OK, intent);
-        //sendMessage("for testing",phoneNumber,"0585259393");
-        this.startActivity(intent);
-        finish();
+
+
+        //this.startActivity(intent);
+        this.finishActivity(0);
     }
 
-    private void sendMessage(String text,String phoneNumber, String DestPhoneNumber)
-    {
-        Message msg = new Message(text,phoneNumber,DestPhoneNumber);
-        //messages.add(msg);
 
-        if(Network.getInstance().sendMessage(msg))
-            Log.i("message","yeah");
-        else
-            Log.i("message","nope");
-    }
 }
 

@@ -53,6 +53,7 @@ public class DBWrapper
 	}
 	};
 	
+	
 	protected DBWrapper() {
 		DateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		try {//Open the data base
@@ -125,6 +126,7 @@ public class DBWrapper
 		createTable(logTable, dataTypes, columnName);
 	}
 	
+	
 	private void createTable(String tabelName, List<String> dataTypes, List<String> columnName) {
 		String sql = "CREATE TABLE " + tabelName + " (";
 		for (int i = 0; i < columnName.size(); i++) {
@@ -141,6 +143,7 @@ public class DBWrapper
 		}
 	}
 
+	
 	public static DBWrapper getInstance() {
 		if (instance == null) {
 			instance = new DBWrapper();
@@ -148,10 +151,12 @@ public class DBWrapper
 		return instance;
 	}
 
+	
 	public Connection getConnection() {
 		return connection;
 	}
 	 
+	
 	private PreparedStatement runCommand(String sql) throws SQLException
 	{
 		PreparedStatement stmt = null;
@@ -164,6 +169,7 @@ public class DBWrapper
 		return stmt;
 	}
 
+	
 	/**
 	 * Write a log record.
 	 * @param logLevel - get log kind ('info', 'debug', 'warning', 'error', 'critical').
@@ -204,6 +210,7 @@ public class DBWrapper
 		}
 	}
 	
+	
 	public boolean signUp(String userName, String password, String phoneNumber)
 	{
 		String sql = "INSERT INTO " + usersTable
@@ -223,6 +230,7 @@ public class DBWrapper
 		}
 		return true;
 	}
+	
 	
 	public boolean signUp(String userName, String password)
 	{
@@ -244,7 +252,6 @@ public class DBWrapper
 	}
 	
 	
-
 	/*
 	 * return true if there's user with this nubmer
 	 */
@@ -265,7 +272,6 @@ public class DBWrapper
 	}
 	
 	
-	
 	public boolean isUserExistByName(String userName)
 	{
 		ResultSet rs;
@@ -281,6 +287,7 @@ public class DBWrapper
 		}
 		return exist;
 	}
+	
 	
 	public User getUser(String phoneNumber) 
 	{
@@ -302,6 +309,7 @@ public class DBWrapper
 			return null;
 		}
 	}
+	
 	
 	public String getPhoneByName(String userName)
 	{
@@ -354,7 +362,8 @@ public class DBWrapper
 	public Vector<Message> getAllMessages(String phoneNumber)
 	{
 		Vector<Message> messages = new Vector<Message>();
-		Message message = new Message();
+		Message message;
+		String date;
 		ResultSet rs;
 		String sql = "select * from " +
 			messagesTable +
@@ -365,10 +374,13 @@ public class DBWrapper
 		{
 			rs = runCommand(sql).getResultSet();
 			while (rs.next()) {
+				message = new Message();
 				message.set_destination(rs.getString("destination"));
 				message.set_origin(rs.getString("origin"));
 				message.SetData(rs.getString("messageText"));
-				message.SetSentTime(rs.getTime("sendTime"));
+				date = rs.getString("sendTime");
+				//System.out.println(date);
+				message.SetSentTime(rs.getString("sendTime")); // problem
 				messages.add(message);
 			}
 		}
@@ -403,7 +415,7 @@ public class DBWrapper
 				message.set_destination(rs.getString("destination"));
 				message.set_origin(rs.getString("origin"));
 				message.SetData(rs.getString("messageText"));
-				message.SetSentTime(rs.getTime("sendTime"));
+				message.SetSentTime(rs.getString("sendTime"));
 				messages.add(message);
 			}
 		}

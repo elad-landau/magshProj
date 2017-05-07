@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Intent intent = new Intent(this, LoginActivity.class);
-        //startActivityForResult(intent, RESULT_REQ);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, RESULT_REQ);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -67,11 +67,20 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Network.getInstance().sendMessage(new Message("for testing","0585259393","0585259393"));
+
+
         messages = createMessageList();
 
-
         createAllChatsButtons();
+
+
+
     }
+
+
+
+
 
     /*
     ask the server for the all the messages of this user
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity
     return array of users (name and phone number) of all the users the client has messages from/to
     return null if no messages
      */
-    private User[] getUsersatMessages()
+    private User[] getUsersAtMessages()
     {
         if(messages.size() ==0)
             return null;

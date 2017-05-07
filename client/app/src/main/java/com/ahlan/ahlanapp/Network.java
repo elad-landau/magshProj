@@ -265,7 +265,7 @@ class Network implements Runnable
         Query q = new Query(Constants.getAllMessages_client,params);
         SendData.getInstance().addToOutQueue(q);
 
-        Query answer = waitForResponse(Constants.getMessagesHistory_server);
+        Query answer = waitForResponse(Constants.getAllMessages_server);
         return answer.getMsg();
 
     }
@@ -333,8 +333,9 @@ class Network implements Runnable
     /*
     deals with the network side of signing in
      */
-    public boolean signIn(String userName,String password , LoginActivity.UserLoginTask loginTask)
+    public boolean signIn(String userName,String password, String phoneNumber, LoginActivity.UserLoginTask loginTask)
     {
+        mPhoneNumber = phoneNumber;
         String[] params = {userName,password}; // need security for password
         Query q = new Query(Constants.signIn_client,params); // need to include the library
         SendData.getInstance().addToOutQueue(q);

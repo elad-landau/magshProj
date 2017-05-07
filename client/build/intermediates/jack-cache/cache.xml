@@ -2,12 +2,6 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-24\optional\org.apache.http.legacy.jar"
-        revision="25.0.0"
-        sha1="fb7023e781abb70ed1b0442eb611fbed295cae84">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackRuntimeLibraries\debug\jars\8000\40\org.apache.http.legacy-1999918f4eec768e95bc152afde660b4b06fac26.jar" />
-    </item>
-    <item
         jar="C:\Users\Administrator\.android\build-cache\b1b06160b7f9469d5371380f900a79608a7e73d6\output\jars\libs\internal_impl-24.2.1.jar"
         revision="25.0.0"
         sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
@@ -56,12 +50,6 @@
         <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-6dcea5ac7eea50fee84b27941ea7dc29f2608af1.jar" />
     </item>
     <item
-        jar="C:\Users\Administrator\AppData\Local\Android\Sdk\platforms\android-24\android.jar"
-        revision="25.0.0"
-        sha1="d49cc0972df7adf495d3ad3d0cf71c0ec517ace4">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackRuntimeLibraries\debug\jars\8000\40\android-07896d545194e789d7017c98c2288b3078364082.jar" />
-    </item>
-    <item
         jar="C:\Users\Administrator\.android\build-cache\b1b06160b7f9469d5371380f900a79608a7e73d6\output\jars\classes.jar"
         revision="25.0.0"
         sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
@@ -70,7 +58,7 @@
     <item
         jar="C:\Users\Administrator\Desktop\magshProj\client\app\libs\commonLibrary.jar"
         revision="25.0.0"
-        sha1="fc19de0f34070db6dd24290d2b62e314e457d700">
+        sha1="b8506b8bb576dff09695b32d33e372354bb45599">
         <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\commonLibrary-7d86f18f85a3daf05d9311a3fd06edce298ac9e7.jar" />
     </item>
     <item
