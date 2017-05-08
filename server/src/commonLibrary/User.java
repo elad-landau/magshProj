@@ -18,13 +18,13 @@ public class User extends MemberEntity
 		this.phoneNumber = phoneNumber;
 		this.han = han;
 	}
-	
-	public User(String name,String password,String phoneNumber)
+
+	public User(String name,String phoneNumber)
 	{
-		super(name);
-		this.serialVersionUID = ConfigurationManager.getInstance().getUser_serial();
-		this.password = password;
+		super(name,0);
+		this.password = "";
 		this.phoneNumber = phoneNumber;
+		this.han = null;
 	}
 	
 	public boolean equals(User user)

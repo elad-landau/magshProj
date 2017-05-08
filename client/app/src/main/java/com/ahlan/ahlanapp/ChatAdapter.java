@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
@@ -51,6 +52,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-            return mDataset.size();
+        if(mDataset.size() ==0)
+            return 0;
+
+        List<String> pNumbers = new ArrayList<String>();
+
+        for(int i =0;i<mDataset.size();i++)
+        {
+            String targetNumber;
+            if(mDataset.get(i).get_origin() == mUser.getPhoneNumber())
+                targetNumber = mDataset.get(i).get_destination();
+            else
+                targetNumber = mDataset.get(i).get_origin();
+
+            if(!pNumbers.contains(targetNumber))
+                Numbers.add(targetNumber);
         }
+        return Numbers.size();
+    }
 }

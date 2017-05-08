@@ -29,12 +29,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Vector;
+
 
 import commonLibrary.*;
 
@@ -62,6 +60,7 @@ public class MainActivity extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        chats = createMessageList();
         // specify an adapter (see also next example)
         mAdapter = new ChatAdapter(chats);
         mRecyclerView.setAdapter(mAdapter);
@@ -90,18 +89,59 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, RESULT_REQ);
 
-
     }
+
+
+    /*
+    ask the server for the all the messages of this user
+    then convert the array into list
+     */
+    private List<Message> createMessageList()
+    {
+        Message[] msg = Network.getInstance().getAllMessages();
+        List<Message> msgs = new ArrayList<Message>();
+
+        for(int i = 0;i<msg.length;i++)
+            msgs.add(msg[i]);
+
+        return msgs;
+    }
+
+    /*
+    return array of users (name and phone number) of all the users the client has messages from/to
+    return null if no messages
+     */
+    private User[] getUsersAtMessages()
+    {
+        if(messages.size() ==0)
+            return null;
+
+        List<String> pNumbers = new ArrayList<String>();
+        User[] users;
+        for(int i =0;i<messages.size();i++)
+        {
+            String targetNumber;
+            if(messages.get(i).get_origin() == mUser.getPhoneNumber())
+                targetNumber = messages.get(i).get_destination();
+            else
+                targetNumber = messages.get(i).get_origin();
+
+            if(!pNumbers.contains(targetNumber))
+                pNumbers.add(targetNumber);
+        }
+
+        users = new User[pNumbers.size()];
+        for(int i =0;i<users.length;i++)
+            users[i] = Network.getInstance().getUserByPhone(pNumbers.get(i));
+        return users;
+    }
+
+
+
 
     public User getUser()
     {
         return mUser;
-    }
-
-    private String getChatPhone(int i) {
-        if(this.chats.get(i).get(0).get_destination() == this.mUser.getPhoneNumber())
-            return this.chats.get(i).get(0).get_origin();
-        return this.chats.get(i).get(0).get_destination();
     }
 
     //TODO: Get the extra "phoneNumber" from the Login activity
