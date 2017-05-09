@@ -3,6 +3,7 @@ package com.ahlan.ahlanapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
@@ -26,7 +27,7 @@ import commonLibrary.User;
 /**
  * A login screen that offers sign up via name/password.
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
     private AsyncTask<Void, Void, Boolean> mAuthTask = null;
     // UI references.
     private EditText mPasswordView;
@@ -123,21 +124,19 @@ public class LoginActivity extends AppCompatActivity{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            if(type) {
+            if (type) {
 
 
                 //String mPhoneNumber = "0585259393";
-                mAuthTask = new UserRegisterTask(name, password,phoneNumber);
+                mAuthTask = new UserRegisterTask(name, password, phoneNumber);
                 mAuthTask.execute((Void) null);
             }
-            if(!type)
-            {
+            if (!type) {
                 mAuthTask = new UserLoginTask(name, password, phoneNumber);
                 mAuthTask.execute((Void) null);
             }
         }
     }
-
 
 
     /**
@@ -186,21 +185,20 @@ public class LoginActivity extends AppCompatActivity{
         private final String mPhoneNumber;
         private String reasonOfFailure;
 
-        UserRegisterTask(String name, String password,String phoneNumber) {
+        UserRegisterTask(String name, String password, String phoneNumber) {
             mName = name;
             mPassword = password;
             mPhoneNumber = phoneNumber;
         }
 
-        public void setFailure(String reasonOfFailure)
-        {
+        public void setFailure(String reasonOfFailure) {
             this.reasonOfFailure = reasonOfFailure;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return Network.getInstance().signUp(mName, mPassword,mPhoneNumber , this);
+                return Network.getInstance().signUp(mName, mPassword, mPhoneNumber, this);
             } catch (Exception e) {
 
                 return false;
@@ -245,17 +243,16 @@ public class LoginActivity extends AppCompatActivity{
             mPhoneNumber = phoneNumber;
         }
 
-        public void setFailure(String reasonOfFailure)
-        {
+        public void setFailure(String reasonOfFailure) {
             this.reasonOfFailure = reasonOfFailure;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return Network.getInstance().signIn(mName,mPassword,mPhoneNumber,this);
-            } catch (Exception  e) {
-                Log.e("ERROR",e.getMessage());
+                return Network.getInstance().signIn(mName, mPassword, mPhoneNumber, this);
+            } catch (Exception e) {
+                Log.e("ERROR", e.getMessage());
                 return false;
             }
         }
@@ -266,7 +263,7 @@ public class LoginActivity extends AppCompatActivity{
             showProgress(false);
 
             if (success) {
-               MoveActivity(mPhoneNumber);
+                MoveActivity(mPhoneNumber);
             } else {
                 mPasswordView.setError(reasonOfFailure);
                 mPasswordView.requestFocus();
@@ -280,18 +277,12 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
+    //TODO: Give the father activity (Main) parameter end finish
+    private void MoveActivity(String phoneNumber) {
 
-    private void MoveActivity(String phoneNumber)
-    {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = getIntent();
         intent.putExtra("phoneNumber", phoneNumber);
-        setResult(RESULT_OK, intent);
-
-
-        //this.startActivity(intent);
+        setResult(Activity.RESULT_OK, intent);
         this.finishActivity(0);
     }
-
-
 }
-

@@ -16,7 +16,7 @@
     <string name="error_incorrect_details">The details are wrong</string>
     <string name="validation_details">The name and password must be four characters or more. (Uppercase / lowercase letter / underscore / number)</string>
 
-    <color name="blue">#87CEEB</color>
+    <color name="blue">#b187ceeb</color>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

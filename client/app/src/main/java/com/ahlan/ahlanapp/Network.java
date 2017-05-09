@@ -54,7 +54,7 @@ class Network implements Runnable
 
     protected Network()
     {
-        ip = "10.0.0.6";
+        ip = "192.168.14.147";
         port = 7070;
         inQueue = new Queue<Query>();
 
@@ -156,7 +156,6 @@ class Network implements Runnable
         switch(q.getOpCode())
         {
             case Constants.sendMessage_server:
-                //TODO send the message to the right activity
                 gotMessage(q.getMsg()[0]);
                 Log.d("message","appertly success :"+q.getMsg()[0].GetData());
                 break;
@@ -176,7 +175,7 @@ class Network implements Runnable
         synchronized(lockChats)
         {
             for (int i = 0; i < activeChats.size(); i++) {
-                if (activeChats.get(i).getChatName().compareTo(destPhone) == 0) {
+                if (activeChats.get(i).getChatPhone().compareTo(destPhone) == 0) {
                     activeChats.get(i).onGetMessage(msg);
                     return;
                 }
