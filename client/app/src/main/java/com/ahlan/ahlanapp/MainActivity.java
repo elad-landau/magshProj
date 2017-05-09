@@ -166,6 +166,37 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+    /*
+    take cate of dialog positive click
+    acess the phone number, ask the server is exist
+    if success start new chat
+    if fail present error message
+     */
+    public void onDialogPositiveClick(DialogFragment dialog)
+    {
+        EditText mPhoneNumber = (EditText) R.id.phoneNumber;
+        if(Network.getInstance().isUserExists(mPhoneNumber.getText().toString()))
+        {
+            //TODO open chat
+        }
+        else
+        {
+            //TODO alert fail
+        }
+    }
+
+    /*
+    take care of dialog negatice press
+    just go backward
+     */
+    public void onDialogNegativeClick(DialogFragment dialog)
+    {
+        onBackPressed();
+    }
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
