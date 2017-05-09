@@ -18,7 +18,7 @@ public class User extends MemberEntity
 		this.phoneNumber = phoneNumber;
 		this.han = han;
 	}
-
+	
 	public User(String name,String phoneNumber)
 	{
 		super(name,0);

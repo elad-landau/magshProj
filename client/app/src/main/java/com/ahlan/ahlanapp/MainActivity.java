@@ -1,6 +1,7 @@
 package com.ahlan.ahlanapp;
 
 import android.app.Activity;
+import android.database.sqlite.*;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -44,7 +45,10 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<Message> chats;
+    private List<Message> messages;
+    private List<User> chatsUsers;
+    private Intent mIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +64,10 @@ public class MainActivity extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        chats = createMessageList();
-        // specify an adapter (see also next example)
-        mAdapter = new ChatAdapter(chats);
+        messages = createMessageList();
+        // specify an adapter
+        chatsUsers = getUsersAtMessages();
+        mAdapter = new ChatAdapter(chatsUsers);
         mRecyclerView.setAdapter(mAdapter);
 
         setContentView(R.layout.activity_main);
@@ -84,6 +89,23 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        mIntent = new Intent(MainActivity.this, ChatActivity.class);
+                        mIntent.putExtra("chatName", chatsUsers.get(position).getName());
+                        mIntent.putExtra("phoneNumber", Integer.getInteger(chatsUsers.get(position).getPhoneNumber()));
+                        mIntent.putExtra("userPhoneNumber", Integer.getInteger(mUser.getPhoneNumber()));
+                        startActivity(mIntent);
+                    }
+
+                })
+        );
+
+        //TODO: when new user added
+        //chatsUsers.add(newUser)
+        //mAdapter.notifyItemInserted(chatsUsers.size() - 1);
 
         //TODO: Start the Login activity for phoneNumber
         Intent intent = new Intent(this, LoginActivity.class);
@@ -111,13 +133,13 @@ public class MainActivity extends AppCompatActivity
     return array of users (name and phone number) of all the users the client has messages from/to
     return null if no messages
      */
-    private User[] getUsersAtMessages()
+    private List<User> getUsersAtMessages()
     {
         if(messages.size() ==0)
             return null;
 
         List<String> pNumbers = new ArrayList<String>();
-        User[] users;
+        List<User> users;
         for(int i =0;i<messages.size();i++)
         {
             String targetNumber;
@@ -130,9 +152,9 @@ public class MainActivity extends AppCompatActivity
                 pNumbers.add(targetNumber);
         }
 
-        users = new User[pNumbers.size()];
-        for(int i =0;i<users.length;i++)
-            users[i] = Network.getInstance().getUserByPhone(pNumbers.get(i));
+        users = new ArrayList<User>(pNumbers.size());
+        for(int i =0;i<users.size();i++)
+            users.set(i, Network.getInstance().getUserByPhone(pNumbers.get(i)));
         return users;
     }
 
@@ -152,11 +174,6 @@ public class MainActivity extends AppCompatActivity
         try {
 
             mUser.setPhoneNumber(data.getStringExtra("phoneNumber"));
-            Button button = new Button(this);
-            button.setLayoutParams(new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
-                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT));
-            button.setText(mUser.getPhoneNumber());
-            mLayout.addView(button);
         } catch (Exception ex) {
             finish();
         }

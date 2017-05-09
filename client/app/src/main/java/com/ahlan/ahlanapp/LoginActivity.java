@@ -27,7 +27,7 @@ import commonLibrary.User;
 /**
  * A login screen that offers sign up via name/password.
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
     private AsyncTask<Void, Void, Boolean> mAuthTask = null;
     // UI references.
     private EditText mPasswordView;
@@ -124,21 +124,19 @@ public class LoginActivity extends AppCompatActivity{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            if(type) {
+            if (type) {
 
 
                 //String mPhoneNumber = "0585259393";
-                mAuthTask = new UserRegisterTask(name, password,phoneNumber);
+                mAuthTask = new UserRegisterTask(name, password, phoneNumber);
                 mAuthTask.execute((Void) null);
             }
-            if(!type)
-            {
+            if (!type) {
                 mAuthTask = new UserLoginTask(name, password, phoneNumber);
                 mAuthTask.execute((Void) null);
             }
         }
     }
-
 
 
     /**
@@ -187,21 +185,20 @@ public class LoginActivity extends AppCompatActivity{
         private final String mPhoneNumber;
         private String reasonOfFailure;
 
-        UserRegisterTask(String name, String password,String phoneNumber) {
+        UserRegisterTask(String name, String password, String phoneNumber) {
             mName = name;
             mPassword = password;
             mPhoneNumber = phoneNumber;
         }
 
-        public void setFailure(String reasonOfFailure)
-        {
+        public void setFailure(String reasonOfFailure) {
             this.reasonOfFailure = reasonOfFailure;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return Network.getInstance().signUp(mName, mPassword,mPhoneNumber , this);
+                return Network.getInstance().signUp(mName, mPassword, mPhoneNumber, this);
             } catch (Exception e) {
 
                 return false;
@@ -246,25 +243,18 @@ public class LoginActivity extends AppCompatActivity{
             mPhoneNumber = phoneNumber;
         }
 
-        public void setFailure(String reasonOfFailure)
-        {
+        public void setFailure(String reasonOfFailure) {
             this.reasonOfFailure = reasonOfFailure;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-<<<<<<< HEAD
-            return true;
-            /*try {
-                return Network.getInstance().signIn(mName,mPassword,this);
-=======
             try {
-                return Network.getInstance().signIn(mName,mPassword,mPhoneNumber,this);
->>>>>>> 81a422fa12d380ea7b111ec77836d63492660ddc
-            } catch (Exception  e) {
-                Log.e("ERROR",e.getMessage());
+                return Network.getInstance().signIn(mName, mPassword, mPhoneNumber, this);
+            } catch (Exception e) {
+                Log.e("ERROR", e.getMessage());
                 return false;
-            }*/
+            }
         }
 
         @Override
@@ -273,7 +263,7 @@ public class LoginActivity extends AppCompatActivity{
             showProgress(false);
 
             if (success) {
-               MoveActivity(mPhoneNumber);
+                MoveActivity(mPhoneNumber);
             } else {
                 mPasswordView.setError(reasonOfFailure);
                 mPasswordView.requestFocus();
@@ -288,26 +278,11 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     //TODO: Give the father activity (Main) parameter end finish
-    private void MoveActivity(String phoneNumber)
-    {
-<<<<<<< HEAD
+    private void MoveActivity(String phoneNumber) {
+
         Intent intent = getIntent();
         intent.putExtra("phoneNumber", phoneNumber);
         setResult(Activity.RESULT_OK, intent);
-        finish();
-    }
-
-=======
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("phoneNumber", phoneNumber);
-        setResult(RESULT_OK, intent);
-
-
-        //this.startActivity(intent);
         this.finishActivity(0);
     }
-
-
->>>>>>> 81a422fa12d380ea7b111ec77836d63492660ddc
 }
-
