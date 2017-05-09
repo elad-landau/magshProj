@@ -31,9 +31,5 @@
         app:rippleColor="@android:color/background_dark"
         app:srcCompat="@drawable/ic_menu_send" />
 
-    <include
-        android:id="@+id/StartChat"
-        layout="@layout/content_main"
-        />
 
 </android.support.design.widget.CoordinatorLayout>

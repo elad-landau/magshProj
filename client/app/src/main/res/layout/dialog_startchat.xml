@@ -9,12 +9,13 @@
         android:layout_height="64dp"
         android:scaleType="center"
         android:id = "@+id/messageText"
-        android:text = "enter the number you want to canact with"/>
+        android:text = "enter the number you want to conact with"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:leyout_below = "+id/messageText"
+        android:layout_below = "@id/messageText"
+        android:id = "@+id/phoneNumberBox"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
