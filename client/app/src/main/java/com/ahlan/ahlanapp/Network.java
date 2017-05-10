@@ -26,9 +26,9 @@ import commonLibrary.*;
 
 class Network implements Runnable
 {
-    private Socket socket;
-    private String ip;
-    private int port;
+    protected Socket socket;
+    protected String ip;
+    protected int port;
     private String mPhoneNumber;
 
     private final ReentrantLock lock;
@@ -41,6 +41,7 @@ class Network implements Runnable
     private static Logger logger;
 
     private InputStream input;
+    private OutputStream output;
 
     private List<ChatActivity> activeChats;
 
@@ -67,7 +68,26 @@ class Network implements Runnable
         activeChats = new ArrayList<ChatActivity>();
     }
 
+    public void run()
+    {
+        try {
+            socket = new Socket(ip, port);
+            input = socket.getInputStream();
+            output = socket.getOutputStream();
+            new Thread(SendData.getInstance(output)).start();
+        }
+        catch(IOException e)
+        {
+            logger.log(Level.WARNING,"Can't connect to server : "+e.toString());
+        }
 
+
+        while(true) {
+            Query q;
+            q = communicateWithServer();
+            parseQuery(q);
+        }
+    }
 
 
     /*
@@ -123,28 +143,6 @@ class Network implements Runnable
         lock.unlock();
 
         return q;
-    }
-
-
-    public void run()
-    {
-        try {
-            socket = new Socket(ip, port);
-            input = socket.getInputStream();
-            OutputStream output = socket.getOutputStream();
-            new Thread(SendData.getInstance(output)).start();
-        }
-        catch(IOException e)
-        {
-            logger.log(Level.WARNING,"Can't connect to server : "+e.toString());
-        }
-
-
-        while(true) {
-            Query q;
-            q = communicateWithServer();
-            parseQuery(q);
-        }
     }
 
 

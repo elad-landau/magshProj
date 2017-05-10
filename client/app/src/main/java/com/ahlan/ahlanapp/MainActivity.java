@@ -44,26 +44,32 @@ public class MainActivity extends AppCompatActivity
     private List<Message> messages;
     private List<User> chatsUsers;
     private Intent mIntent;
+    private Thread networkThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view); // TODO it is null!
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setHasFixedSize(true); //TODO this make the app crash!
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+       // mRecyclerView.setLayoutManager(mLayoutManager); //TODO this null and crash!
+
+        Network.getInstance();
+        new Thread(Network.getInstance()).start();
+        //networkThread.start();
+
 
         messages = createMessageList();
         // specify an adapter
         chatsUsers = getUsersAtMessages();
-        mAdapter = new ChatAdapter(chatsUsers);
-        mRecyclerView.setAdapter(mAdapter);
+       // mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
+        //mRecyclerView.setAdapter(mAdapter);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -85,6 +91,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /*
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
@@ -97,7 +104,7 @@ public class MainActivity extends AppCompatActivity
 
                 })
         );
-
+        */ //TODO the mRecycleView is null at first place
         //TODO: when new user added
         //chatsUsers.add(newUser)
         //mAdapter.notifyItemInserted(chatsUsers.size() - 1);

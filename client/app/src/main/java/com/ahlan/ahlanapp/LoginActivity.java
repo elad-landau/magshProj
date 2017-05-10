@@ -35,18 +35,13 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPhoneNumber;
     private View mProgressView;
     private View mLoginFormView;
-    Thread networkThread;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
-
-
-        Network.getInstance();
-        networkThread = new Thread(Network.getInstance());
-        networkThread.start();
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mNameView = (EditText) findViewById(R.id.userName);

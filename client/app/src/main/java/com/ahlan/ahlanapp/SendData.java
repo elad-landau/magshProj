@@ -1,5 +1,7 @@
 package com.ahlan.ahlanapp;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.locks.ReentrantLock;
@@ -51,8 +53,13 @@ public class SendData implements Runnable {
      */
     public static SendData getInstance()
     {
-        if(instance == null)
-            instance = new SendData(null);
+        while(instance == null) {
+            try {
+                Thread.sleep(500);
+            } catch (Exception e) {
+                Log.e("sleep", "cant put the thread to sleep : " + e.getMessage());
+            }
+        }
         return instance;
     }
 
