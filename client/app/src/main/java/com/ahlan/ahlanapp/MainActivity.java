@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity
     private Intent mIntent;
     private Thread networkThread;
 
+    private static final class lock {}
+    private Object lockMessages;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +65,14 @@ public class MainActivity extends AppCompatActivity
 
         Network.getInstance();
         new Thread(Network.getInstance()).start();
+        Network.getInstance().setMainActivity(this);
         //networkThread.start();
+        lockMessages = new lock();
 
 
-        messages = createMessageList();
+        synchronized (lockMessages) {
+            messages = createMessageList();
+        }
         // specify an adapter
         chatsUsers = getUsersAtMessages();
        // mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
@@ -137,23 +144,26 @@ public class MainActivity extends AppCompatActivity
      */
     private List<User> getUsersAtMessages()
     {
-        if(messages.size() ==0)
-            return null;
+        synchronized (lockMessages) {
+            if (messages.size() == 0)
+                return null;
 
+        }
         List<String> pNumbers = new ArrayList<String>();
         List<User> users;
-        for(int i =0;i<messages.size();i++)
-        {
-            String targetNumber;
-            if(messages.get(i).get_origin() == mUser.getPhoneNumber())
-                targetNumber = messages.get(i).get_destination();
-            else
-                targetNumber = messages.get(i).get_origin();
 
-            if(!pNumbers.contains(targetNumber))
-                pNumbers.add(targetNumber);
+        synchronized (lockMessages) {
+            for (int i = 0; i < messages.size(); i++) {
+                String targetNumber;
+                if (messages.get(i).get_origin() == mUser.getPhoneNumber())
+                    targetNumber = messages.get(i).get_destination();
+                else
+                    targetNumber = messages.get(i).get_origin();
+
+                if (!pNumbers.contains(targetNumber))
+                    pNumbers.add(targetNumber);
+            }
         }
-
         users = new ArrayList<User>(pNumbers.size());
         for(int i =0;i<users.size();i++)
             users.set(i, Network.getInstance().getUserByPhone(pNumbers.get(i)));
@@ -161,6 +171,13 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void enterMessageToList(Message msg)
+    {
+        synchronized (lockMessages)
+        {
+            messages.add(msg);
+        }
+    }
 
 
     public User getUser()

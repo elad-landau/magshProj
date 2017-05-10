@@ -44,6 +44,7 @@ class Network implements Runnable
     private OutputStream output;
 
     private List<ChatActivity> activeChats;
+    private MainActivity main;
 
     public static Network getInstance()
     {
@@ -89,6 +90,11 @@ class Network implements Runnable
         }
     }
 
+
+    public void setMainActivity(MainActivity main)
+    {
+        this.main = main;
+    }
 
     /*
     add a query to the out queue safely
@@ -169,6 +175,7 @@ class Network implements Runnable
     private void gotMessage(Message msg)
     {
         String destPhone = msg.get_destination();
+        main.enterMessageToList(msg);
 
         synchronized(lockChats)
         {
@@ -207,6 +214,7 @@ class Network implements Runnable
       return true if signUp done
       return false if problem occurred
        */
+
     public boolean signUp(String userName,String password,String phoneNumber, LoginActivity.UserRegisterTask registerTask)
     {
         mPhoneNumber = phoneNumber;
