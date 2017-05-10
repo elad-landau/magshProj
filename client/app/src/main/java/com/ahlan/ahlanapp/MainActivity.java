@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
-       // mRecyclerView.setLayoutManager(mLayoutManager); //TODO this null and crash!
+        mRecyclerView.setLayoutManager(mLayoutManager); //TODO this null and crash!
 
         Network.getInstance();
         new Thread(Network.getInstance()).start();
@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity
         }
         // specify an adapter
         chatsUsers = getUsersAtMessages();
-       // mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
-        //mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
+        mRecyclerView.setAdapter(mAdapter);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
