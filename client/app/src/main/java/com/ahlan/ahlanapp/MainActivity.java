@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity
     private List<User> chatsUsers;
     private Thread networkThread;
 
+    private static final class lock {}
+    private Object lockMessages;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,18 +60,22 @@ public class MainActivity extends AppCompatActivity
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
-       // mRecyclerView.setLayoutManager(mLayoutManager); //TODO this null and crash!
+        mRecyclerView.setLayoutManager(mLayoutManager); //TODO this null and crash!
 
         Network.getInstance();
         new Thread(Network.getInstance()).start();
+        Network.getInstance().setMainActivity(this);
         //networkThread.start();
+        lockMessages = new lock();
 
 
-        messages = createMessageList();
+        synchronized (lockMessages) {
+            messages = createMessageList();
+        }
         // specify an adapter
         chatsUsers = getUsersAtMessages();
-       // mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
-        //mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
+        mRecyclerView.setAdapter(mAdapter);
 
         */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -88,9 +95,8 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);/*
-
-
+        navigationView.setNavigationItemSelectedListener(this);
+/*
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
@@ -102,16 +108,16 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 })
-        );
-        //TODO the mRecycleView is null at first place
+        );*/
+
         //TODO: when new user added
         //chatsUsers.add(newUser)
         //mAdapter.notifyItemInserted(chatsUsers.size() - 1);
 
         //TODO: Start the Login activity for phoneNumber
+
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, RESULT_REQ);
-*/
     }
 
 
@@ -136,23 +142,26 @@ public class MainActivity extends AppCompatActivity
      */
     private List<User> getUsersAtMessages()
     {
-        if(messages.size() ==0)
-            return null;
+        synchronized (lockMessages) {
+            if (messages.size() == 0)
+                return null;
 
+        }
         List<String> pNumbers = new ArrayList<String>();
         List<User> users;
-        for(int i =0;i<messages.size();i++)
-        {
-            String targetNumber;
-            if(messages.get(i).get_origin() == mUser.getPhoneNumber())
-                targetNumber = messages.get(i).get_destination();
-            else
-                targetNumber = messages.get(i).get_origin();
 
-            if(!pNumbers.contains(targetNumber))
-                pNumbers.add(targetNumber);
+        synchronized (lockMessages) {
+            for (int i = 0; i < messages.size(); i++) {
+                String targetNumber;
+                if (messages.get(i).get_origin() == mUser.getPhoneNumber())
+                    targetNumber = messages.get(i).get_destination();
+                else
+                    targetNumber = messages.get(i).get_origin();
+
+                if (!pNumbers.contains(targetNumber))
+                    pNumbers.add(targetNumber);
+            }
         }
-
         users = new ArrayList<User>(pNumbers.size());
         for(int i =0;i<users.size();i++)
             users.set(i, Network.getInstance().getUserByPhone(pNumbers.get(i)));
@@ -160,6 +169,13 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void enterMessageToList(Message msg)
+    {
+        synchronized (lockMessages)
+        {
+            messages.add(msg);
+        }
+    }
 
 
     public User getUser()
@@ -187,7 +203,10 @@ public class MainActivity extends AppCompatActivity
      */
     public void onDialogPositiveClick(DialogFragment dialog)
     {
-        EditText mPhoneNumber = (EditText)findViewById(R.id.phoneNumberBox);
+        EditText mPhoneNumber = (EditText)dialog.getDialog().findViewById(R.id.phoneNumberBox);
+        String phone = mPhoneNumber.getText().toString();
+
+        dialog.getDialog().cancel();
         if(Network.getInstance().isUserExists(mPhoneNumber.getText().toString()))
         {
             //TODO open chat
@@ -209,7 +228,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void onDialogNegativeClick(DialogFragment dialog)
     {
-        onBackPressed();
+        dialog.getDialog().cancel();
     }
 
 
