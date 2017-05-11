@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.EditText;
 
 /**
  * Created by Administrator on 5/9/2017.
@@ -23,7 +24,7 @@ public class startChat_dialog extends DialogFragment
 
     NoticeDialogListener mListener;
 
-    public void onAttch(Activity activity)
+    public void onAttach(Activity activity)
     {
         super.onAttach(activity);
 

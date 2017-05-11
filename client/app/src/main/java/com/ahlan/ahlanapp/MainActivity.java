@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*
+
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
@@ -111,14 +111,14 @@ public class MainActivity extends AppCompatActivity
 
                 })
         );
-        */ //TODO the mRecycleView is null at first place
+
         //TODO: when new user added
         //chatsUsers.add(newUser)
         //mAdapter.notifyItemInserted(chatsUsers.size() - 1);
 
         //TODO: Start the Login activity for phoneNumber
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, RESULT_REQ);
+        //Intent intent = new Intent(this, LoginActivity.class);
+        //startActivityForResult(intent, RESULT_REQ);
 
     }
 
@@ -205,7 +205,10 @@ public class MainActivity extends AppCompatActivity
      */
     public void onDialogPositiveClick(DialogFragment dialog)
     {
-        EditText mPhoneNumber = (EditText)findViewById(R.id.phoneNumberBox);
+        EditText mPhoneNumber = (EditText)dialog.getDialog().findViewById(R.id.phoneNumberBox);
+        String phone = mPhoneNumber.getText().toString();
+
+        dialog.getDialog().cancel();
         if(Network.getInstance().isUserExists(mPhoneNumber.getText().toString()))
         {
             //TODO open chat
@@ -227,7 +230,7 @@ public class MainActivity extends AppCompatActivity
      */
     public void onDialogNegativeClick(DialogFragment dialog)
     {
-        onBackPressed();
+        dialog.getDialog().cancel();
     }
 
 

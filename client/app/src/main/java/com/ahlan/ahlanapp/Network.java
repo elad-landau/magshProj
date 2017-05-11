@@ -240,7 +240,7 @@ class Network implements Runnable
         Query q = new Query(Constants.isUserExists_client,params);
         SendData.getInstance().addToOutQueue(q);
 
-        Query answer = waitForResponse(Constants.getUser_server);
+        Query answer = waitForResponse(Constants.isUserExists_server);
         return answer.getStr()[0].compareTo(Integer.toString(Constants.success)) == 0;
     }
 
