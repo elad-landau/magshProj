@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setAdapter(mAdapter);
 
         */
+        mUser = new User("","");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

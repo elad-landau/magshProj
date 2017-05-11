@@ -2,7 +2,6 @@
 <items version="2" >
 
     <item
-<<<<<<< HEAD
         jar="C:\Users\User\.android\build-cache\71d6b3dcf155cb4dfa5caf4dc9789eda0ee6eba1\output\jars\classes.jar"
         revision="25.0.0"
         sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
@@ -17,7 +16,7 @@
     <item
         jar="C:\Users\User\Desktop\magshProj\client\app\libs\commonLibrary.jar"
         revision="25.0.0"
-        sha1="b8506b8bb576dff09695b32d33e372354bb45599">
+        sha1="b8ebd16ef9568688f47f566eeb3c710fb3b4d0e5">
         <dex dex="C:\Users\User\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\commonLibrary-410c8ba434de042f9423b8bead65f8a9d9f2f7b0.jar" />
     </item>
     <item
@@ -55,54 +54,6 @@
         revision="25.0.0"
         sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
         <dex dex="C:\Users\User\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-48485db3a0ac3a4888aeeae56b3ed925c505b4fe.jar" />
-=======
-        jar="C:\Users\Administrator\.android\build-cache\b1b06160b7f9469d5371380f900a79608a7e73d6\output\jars\libs\internal_impl-24.2.1.jar"
-        revision="25.0.0"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\internal_impl-24.2.1-de084017206d493a9de636b849d84c485a59947f.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\AppData\Local\Android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
-        revision="25.0.0"
-        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\constraint-layout-solver-1.0.2-69e89180a4d865ebff11250d4742ea295cbaecc8.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\c97553e6d0939922d490b038557608658e4fe3fd\output\jars\classes.jar"
-        revision="25.0.0"
-        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-5cc6895251c2a0e752a5b8b1e134cab5fe3967c4.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\281c83a1cdad7aef258a3f6b9657d62a8266b1cb\output\jars\classes.jar"
-        revision="25.0.0"
-        sha1="8dd49930e4f9dde1a42d37e362b9fea8b1b69c0d">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-beba3cbb2315c2ccaed18035182f93de12c2f970.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\e357e166645ec8d8de4b5b868faf107fc7f78692\output\jars\libs\internal_impl-24.2.1.jar"
-        revision="25.0.0"
-        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\internal_impl-24.2.1-18fc0c76e5df66ef67d45dd5e6fe818683f4f4fe.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\14a5e16abc18ea137b1d4c520027dfa2ad8afcd1\output\jars\classes.jar"
-        revision="25.0.0"
-        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-90a43934957479d513c37e01f1b89d3f743a57fe.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\0bbfeef9733010de75b85da87b1ec4f22e0e5d89\output\jars\classes.jar"
-        revision="25.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-d0860667b01da696f2f5282698e5520c3486fe54.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\14308e5cc13a1bb9bab525175021012adc60bc83\output\jars\libs\internal_impl-24.2.1.jar"
-        revision="25.0.0"
-        sha1="867dad63c33388ff8c7644b236579355036d075f">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\internal_impl-24.2.1-0281abbb0e47fefb1281d71b88696f41cf5d6bfc.jar" />
->>>>>>> 50c70f0444ee367c08f2b2f1e2865d7f183cc997
     </item>
     <item
         jar="C:\Users\User\.android\build-cache\4f408b7b3167ce751b75d16eb672d754ee6a66c6\output\jars\libs\internal_impl-24.2.1.jar"
@@ -111,7 +62,6 @@
         <dex dex="C:\Users\User\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\internal_impl-24.2.1-98555af5d426441705a60afcbe2d157d3698fa8d.jar" />
     </item>
     <item
-<<<<<<< HEAD
         jar="C:\Users\User\.android\build-cache\ca293208cc6ce1f406d3ea6e1d88af2303c16db0\output\jars\classes.jar"
         revision="25.0.0"
         sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
@@ -122,18 +72,6 @@
         revision="25.0.0"
         sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
         <dex dex="C:\Users\User\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-9f014d04de5aadd408b1d417bff9dcc5478bdb51.jar" />
-=======
-        jar="C:\Users\Administrator\.android\build-cache\b1b06160b7f9469d5371380f900a79608a7e73d6\output\jars\classes.jar"
-        revision="25.0.0"
-        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-8510dbcf53fd9f6bad27213830852c508c45f860.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\Desktop\magshProj\client\app\libs\commonLibrary.jar"
-        revision="25.0.0"
-        sha1="b8ebd16ef9568688f47f566eeb3c710fb3b4d0e5">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\commonLibrary-7d86f18f85a3daf05d9311a3fd06edce298ac9e7.jar" />
->>>>>>> 50c70f0444ee367c08f2b2f1e2865d7f183cc997
     </item>
     <item
         jar="C:\Users\User\.android\build-cache\2c8195b6c8e1188f4d5bbc55304a215b5d3fc1ba\output\jars\libs\internal_impl-24.2.1.jar"
@@ -154,7 +92,6 @@
         <dex dex="C:\Users\User\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-8cf185cec779aa22472545c0e4983e8164f63fda.jar" />
     </item>
     <item
-<<<<<<< HEAD
         jar="C:\Users\User\.android\build-cache\fc6db6ab5656d47ecd990de08e54a6136ef2cf89\output\jars\libs\internal_impl-24.2.1.jar"
         revision="25.0.0"
         sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
@@ -183,24 +120,6 @@
         revision="25.0.0"
         sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
         <dex dex="C:\Users\User\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\support-annotations-24.2.1-54dc45dfabb608f3363bca49d90843bc42ff330f.jar" />
-=======
-        jar="C:\Users\Administrator\.android\build-cache\ffe359d27d0c670b07b2d6ca4594643ff2a8cd67\output\jars\classes.jar"
-        revision="25.0.0"
-        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-431e9f3f878fff8243dca925ac7082aac7943903.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\ba5c89ac68c8ac918e99061846f0881f5a214229\output\jars\classes.jar"
-        revision="25.0.0"
-        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-11a4177775ef84f67e0ccf3721bf34e954719274.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\72c967165559bdbea07a6d468ea321e48db825bf\output\jars\libs\internal_impl-24.2.1.jar"
-        revision="25.0.0"
-        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\internal_impl-24.2.1-a75f7e454563a92a9ce6c5a240eea58c30e7bd0d.jar" />
->>>>>>> 50c70f0444ee367c08f2b2f1e2865d7f183cc997
     </item>
     <item
         jar="C:\Users\User\.android\build-cache\b35ae8303660eba483a3b4d8ee3c419926465912\output\jars\libs\internal_impl-24.2.1.jar"
@@ -209,7 +128,6 @@
         <dex dex="C:\Users\User\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\internal_impl-24.2.1-038d3644f3627b5815b29b0fc99865d47835dd5c.jar" />
     </item>
     <item
-<<<<<<< HEAD
         jar="C:\Users\User\.android\build-cache\6397c01a6c857e06c887b2eca2441cc0e3aab4a3\output\jars\classes.jar"
         revision="25.0.0"
         sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
@@ -220,24 +138,6 @@
         revision="25.0.0"
         sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
         <dex dex="C:\Users\User\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-c0da97aeba328dc3792b6c41bd4ac24103efa023.jar" />
-=======
-        jar="C:\Users\Administrator\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
-        revision="25.0.0"
-        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\support-annotations-24.2.1-1d559e7ed20d144e0afcd6b12511adab899fb1e6.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\6689091bbfa72c012d19d41ba7e81a14f1905814\output\jars\classes.jar"
-        revision="25.0.0"
-        sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-d50fae552db73afa953cd53149aadff4f7cab9c4.jar" />
-    </item>
-    <item
-        jar="C:\Users\Administrator\.android\build-cache\ba5c89ac68c8ac918e99061846f0881f5a214229\output\jars\libs\internal_impl-24.2.1.jar"
-        revision="25.0.0"
-        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
-        <dex dex="C:\Users\Administrator\Desktop\magshProj\client\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\internal_impl-24.2.1-d8134c36aaf82399f1b754289d234e4d2d78c751.jar" />
->>>>>>> 50c70f0444ee367c08f2b2f1e2865d7f183cc997
     </item>
 
 </items>
