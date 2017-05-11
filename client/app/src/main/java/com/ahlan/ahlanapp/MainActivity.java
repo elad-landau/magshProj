@@ -117,8 +117,8 @@ public class MainActivity extends AppCompatActivity
         //mAdapter.notifyItemInserted(chatsUsers.size() - 1);
 
         //TODO: Start the Login activity for phoneNumber
-        //Intent intent = new Intent(this, LoginActivity.class);
-        //startActivityForResult(intent, RESULT_REQ);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, RESULT_REQ);
 
     }
 
