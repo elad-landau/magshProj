@@ -43,14 +43,13 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Message> messages;
     private List<User> chatsUsers;
-    private Intent mIntent;
     private Thread networkThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view); // TODO it is null!
+        /*mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view); // TODO it is null!
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -71,15 +70,15 @@ public class MainActivity extends AppCompatActivity
        // mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
         //mRecyclerView.setAdapter(mAdapter);
 
-        setContentView(R.layout.activity_main);
+        */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {//send message activity
-                DialogFragment dialog = new startChat_dialog();
-                dialog.show(getSupportFragmentManager(),"startChat_dialog");
+               // DialogFragment dialog = new startChat_dialog();
+               // dialog.show(getSupportFragmentManager(),"startChat_dialog");
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -89,22 +88,22 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(this);/*
 
-        /*
+
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        mIntent = new Intent(MainActivity.this, ChatActivity.class);
-                        mIntent.putExtra("chatName", chatsUsers.get(position).getName());
-                        mIntent.putExtra("phoneNumber", Integer.getInteger(chatsUsers.get(position).getPhoneNumber()));
-                        mIntent.putExtra("userPhoneNumber", Integer.getInteger(mUser.getPhoneNumber()));
-                        startActivity(mIntent);
+                        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                        intent.putExtra("chatName", chatsUsers.get(position).getName());
+                        intent.putExtra("phoneNumber", Integer.getInteger(chatsUsers.get(position).getPhoneNumber()));
+                        intent.putExtra("userPhoneNumber", Integer.getInteger(mUser.getPhoneNumber()));
+                        startActivity(intent);
                     }
 
                 })
         );
-        */ //TODO the mRecycleView is null at first place
+        //TODO the mRecycleView is null at first place
         //TODO: when new user added
         //chatsUsers.add(newUser)
         //mAdapter.notifyItemInserted(chatsUsers.size() - 1);
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         //TODO: Start the Login activity for phoneNumber
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, RESULT_REQ);
-
+*/
     }
 
 
@@ -281,3 +280,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 }
+
