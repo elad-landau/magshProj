@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view); // TODO it is null!
+        mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view); // TODO it is null!
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        //mRecyclerView.setHasFixedSize(true); //TODO this make the app crash!
+        mRecyclerView.setHasFixedSize(true); //TODO this make the app crash!
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
@@ -73,11 +73,11 @@ public class MainActivity extends AppCompatActivity
             messages = createMessageList();
         }
         // specify an adapter
-        chatsUsers = getUsersAtMessages();
-        mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
-        mRecyclerView.setAdapter(mAdapter);
+        //chatsUsers = getUsersAtMessages();
+        //mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
+        //mRecyclerView.setAdapter(mAdapter);
 
-        */
+
         mUser = new User("","");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {//send message activity
-               // DialogFragment dialog = new startChat_dialog();
-               // dialog.show(getSupportFragmentManager(),"startChat_dialog");
+               DialogFragment dialog = new startChat_dialog();
+               dialog.show(getSupportFragmentManager(),"startChat_dialog");
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
