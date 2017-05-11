@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity
     private List<Message> messages;
     private List<User> chatsUsers;
     private Thread networkThread;
+    private TextView mUserNameView;
+    private TextView mUserPhoneView;
 
     private static final class lock {}
     private Object lockMessages;
@@ -79,6 +82,8 @@ public class MainActivity extends AppCompatActivity
 
 
         mUser = new User("","");
+        mUserNameView = (TextView) findViewById(R.id.user_name);
+        mUserPhoneView = (TextView) findViewById(R.id.user_phone_number);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -239,8 +244,10 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         try {
+            mUser = Network.getInstance().getUserByPhone(data.getStringExtra("phoneNumber"));
+            mUserPhoneView.setText(mUser.getPhoneNumber());
+            mUserNameView.setText(mUser.getName());
 
-            mUser.setPhoneNumber(data.getStringExtra("phoneNumber"));
         } catch (Exception ex) {
             finish();
         }
