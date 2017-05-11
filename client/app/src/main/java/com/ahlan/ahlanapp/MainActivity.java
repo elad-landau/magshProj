@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {//send message activity
-               // DialogFragment dialog = new startChat_dialog();
-               // dialog.show(getSupportFragmentManager(),"startChat_dialog");
+               DialogFragment dialog = new startChat_dialog();
+               dialog.show(getSupportFragmentManager(),"startChat_dialog");
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
