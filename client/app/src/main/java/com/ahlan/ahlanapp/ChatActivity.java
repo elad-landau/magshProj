@@ -3,6 +3,7 @@ package com.ahlan.ahlanapp;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,15 +24,14 @@ import java.util.List;
 import commonLibrary.*;
 
 public class ChatActivity extends AppCompatActivity {
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<>();
     private String chatName;
     private TextView mChatTitel;
     private EditText mMessageText;
     private Button mSendButton;
     private LinearLayout mLayout;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private MessageAdapter mAdapter;
     private int thisPhoneNumber;
     private int destPhoneNumber;
 
@@ -44,9 +44,11 @@ public class ChatActivity extends AppCompatActivity {
         mSendButton = (Button) findViewById(R.id.send);
         mRecyclerView.setHasFixedSize(true);
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new MessageAdapter(messages);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
 
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
@@ -70,8 +72,63 @@ public class ChatActivity extends AppCompatActivity {
         });
         Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
         messages = this.createMessageList();
-
+        //prepareMessagesData();
     }
+
+    private void prepareMessagesData() {//for test
+        Message movie = new Message("Mad Max: Fury Road", "Action & Adventure", "2015");
+        messages.add(movie);
+
+        movie = new Message("Inside Out", "Animation, Kids & Family", "2015");
+        messages.add(movie);
+
+        movie = new Message("Star Wars: Episode VII - The Force Awakens", "Action", "2015");
+        messages.add(movie);
+
+        movie = new Message("Shaun the Sheep", "Animation", "2015");
+        messages.add(movie);
+
+        movie = new Message("The Martian", "Science Fiction & Fantasy", "2015");
+        messages.add(movie);
+
+        movie = new Message("Mission: Impossible Rogue Nation", "Action", "2015");
+        messages.add(movie);
+
+        movie = new Message("Up", "Animation", "2009");
+        messages.add(movie);
+
+        movie = new Message("Star Trek", "Science Fiction", "2009");
+        messages.add(movie);
+
+        movie = new Message("The LEGO Movie", "Animation", "2014");
+        messages.add(movie);
+
+        movie = new Message("Iron Man", "Action & Adventure", "2008");
+        messages.add(movie);
+
+        movie = new Message("Aliens", "Science Fiction", "1986");
+        messages.add(movie);
+
+        movie = new Message("Chicken Run", "Animation", "2000");
+        messages.add(movie);
+
+        movie = new Message("Back to the Future", "Science Fiction", "1985");
+        messages.add(movie);
+
+        movie = new Message("Raiders of the Lost Ark", "Action & Adventure", "1981");
+        messages.add(movie);
+
+        movie = new Message("Goldfinger", "Action & Adventure", "1965");
+        messages.add(movie);
+
+        movie = new Message("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
+        messages.add(movie);
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+    /* //TODO: crash
     @Override
     public void onBackPressed()
     {
@@ -85,14 +142,13 @@ public class ChatActivity extends AppCompatActivity {
         getParent().onBackPressed();
         Network.getInstance().removeFromActiveChatList(this);
         super.onDestroy();
-    }
+    }*/
 
     public String getChatPhone()
     {
         return Integer.toString(thisPhoneNumber);
     }
 
-    //TODO:Create text view dynamically
     protected void onGetMessage(Message message) {
 
         messages.add(message);

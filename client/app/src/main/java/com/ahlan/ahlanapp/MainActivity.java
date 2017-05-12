@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,14 +45,12 @@ public class MainActivity extends AppCompatActivity
     public static final int RESULT_REQ = 1;
     private User mUser;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private List<Message> messages;
-    private List<User> chatsUsers;
+    private ChatAdapter mAdapter;
+    private List<Message> messages = new ArrayList<>();
+    private List<User> chatsUsers = new ArrayList<>();
     private Thread networkThread;
     private TextView mUserNameView;
     private TextView mUserPhoneView;
-    private View mNavView;
 
 
     private static final class lock {}
@@ -60,32 +60,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view); // TODO it is null!
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        //mRecyclerView.setHasFixedSize(true); //TODO this make the app crash!
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager); //TODO this null and crash!
-
-        Network.getInstance();
-        new Thread(Network.getInstance()).start();
-        Network.getInstance().setMainActivity(this);
-        //networkThread.start();
-        lockMessages = new lock();
-
-
-        synchronized (lockMessages) {
-            messages = createMessageList();
-        }
-        // specify an adapter
-        chatsUsers = getUsersAtMessages();
-        mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
-        mRecyclerView.setAdapter(mAdapter);
-
-        */
         mUser = new User("","");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -108,7 +83,34 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         mUserNameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_name);
         mUserPhoneView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_phone_number);
-/*
+
+
+        Network.getInstance();
+        new Thread(Network.getInstance()).start();
+        Network.getInstance().setMainActivity(this);
+        lockMessages = new lock();
+
+
+        synchronized (lockMessages) {
+            messages = createMessageList();
+        }
+        // specify an adapter
+        chatsUsers = getUsersAtMessages();
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        if(chatsUsers.isEmpty())
+            chatsUsers.add(new User("There is no open Chats", "-1"));
+        mAdapter = new ChatAdapter(chatsUsers);//TODO this can be null if the users didnt send any message!
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+
+        //prepareUsersData();
+
+
+
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
@@ -120,19 +122,68 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 })
-        );*/
-
-
+        );
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, RESULT_REQ);
     }
 
+    private void prepareUsersData() {
+        User user = new User("Mad Max: Fury Road", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Inside Out", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Star Wars: Episode VII - The Force Awakens", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Shaun the Sheep", "2015");
+        chatsUsers.add(user);
+
+        user = new User("The Martian", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Mission: Impossible Rogue Nation", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Up", "2009");
+        chatsUsers.add(user);
+
+        user = new User("Star Trek", "2009");
+        chatsUsers.add(user);
+
+        user = new User("The LEGO Movie", "2014");
+        chatsUsers.add(user);
+
+        user = new User("Iron Man", "2008");
+        chatsUsers.add(user);
+
+        user = new User("Aliens", "1986");
+        chatsUsers.add(user);
+
+        user = new User("Chicken Run", "2000");
+        chatsUsers.add(user);
+
+        user = new User("Back to the Future", "1985");
+        chatsUsers.add(user);
+
+        user = new User("Raiders of the Lost Ark", "1981");
+        chatsUsers.add(user);
+
+        user = new User("Goldfinger", "1965");
+        chatsUsers.add(user);
+
+        user = new User("Guardians of the Galaxy", "2014");
+        chatsUsers.add(user);
+
+        mAdapter.notifyDataSetChanged();
+    }
 
     /*
-    ask the server for the all the messages of this user
-    then convert the array into list
-     */
+   ask the server for the all the messages of this user
+   then convert the array into list
+    */
     private List<Message> createMessageList()
     {
         Message[] msg = Network.getInstance().getAllMessages();
@@ -218,7 +269,8 @@ public class MainActivity extends AppCompatActivity
         if(Network.getInstance().isUserExists(phone))
         {
             chatsUsers.add(Network.getInstance().getUserByPhone(phone));
-            mAdapter.notifyItemInserted(chatsUsers.size() - 1);        }
+            mAdapter.notifyItemInserted(chatsUsers.size() - 1);
+        }
         else
         {
             Context context = getApplicationContext();
@@ -243,17 +295,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RESULT_REQ && requestCode == Activity.RESULT_OK && data != null) {
+            super.onActivityResult(requestCode, resultCode, data);
 
-        try {
-            mUser = Network.getInstance().getUserByPhone(data.getStringExtra("phoneNumber"));
-            mUserPhoneView.setText(mUser.getPhoneNumber());
-            mUserNameView.setText(mUser.getName());
+            try {
+                mUser = Network.getInstance().getUserByPhone(data.getStringExtra("phoneNumber"));
+                mUserPhoneView.setText(mUser.getPhoneNumber());
+                mUserNameView.setText(mUser.getName());
 
-        } catch (Exception ex) {
-            finish();
+            } catch (Exception ex) {
+                finish();
+            }
         }
-
     }
 
     @Override
