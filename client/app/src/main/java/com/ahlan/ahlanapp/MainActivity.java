@@ -1,16 +1,12 @@
 package com.ahlan.ahlanapp;
 
 
-import android.app.Dialog;
+
 import android.content.Context;
 import android.database.sqlite.*;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     private Thread networkThread;
     private TextView mUserNameView;
     private TextView mUserPhoneView;
+    private View mNavView;
+
 
     private static final class lock {}
     private Object lockMessages;
@@ -82,8 +80,7 @@ public class MainActivity extends AppCompatActivity
 
 
         mUser = new User("","");
-        mUserNameView = (TextView) findViewById(R.id.user_name);
-        mUserPhoneView = (TextView) findViewById(R.id.user_phone_number);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -102,6 +99,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mUserNameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_name);
+        mUserPhoneView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_phone_number);
 /*
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
@@ -115,10 +114,6 @@ public class MainActivity extends AppCompatActivity
 
                 })
         );*/
-
-        //TODO: when new user added
-        //chatsUsers.add(newUser)
-        //mAdapter.notifyItemInserted(chatsUsers.size() - 1);
 
         //TODO: Start the Login activity for phoneNumber
         Intent intent = new Intent(this, LoginActivity.class);
@@ -208,14 +203,14 @@ public class MainActivity extends AppCompatActivity
      */
     public void onDialogPositiveClick(DialogFragment dialog)
     {
-        EditText mPhoneNumber = (EditText)dialog.getDialog().findViewById(R.id.phoneNumberBox);
-        String phone = mPhoneNumber.getText().toString();
+        EditText phoneNumber = (EditText)dialog.getDialog().findViewById(R.id.phoneNumberBox);
+        String phone = phoneNumber.getText().toString();
 
         dialog.getDialog().cancel();
-        if(Network.getInstance().isUserExists(mPhoneNumber.getText().toString()))
+        if(Network.getInstance().isUserExists(phone))
         {
-            //TODO open chat
-        }
+            chatsUsers.add(Network.getInstance().getUserByPhone(phone));
+            mAdapter.notifyItemInserted(chatsUsers.size() - 1);        }
         else
         {
             Context context = getApplicationContext();
@@ -238,7 +233,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    //TODO: Get the extra "phoneNumber" from the Login activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -296,9 +290,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_send_message) {
-
-        } else if (id == R.id.nav_chat_group) {
-
+            DialogFragment dialog = new startChat_dialog();
+            dialog.show(getSupportFragmentManager(),"startChat_dialog");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

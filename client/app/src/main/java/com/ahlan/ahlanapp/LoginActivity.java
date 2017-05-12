@@ -273,7 +273,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    //TODO: Give the father activity (Main) parameter end finish
     private void MoveActivity(String phoneNumber) {
         Intent resultIntent = new Intent();
         resultIntent.putExtra("phoneNumber", phoneNumber);

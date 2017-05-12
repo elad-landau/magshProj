@@ -3,10 +3,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_chat_group"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Start Chat Group" />
-        <item
             android:id="@+id/nav_send_message"
             android:icon="@drawable/ic_menu_send"
             android:title="Send Message" />
