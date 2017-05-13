@@ -2,14 +2,17 @@ package com.ahlan.ahlanapp;
 
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,18 +40,17 @@ public class MainActivity extends AppCompatActivity
     public static final int RESULT_REQ = 1;
     private User mUser;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private List<Message> messages;
-    private List<User> chatsUsers;
+    private ChatAdapter mAdapter;
+    private List<Message> messages = new ArrayList<>();
+    private List<User> chatsUsers = new ArrayList<>();
     private Thread networkThread;
     private TextView mUserNameView;
     private TextView mUserPhoneView;
-    private View mNavView;
 
 
     private static final class lock {}
     private Object lockMessages;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,62 +72,79 @@ public class MainActivity extends AppCompatActivity
         //networkThread.start();
         lockMessages = new lock();
 
+        mUser = new User("","");
 
-        synchronized (lockMessages) {
-            messages = createMessageList();
-        }
+    //TODO: Start the Login activity for phoneNumber
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, RESULT_REQ);
+
+
         // specify an adapter
         //chatsUsers = getUsersAtMessages();
         //mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
         //mRecyclerView.setAdapter(mAdapter);
 
-
-        mUser = new User("","");
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {//send message activity
-               DialogFragment dialog = new startChat_dialog();
-               dialog.show(getSupportFragmentManager(),"startChat_dialog");
-            }
-        });
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        mUserNameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_name);
-        mUserPhoneView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_phone_number);
-/*
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                        intent.putExtra("chatName", chatsUsers.get(position).getName());
-                        intent.putExtra("phoneNumber", Integer.getInteger(chatsUsers.get(position).getPhoneNumber()));
-                        intent.putExtra("userPhoneNumber", Integer.getInteger(mUser.getPhoneNumber()));
-                        startActivity(intent);
-                    }
-
-                })
-        );*/
-
-        //TODO: Start the Login activity for phoneNumber
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, RESULT_REQ);
     }
 
+    /*
+    for debug
+     */
+    private void prepareUsersData() {
+        User user = new User("Mad Max: Fury Road", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Inside Out", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Star Wars: Episode VII - The Force Awakens", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Shaun the Sheep", "2015");
+        chatsUsers.add(user);
+
+        user = new User("The Martian", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Mission: Impossible Rogue Nation", "2015");
+        chatsUsers.add(user);
+
+        user = new User("Up", "2009");
+        chatsUsers.add(user);
+
+        user = new User("Star Trek", "2009");
+        chatsUsers.add(user);
+
+        user = new User("The LEGO Movie", "2014");
+        chatsUsers.add(user);
+
+        user = new User("Iron Man", "2008");
+        chatsUsers.add(user);
+
+        user = new User("Aliens", "1986");
+        chatsUsers.add(user);
+
+        user = new User("Chicken Run", "2000");
+        chatsUsers.add(user);
+
+        user = new User("Back to the Future", "1985");
+        chatsUsers.add(user);
+
+        user = new User("Raiders of the Lost Ark", "1981");
+        chatsUsers.add(user);
+
+        user = new User("Goldfinger", "1965");
+        chatsUsers.add(user);
+
+        user = new User("Guardians of the Galaxy", "2014");
+        chatsUsers.add(user);
+
+        mAdapter.notifyDataSetChanged();
+    }
 
     /*
-    ask the server for the all the messages of this user
-    then convert the array into list
-     */
+   ask the server for the all the messages of this user
+   then convert the array into list
+    */
     private List<Message> createMessageList()
     {
         Message[] msg = Network.getInstance().getAllMessages();
@@ -144,7 +164,7 @@ public class MainActivity extends AppCompatActivity
     {
         synchronized (lockMessages) {
             if (messages.size() == 0)
-                return null;
+                return new ArrayList<User>();
 
         }
         List<String> pNumbers = new ArrayList<String>();
@@ -210,7 +230,8 @@ public class MainActivity extends AppCompatActivity
         if(Network.getInstance().isUserExists(phone))
         {
             chatsUsers.add(Network.getInstance().getUserByPhone(phone));
-            mAdapter.notifyItemInserted(chatsUsers.size() - 1);        }
+            mAdapter.notifyItemInserted(chatsUsers.size() - 1);
+        }
         else
         {
             Context context = getApplicationContext();
@@ -235,18 +256,84 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RESULT_REQ || requestCode == Activity.RESULT_OK && data != null) { /* TODO: made changes in the if, check*/
+            super.onActivityResult(requestCode, resultCode, data);
 
-        try {
-            mUser = Network.getInstance().getUserByPhone(data.getStringExtra("phoneNumber"));
-            mUserPhoneView.setText(mUser.getPhoneNumber());
-            mUserNameView.setText(mUser.getName());
+            try {
+                mUser = Network.getInstance().getUserByPhone(data.getStringExtra("phoneNumber"));
 
-        } catch (Exception ex) {
-            finish();
+            } catch (Exception ex) {
+                finish();
+            }
         }
 
+        finishSetup();
     }
+
+    private void finishSetup()
+    {
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {//send message activity
+                DialogFragment dialog = new startChat_dialog();
+                dialog.show(getSupportFragmentManager(),"startChat_dialog");
+            }
+        });
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        mUserNameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_name);
+        mUserPhoneView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_phone_number);
+
+        mUserPhoneView.setText(mUser.getPhoneNumber());
+        mUserNameView.setText(mUser.getName());
+
+
+        synchronized (lockMessages) {
+            messages = createMessageList();
+        }
+        // specify an adapter
+        chatsUsers = getUsersAtMessages();
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        if(chatsUsers.isEmpty())
+            chatsUsers.add(new User("There is no open Chats", "-1"));
+        mAdapter = new ChatAdapter(chatsUsers);//TODO this can be null if the users didnt send any message!
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+
+        //prepareUsersData();
+
+
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                        intent.putExtra("chatName", chatsUsers.get(position).getName());
+                        intent.putExtra("destPhoneNumber", chatsUsers.get(position).getPhoneNumber());
+                        //Log.d("number","the number is : "+mUser.getPhoneNumber());
+                        intent.putExtra("userPhoneNumber", mUser.getPhoneNumber());
+                        startActivity(intent);
+                    }
+
+                })
+        );
+
+    }
+
 
     @Override
     public void onBackPressed() {

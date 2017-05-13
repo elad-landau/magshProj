@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:padding="10dp"
-    android:textAlignment="center"
-    android:textSize="24sp"
-    android:background="@drawable/chet_box_shape"/>
+    android:layout_height="70dp"
+    android:focusable="true"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:background="?android:attr/selectableItemBackground">
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/single_chat"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:background="@drawable/chet_box_shape"/>
+</LinearLayout>
