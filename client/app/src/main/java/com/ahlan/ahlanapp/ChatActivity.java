@@ -32,8 +32,8 @@ public class ChatActivity extends AppCompatActivity {
     private LinearLayout mLayout;
     private RecyclerView mRecyclerView;
     private MessageAdapter mAdapter;
-    private int thisPhoneNumber;
-    private int destPhoneNumber;
+    private String thisPhoneNumber;
+    private String destPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +53,12 @@ public class ChatActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             chatName = null;
-            destPhoneNumber = -1;
-            thisPhoneNumber = -1;
+            destPhoneNumber = "";
+            thisPhoneNumber = "";
         } else {
             chatName = extras.getString("chatName");
-            destPhoneNumber = extras.getInt("phoneNumber");
-            thisPhoneNumber = extras.getInt("userPhoneNumber");
+            destPhoneNumber = extras.getString("destPhoneNumber");
+            thisPhoneNumber = extras.getString("userPhoneNumber");
         }
 
         mChatTitel = (TextView) findViewById(R.id.chatName);
@@ -146,7 +146,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public String getChatPhone()
     {
-        return Integer.toString(thisPhoneNumber);
+        return thisPhoneNumber;
     }
 
     protected void onGetMessage(Message message) {
@@ -157,7 +157,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage(String text)
     {
-        Message msg = new Message(text,Integer.toString(thisPhoneNumber),Integer.toString(destPhoneNumber));
+        Message msg = new Message(text,thisPhoneNumber,destPhoneNumber);
         messages.add(msg);
         mAdapter.notifyItemInserted(messages.size() - 1);
         Network.getInstance().sendMessage(msg);
@@ -165,7 +165,7 @@ public class ChatActivity extends AppCompatActivity {
     }
     private List<Message> createMessageList()
     {
-        Message[] msg = Network.getInstance().getAllMessages();
+        Message[] msg = Network.getInstance().getMessagesHistory(this.destPhoneNumber);
         List<Message> msgs = new ArrayList<Message>();
 
         for(int i = 0;i<msg.length;i++)
