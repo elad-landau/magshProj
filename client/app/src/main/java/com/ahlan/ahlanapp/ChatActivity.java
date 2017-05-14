@@ -66,12 +66,16 @@ public class ChatActivity extends AppCompatActivity {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mMessageText.getText().toString().compareTo("") != 0)
+                {
                 sendMessage(mMessageText.getText().toString());
                 mMessageText.setText("");
+                }
             }
         });
         Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
         messages = this.createMessageList();
+        mAdapter.notifyDataSetChanged();
         //prepareMessagesData();
     }
 
@@ -152,14 +156,20 @@ public class ChatActivity extends AppCompatActivity {
     protected void onGetMessage(Message message) {
 
         messages.add(message);
-        mAdapter.notifyItemInserted(messages.size() - 1);
+        if(messages.size() == 0)
+            mAdapter.notifyItemInserted(0);
+        else
+            mAdapter.notifyItemInserted(messages.size() - 1);
     }
 
     private void sendMessage(String text)
     {
         Message msg = new Message(text,thisPhoneNumber,destPhoneNumber);
         messages.add(msg);
-        mAdapter.notifyItemInserted(messages.size() - 1);
+        if(messages.size() == 0)
+            mAdapter.notifyItemInserted(0);
+        else
+            mAdapter.notifyItemInserted(messages.size() - 1);
         Network.getInstance().sendMessage(msg);
 
     }
