@@ -66,18 +66,19 @@ public class MainActivity extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager); //TODO this null and crash!
 
-        Network.getInstance();
+        /*Network.getInstance();
         new Thread(Network.getInstance()).start();
         Network.getInstance().setMainActivity(this);
         //networkThread.start();
         lockMessages = new lock();
-
-        mUser = new User("","");
+*/
+        mUser = new User ("name", "0503302200");
 
     //TODO: Start the Login activity for phoneNumber
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, RESULT_REQ);
+        //Intent intent = new Intent(this, LoginActivity.class);
+        //startActivityForResult(intent, RESULT_REQ);
 
+        finishSetup();
 
         // specify an adapter
         //chatsUsers = getUsersAtMessages();
@@ -138,7 +139,6 @@ public class MainActivity extends AppCompatActivity
         user = new User("Guardians of the Galaxy", "2014");
         chatsUsers.add(user);
 
-        mAdapter.notifyDataSetChanged();
     }
 
     /*
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity
             super.onActivityResult(requestCode, resultCode, data);
 
             try {
-                mUser = Network.getInstance().getUserByPhone(data.getStringExtra("phoneNumber"));
+                mUser = new User ("name", "0503302200");//Network.getInstance().getUserByPhone(data.getStringExtra("phoneNumber"));
 
             } catch (Exception ex) {
                 finish();
@@ -298,12 +298,12 @@ public class MainActivity extends AppCompatActivity
         mUserNameView.setText(mUser.getName());
 
 
-        synchronized (lockMessages) {
+/*        synchronized (lockMessages) {
             messages = createMessageList();
-        }
+        }*/
         // specify an adapter
-        chatsUsers = getUsersAtMessages();
-
+        //chatsUsers = getUsersAtMessages();
+        prepareUsersData();
         mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         if(chatsUsers.isEmpty())

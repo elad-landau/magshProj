@@ -44,6 +44,9 @@ public class ChatActivity extends AppCompatActivity {
         mSendButton = (Button) findViewById(R.id.send);
         mRecyclerView.setHasFixedSize(true);
 
+        /*Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
+        this.createMessageList();*/
+
         mAdapter = new MessageAdapter(messages);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -73,9 +76,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
-        Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
-        messages = this.createMessageList();
-        mAdapter.notifyDataSetChanged();
+
         //prepareMessagesData();
     }
 
@@ -155,31 +156,28 @@ public class ChatActivity extends AppCompatActivity {
     protected void onGetMessage(Message message) {
 
         messages.add(message);
-        if(messages.size() == 0)
-            mAdapter.notifyItemInserted(0);
-        else
-            mAdapter.notifyItemInserted(messages.size() - 1);
+        mAdapter.notifyItemInserted(messages.size() - 1);
+        mRecyclerView.scrollToPosition(messages.size()-1);
     }
 
     private void sendMessage(String text)
     {
         Message msg = new Message(text,Integer.toString(thisPhoneNumber),Integer.toString(destPhoneNumber));
         messages.add(msg);
-        if(messages.size() == 0)
-            mAdapter.notifyItemInserted(0);
-        else
-            mAdapter.notifyItemInserted(messages.size() - 1);
-        Network.getInstance().sendMessage(msg);
+        mAdapter.notifyItemInserted(messages.size() - 1);
+        mRecyclerView.scrollToPosition(messages.size()-1);
+       // Network.getInstance().sendMessage(msg);
 
     }
-    private List<Message> createMessageList()
+    private void createMessageList()
     {
         Message[] msg = Network.getInstance().getAllMessages();
-        List<Message> msgs = new ArrayList<Message>();
 
-        for(int i = 0;i<msg.length;i++)
-            msgs.add(msg[i]);
+        for(int i = 0;i<msg.length;i++) {
+            if((Integer.getInteger(msg[i].get_destination()) == thisPhoneNumber && Integer.getInteger(msg[i].get_origin()) == destPhoneNumber)
+                    ||(Integer.getInteger(msg[i].get_destination()) == destPhoneNumber && Integer.getInteger(msg[i].get_origin()) == thisPhoneNumber))
+                messages.add(msg[i]);
+        }
 
-        return msgs;
     }
 }
