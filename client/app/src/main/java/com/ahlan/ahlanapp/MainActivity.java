@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity
     private ChatAdapter mAdapter;
     private List<Message> messages = new ArrayList<>();
     private List<User> chatsUsers = new ArrayList<>();
-    private Thread networkThread;
     private TextView mUserNameView;
     private TextView mUserPhoneView;
 
@@ -61,7 +60,6 @@ public class MainActivity extends AppCompatActivity
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
-
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -69,19 +67,18 @@ public class MainActivity extends AppCompatActivity
         Network.getInstance();
         new Thread(Network.getInstance()).start();
         Network.getInstance().setMainActivity(this);
-        //networkThread.start();
         lockMessages = new lock();
 
 
+
     //TODO: Start the Login activity for phoneNumber
+
+        mUser = new User ("", "");
+
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, RESULT_REQ);
 
 
-        // specify an adapter
-        //chatsUsers = getUsersAtMessages();
-        //mAdapter = new ChatAdapter(chatsUsers); //TODO this can be null if the users didnt send any message!
-        //mRecyclerView.setAdapter(mAdapter);
 
     }
 
@@ -254,7 +251,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == RESULT_REQ || requestCode == Activity.RESULT_OK && data != null) { /* TODO: made changes in the if, check*/
+        if(requestCode == RESULT_REQ || requestCode == Activity.RESULT_OK && data != null) {
             super.onActivityResult(requestCode, resultCode, data);
 
             try {
@@ -299,6 +296,7 @@ public class MainActivity extends AppCompatActivity
         synchronized (lockMessages) {
             messages = createMessageList();
         }
+
         // specify an adapter
         chatsUsers = getUsersAtMessages();
 
@@ -306,14 +304,11 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         if(chatsUsers.isEmpty())
             chatsUsers.add(new User("There is no open Chats", "-1"));
-        mAdapter = new ChatAdapter(chatsUsers);//TODO this can be null if the users didnt send any message!
+        mAdapter = new ChatAdapter(chatsUsers);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-
-
-
 
 
         mRecyclerView.addOnItemTouchListener(
