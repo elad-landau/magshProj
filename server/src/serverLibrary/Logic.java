@@ -80,7 +80,7 @@ public class Logic implements Runnable
 				lock.unlock();
 				try
 				{
-				Thread.sleep(1000);
+				Thread.sleep(500);
 				}
 				catch(Exception e)
 				{

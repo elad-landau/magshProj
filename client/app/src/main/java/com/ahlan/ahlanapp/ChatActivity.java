@@ -44,6 +44,8 @@ public class ChatActivity extends AppCompatActivity {
         mSendButton = (Button) findViewById(R.id.send);
         mRecyclerView.setHasFixedSize(true);
 
+        Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
+
         mAdapter = new MessageAdapter(messages);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -61,6 +63,8 @@ public class ChatActivity extends AppCompatActivity {
             thisPhoneNumber = extras.getString("userPhoneNumber");
         }
 
+        this.createMessageList();
+
         mChatTitel = (TextView) findViewById(R.id.chatName);
         mChatTitel.setText(chatName);
         mSendButton.setOnClickListener(new View.OnClickListener() {
@@ -73,9 +77,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
-        Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
-        messages = this.createMessageList();
-        mAdapter.notifyDataSetChanged();
+
         //prepareMessagesData();
     }
 
@@ -140,7 +142,6 @@ public class ChatActivity extends AppCompatActivity {
         Network.getInstance().removeFromActiveChatList(this);
         super.onBackPressed();
     }
-
     protected void onDestroy()
     {
         getParent().onBackPressed();
@@ -156,31 +157,28 @@ public class ChatActivity extends AppCompatActivity {
     protected void onGetMessage(Message message) {
 
         messages.add(message);
-        if(messages.size() == 0)
-            mAdapter.notifyItemInserted(0);
-        else
-            mAdapter.notifyItemInserted(messages.size() - 1);
+        mAdapter.notifyItemInserted(messages.size() - 1);
+        mRecyclerView.scrollToPosition(messages.size()-1);
     }
 
     private void sendMessage(String text)
     {
         Message msg = new Message(text,thisPhoneNumber,destPhoneNumber);
         messages.add(msg);
-        if(messages.size() == 0)
-            mAdapter.notifyItemInserted(0);
-        else
-            mAdapter.notifyItemInserted(messages.size() - 1);
+        mAdapter.notifyItemInserted(messages.size() - 1);
+        mRecyclerView.scrollToPosition(messages.size()-1);
         Network.getInstance().sendMessage(msg);
 
     }
-    private List<Message> createMessageList()
+    private void createMessageList()
     {
-        Message[] msg = Network.getInstance().getMessagesHistory(this.destPhoneNumber);
-        List<Message> msgs = new ArrayList<Message>();
+        Message[] msg = Network.getInstance().getAllMessages();
 
-        for(int i = 0;i<msg.length;i++)
-            msgs.add(msg[i]);
+        for(int i = 0;i<msg.length;i++) {
+            if((msg[i].get_destination().compareTo(thisPhoneNumber) == 0 && msg[i].get_origin().compareTo(destPhoneNumber) == 0)
+                    ||(msg[i].get_destination().compareTo(destPhoneNumber) == 0 && msg[i].get_origin().compareTo(thisPhoneNumber) == 0))
+                messages.add(msg[i]);
+        }
 
-        return msgs;
     }
 }

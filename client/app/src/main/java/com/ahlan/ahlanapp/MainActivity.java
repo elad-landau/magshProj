@@ -56,15 +56,15 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view); // TODO it is null!
+        mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true); //TODO this make the app crash!
+        mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager); //TODO this null and crash!
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         Network.getInstance();
         new Thread(Network.getInstance()).start();
@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity
         //networkThread.start();
         lockMessages = new lock();
 
-        mUser = new User("","");
 
     //TODO: Start the Login activity for phoneNumber
         Intent intent = new Intent(this, LoginActivity.class);
@@ -138,7 +137,6 @@ public class MainActivity extends AppCompatActivity
         user = new User("Guardians of the Galaxy", "2014");
         chatsUsers.add(user);
 
-        mAdapter.notifyDataSetChanged();
     }
 
     /*
@@ -230,7 +228,7 @@ public class MainActivity extends AppCompatActivity
         if(Network.getInstance().isUserExists(phone))
         {
             chatsUsers.add(Network.getInstance().getUserByPhone(phone));
-            mAdapter.notifyItemInserted(chatsUsers.size() - 1);
+            mAdapter.notifyItemInserted(0);
         }
         else
         {
@@ -314,7 +312,7 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
-        //prepareUsersData();
+
 
 
 
@@ -324,7 +322,7 @@ public class MainActivity extends AppCompatActivity
                         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                         intent.putExtra("chatName", chatsUsers.get(position).getName());
                         intent.putExtra("destPhoneNumber", chatsUsers.get(position).getPhoneNumber());
-                        //Log.d("number","the number is : "+mUser.getPhoneNumber());
+                        Log.d("number","the number is : "+mUser.getPhoneNumber()+" dest number : "+chatsUsers.get(position).getPhoneNumber());
                         intent.putExtra("userPhoneNumber", mUser.getPhoneNumber());
                         startActivity(intent);
                     }
