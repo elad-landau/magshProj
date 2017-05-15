@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity
         if(Network.getInstance().isUserExists(phone))
         {
             chatsUsers.add(Network.getInstance().getUserByPhone(phone));
-            mAdapter.notifyItemInserted(chatsUsers.size() - 1);
+            mAdapter.notifyItemInserted(0);
         }
         else
         {
