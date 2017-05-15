@@ -32,8 +32,8 @@ public class ChatActivity extends AppCompatActivity {
     private LinearLayout mLayout;
     private RecyclerView mRecyclerView;
     private MessageAdapter mAdapter;
-    private String thisPhoneNumber;
-    private String destPhoneNumber;
+    private int thisPhoneNumber;
+    private int destPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +53,12 @@ public class ChatActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             chatName = null;
-            destPhoneNumber = "";
-            thisPhoneNumber = "";
+            destPhoneNumber = -1;
+            thisPhoneNumber = -1;
         } else {
             chatName = extras.getString("chatName");
-            destPhoneNumber = extras.getString("destPhoneNumber");
-            thisPhoneNumber = extras.getString("userPhoneNumber");
+            destPhoneNumber = extras.getInt("phoneNumber");
+            thisPhoneNumber = extras.getInt("userPhoneNumber");
         }
 
         mChatTitel = (TextView) findViewById(R.id.chatName);
@@ -136,7 +136,6 @@ public class ChatActivity extends AppCompatActivity {
         Network.getInstance().removeFromActiveChatList(this);
         super.onBackPressed();
     }
-
     protected void onDestroy()
     {
         getParent().onBackPressed();
@@ -146,7 +145,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public String getChatPhone()
     {
-        return thisPhoneNumber;
+        return Integer.toString(thisPhoneNumber);
     }
 
     protected void onGetMessage(Message message) {
@@ -157,7 +156,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage(String text)
     {
-        Message msg = new Message(text,thisPhoneNumber,destPhoneNumber);
+        Message msg = new Message(text,Integer.toString(thisPhoneNumber),Integer.toString(destPhoneNumber));
         messages.add(msg);
         mAdapter.notifyItemInserted(messages.size() - 1);
         Network.getInstance().sendMessage(msg);
@@ -165,7 +164,7 @@ public class ChatActivity extends AppCompatActivity {
     }
     private List<Message> createMessageList()
     {
-        Message[] msg = Network.getInstance().getMessagesHistory(this.destPhoneNumber);
+        Message[] msg = Network.getInstance().getAllMessages();
         List<Message> msgs = new ArrayList<Message>();
 
         for(int i = 0;i<msg.length;i++)
