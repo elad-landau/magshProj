@@ -38,20 +38,6 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
-        mRecyclerView = (RecyclerView) findViewById(R.id.messages_recycler_view);
-        mMessageText = (EditText) findViewById(R.id.messageText);
-        mSendButton = (Button) findViewById(R.id.send);
-        mRecyclerView.setHasFixedSize(true);
-
-        /*Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
-        this.createMessageList();*/
-
-        mAdapter = new MessageAdapter(messages);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(mAdapter);
 
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
@@ -63,6 +49,23 @@ public class ChatActivity extends AppCompatActivity {
             destPhoneNumber = extras.getInt("phoneNumber");
             thisPhoneNumber = extras.getInt("userPhoneNumber");
         }
+
+        setContentView(R.layout.activity_chat);
+        mRecyclerView = (RecyclerView) findViewById(R.id.messages_recycler_view);
+        mMessageText = (EditText) findViewById(R.id.messageText);
+        mSendButton = (Button) findViewById(R.id.send);
+        mRecyclerView.setHasFixedSize(true);
+
+        Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
+        this.createMessageList();
+
+        mAdapter = new MessageAdapter(messages);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+
+
 
         mChatTitel = (TextView) findViewById(R.id.chatName);
         mChatTitel.setText(chatName);
@@ -77,7 +80,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        //prepareMessagesData();
     }
 
     private void prepareMessagesData() {//for test
@@ -166,7 +168,7 @@ public class ChatActivity extends AppCompatActivity {
         messages.add(msg);
         mAdapter.notifyItemInserted(messages.size() - 1);
         mRecyclerView.scrollToPosition(messages.size()-1);
-       // Network.getInstance().sendMessage(msg);
+        Network.getInstance().sendMessage(msg);
 
     }
     private void createMessageList()
