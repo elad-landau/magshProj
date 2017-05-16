@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     private ChatAdapter mAdapter;
     private List<Message> messages = new ArrayList<>();
     private List<User> chatsUsers = new ArrayList<>();
+    private Thread networkThread;
     private TextView mUserNameView;
     private TextView mUserPhoneView;
 
@@ -55,85 +56,15 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
         Network.getInstance();
         new Thread(Network.getInstance()).start();
         Network.getInstance().setMainActivity(this);
+        networkThread.start();
         lockMessages = new lock();
-
-
-
-    //TODO: Start the Login activity for phoneNumber
-
         mUser = new User ("", "");
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, RESULT_REQ);
-
-
-
-    }
-
-    /*
-    for debug
-     */
-    private void prepareUsersData() {
-        User user = new User("Mad Max: Fury Road", "2015");
-        chatsUsers.add(user);
-
-        user = new User("Inside Out", "2015");
-        chatsUsers.add(user);
-
-        user = new User("Star Wars: Episode VII - The Force Awakens", "2015");
-        chatsUsers.add(user);
-
-        user = new User("Shaun the Sheep", "2015");
-        chatsUsers.add(user);
-
-        user = new User("The Martian", "2015");
-        chatsUsers.add(user);
-
-        user = new User("Mission: Impossible Rogue Nation", "2015");
-        chatsUsers.add(user);
-
-        user = new User("Up", "2009");
-        chatsUsers.add(user);
-
-        user = new User("Star Trek", "2009");
-        chatsUsers.add(user);
-
-        user = new User("The LEGO Movie", "2014");
-        chatsUsers.add(user);
-
-        user = new User("Iron Man", "2008");
-        chatsUsers.add(user);
-
-        user = new User("Aliens", "1986");
-        chatsUsers.add(user);
-
-        user = new User("Chicken Run", "2000");
-        chatsUsers.add(user);
-
-        user = new User("Back to the Future", "1985");
-        chatsUsers.add(user);
-
-        user = new User("Raiders of the Lost Ark", "1981");
-        chatsUsers.add(user);
-
-        user = new User("Goldfinger", "1965");
-        chatsUsers.add(user);
-
-        user = new User("Guardians of the Galaxy", "2014");
-        chatsUsers.add(user);
-
     }
 
     /*
@@ -155,15 +86,14 @@ public class MainActivity extends AppCompatActivity
     return array of users (name and phone number) of all the users the client has messages from/to
     return null if no messages
      */
-    private List<User> getUsersAtMessages()
+    private void setUsersAtMessages()
     {
         synchronized (lockMessages) {
             if (messages.size() == 0)
-                return new ArrayList<User>();
+                return;
 
         }
         List<String> pNumbers = new ArrayList<String>();
-        List<User> users;
 
         synchronized (lockMessages) {
             for (int i = 0; i < messages.size(); i++) {
@@ -177,10 +107,10 @@ public class MainActivity extends AppCompatActivity
                     pNumbers.add(targetNumber);
             }
         }
-        users = new ArrayList<User>(pNumbers.size());
-        for(int i =0;i<users.size();i++)
-            users.set(i, Network.getInstance().getUserByPhone(pNumbers.get(i)));
-        return users;
+        for(int i =0;i<pNumbers.size();i++){
+            chatsUsers.add(Network.getInstance().getUserByPhone(pNumbers.get(i)));
+            mAdapter.notifyItemInserted(messages.size() - 1);
+        }
     }
 
 
@@ -200,19 +130,8 @@ public class MainActivity extends AppCompatActivity
 
 
     /*
-    private String getChatPhone(int i) {
-        if(this.chats.get(i).get(0).get_destination() == this.mUser.getPhoneNumber())
-            return this.chats.get(i).get(0).get_origin();
-        return this.chats.get(i).get(0).get_destination();
-    }
-    */
-
-
-
-
-    /*
     take cate of dialog positive click
-    acess the phone number, ask the server is exist
+    access the phone number, ask the server is exist
     if success start new chat
     if fail present error message
      */
@@ -284,6 +203,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         mUserNameView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_name);
@@ -297,19 +217,15 @@ public class MainActivity extends AppCompatActivity
             messages = createMessageList();
         }
 
-        // specify an adapter
-        chatsUsers = getUsersAtMessages();
-
         mRecyclerView = (RecyclerView) findViewById(R.id.chats_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        if(chatsUsers.isEmpty())
-            chatsUsers.add(new User("There is no open Chats", "-1"));
         mAdapter = new ChatAdapter(chatsUsers);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
+        setUsersAtMessages();
 
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
@@ -317,7 +233,6 @@ public class MainActivity extends AppCompatActivity
                         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                         intent.putExtra("chatName", chatsUsers.get(position).getName());
                         intent.putExtra("destPhoneNumber", chatsUsers.get(position).getPhoneNumber());
-                        Log.d("number","the number is : "+mUser.getPhoneNumber()+" dest number : "+chatsUsers.get(position).getPhoneNumber());
                         intent.putExtra("userPhoneNumber", mUser.getPhoneNumber());
                         startActivity(intent);
                     }
