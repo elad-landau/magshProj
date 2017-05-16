@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             focusView = mPhoneNumber;
             cancel = true;
         } else if (!Validation.isPhoneValid(phoneNumber)) {
-            mPhoneNumber.setError(getString(R.string.error_invalid_phone));
+            mPhoneNumber.setError("Invalid phone number");
             focusView = mPhoneNumber;
             cancel = true;
         }

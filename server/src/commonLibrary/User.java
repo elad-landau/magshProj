@@ -15,16 +15,25 @@ public class User extends MemberEntity
 		super(name);
 		this.serialVersionUID = ConfigurationManager.getInstance().getUser_serial();
 		this.password = password;
-		this.phoneNumber = phoneNumber;
+		
 		this.han = han;
+		
+		if(phoneNumber.charAt(0) != '0')
+			this.phoneNumber = '0' + phoneNumber;
+		else
+			this.phoneNumber = phoneNumber;
 	}
 	
 	public User(String name,String phoneNumber)
 	{
 		super(name,0);
 		this.password = "";
-		this.phoneNumber = phoneNumber;
 		this.han = null;
+		
+		if(phoneNumber != "" && phoneNumber.charAt(0) != '0')
+			this.phoneNumber = '0' + phoneNumber;
+		else
+			this.phoneNumber = phoneNumber;
 	}
 	
 	public boolean equals(User user)
@@ -66,7 +75,10 @@ public class User extends MemberEntity
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+		if(phoneNumber.charAt(0) != '0')
+			this.phoneNumber = '0' + phoneNumber;
+		else
+			this.phoneNumber = phoneNumber;
 	}
 	
 	

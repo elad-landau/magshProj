@@ -16,23 +16,39 @@ public class Message extends Utility
 	private static final SimpleDateFormat DateFormat  = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
 	
-	public Message(String data, String origin, String destination, Date sentTime) 
+	public Message(String data, String _origin, String _destination, Date _sentTime) 
 	{
-		this._sentTime = _sentTime;
+		this._sentTime = DateFormat.format(_sentTime);
 		this._data = data;
-		this._origin = origin;
-		this._destination = destination;
 		this.serialVersionUID = ConfigurationManager.getInstance().getMessage_serial();
+		
+		if(_origin != "" && _origin.charAt(0) != '0')
+			this._origin = '0' + _origin;
+		else
+			this._origin =_origin;
+		
+		if(_destination != "" &&_destination.charAt(0) != '0')
+			this._destination = '0' + _destination;
+		else
+			this._destination = _destination;
 	}
 	
 	
-	public Message(String data, String origin, String destination) 
+	public Message(String data, String _origin, String _destination) 
 	{
 		this._sentTime = DateFormat.format(new Date());
 		this._data = data;
-		this._origin = origin;
-		this._destination = destination;
 		//this.serialVersionUID = ConfigurationManager.getInstance().getMessage_serial();
+		
+		if(_origin != "" && _origin.charAt(0) != '0')
+			this._origin = '0' + _origin;
+		else
+			this._origin =_origin;
+		
+		if(_destination != "" &&_destination.charAt(0) != '0')
+			this._destination = '0' + _destination;
+		else
+			this._destination = _destination;
 	}
 
 	public Message() {
@@ -61,7 +77,10 @@ public class Message extends Utility
 	}
 
 	public void set_origin(String _origin) {
-		this._origin = _origin;
+		if(_origin != "" && _origin.charAt(0) != '0')
+			this._origin = '0' + _origin;
+		else
+			this._origin =_origin;
 	}
 
 	public String get_destination() {
@@ -69,7 +88,11 @@ public class Message extends Utility
 	}
 
 	public void set_destination(String _destination) {
-		this._destination = _destination;
+		if(_destination != "" &&_destination.charAt(0) != '0')
+			this._destination = '0' + _destination;
+		else
+			this._destination = _destination;
+		
 	}
 
 	public String GetSentTime()

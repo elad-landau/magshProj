@@ -80,7 +80,7 @@ public class Logic implements Runnable
 				lock.unlock();
 				try
 				{
-				Thread.sleep(500);
+				Thread.sleep(250);
 				}
 				catch(Exception e)
 				{
@@ -148,11 +148,21 @@ public class Logic implements Runnable
 		Message[] messagesA;
 		
 		messagesV = DBWrapper.getInstance().getAllMessages(q.getStr()[0]);
-		messagesA = new Message[messagesV.size()];
+		if(messagesV.size()>5)
+		{
+			messagesA = new Message[5];
+			for(int i = 0;i<messagesA.length;i++)
+			{
+				messagesA[i] = messagesV.get(messagesV.size() - 5 + i);
+			}
+		}
+		else
+		{
+			messagesA = new Message[messagesV.size()];
 		
 		for(int i =0;i<messagesV.size();i++)
 			messagesA[i] = messagesV.get(i);
-		
+		}
 		answer = new Query(Constants.getAllMessages_server,messagesA);
 		q.getHandler().sendData(answer);
 		

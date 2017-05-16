@@ -15,9 +15,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import android.content.Context;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import commonLibrary.*;
@@ -35,7 +32,8 @@ class Network implements Runnable
     private Queue<Query> inQueue;
     private static final class lock {}
     private final Object lockMessages;
-    private final Object lockChats;
+    //private final Object lockChats;
+    private ReentrantLock lockChats;
 
     private static Network instance = null;
     private static Logger logger;
@@ -62,7 +60,7 @@ class Network implements Runnable
 
         lock = new ReentrantLock();
         lockMessages = new lock();
-        lockChats = new lock();
+        lockChats = new ReentrantLock();
 
         logger = Logger.getLogger(Network.class.getName());
 
@@ -114,10 +112,9 @@ class Network implements Runnable
      */
     public void addToActiveChatList(ChatActivity chat)
     {
-        synchronized (lockChats)
-        {
+        lock.lock();
             activeChats.add(chat);
-        }
+        lock.unlock();
     }
 
     /*
@@ -125,10 +122,9 @@ class Network implements Runnable
      */
     public void removeFromActiveChatList(ChatActivity chat)
     {
-        synchronized (lockChats)
-        {
+        lockChats.lock();
             activeChats.remove(chat);
-        }
+        lockChats.unlock();
     }
 
 
@@ -161,7 +157,6 @@ class Network implements Runnable
         {
             case Constants.sendMessage_server:
                 gotMessage(q.getMsg()[0]);
-                Log.d("message","appertly success :"+q.getMsg()[0].GetData());
                 break;
             default:
                 addToInQueue(q);
@@ -174,18 +169,21 @@ class Network implements Runnable
      */
     private void gotMessage(Message msg)
     {
-        String destPhone = msg.get_destination();
+        String originPhone = msg.get_origin();
         main.enterMessageToList(msg);
 
-        synchronized(lockChats)
+        lock.lock();
+        for (int i = 0; i < activeChats.size(); i++)
         {
-            for (int i = 0; i < activeChats.size(); i++) {
-                if (activeChats.get(i).getChatPhone().compareTo(destPhone) == 0) {
-                    activeChats.get(i).onGetMessage(msg);
-                    return;
-                }
+            if (activeChats.get(i).getChatPhone().compareTo(originPhone) == 0)
+            {
+                activeChats.get(i).onGetMessage(msg);
+                //break;
             }
         }
+        lock.unlock();
+        Log.d("message","got here, got message");
+
         //Log.e("message","dont have that chat open");
         //maybe open the chat?
         // the user will get his message from the server

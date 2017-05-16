@@ -1,27 +1,17 @@
 package com.ahlan.ahlanapp;
 
-import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import android.util.Log;
-
-import java.sql.Time;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import commonLibrary.*;
@@ -49,7 +39,7 @@ public class ChatActivity extends AppCompatActivity {
             thisPhoneNumber = null;
         } else {
             chatName = extras.getString("chatName");
-            destPhoneNumber = extras.getString("phoneNumber");
+            destPhoneNumber = extras.getString("destPhoneNumber");
             thisPhoneNumber = extras.getString("userPhoneNumber");
         }
 
@@ -96,23 +86,24 @@ public class ChatActivity extends AppCompatActivity {
         Network.getInstance().removeFromActiveChatList(this);
         super.onBackPressed();
     }
+
     protected void onDestroy()
     {
         getParent().onBackPressed();
         Network.getInstance().removeFromActiveChatList(this);
         super.onDestroy();
-    }*/
+    } */
 
     public String getChatPhone()
     {
-        return thisPhoneNumber;
+        return destPhoneNumber;
     }
 
-    protected void onGetMessage(Message message) {
+    public void onGetMessage(Message message) {
 
         messages.add(message);
         mAdapter.notifyItemInserted(messages.size() - 1);
-        mRecyclerView.scrollToPosition(messages.size()-1);
+        //mRecyclerView.scrollToPosition(messages.size()-1);
     }
 
     private void sendMessage(String text)

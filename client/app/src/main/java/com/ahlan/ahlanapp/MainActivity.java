@@ -4,7 +4,6 @@ package com.ahlan.ahlanapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.database.sqlite.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,7 +11,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,7 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +40,6 @@ public class MainActivity extends AppCompatActivity
     private ChatAdapter mAdapter;
     private List<Message> messages = new ArrayList<>();
     private List<User> chatsUsers = new ArrayList<>();
-    private Thread networkThread;
     private TextView mUserNameView;
     private TextView mUserPhoneView;
 
@@ -59,7 +55,6 @@ public class MainActivity extends AppCompatActivity
         Network.getInstance();
         new Thread(Network.getInstance()).start();
         Network.getInstance().setMainActivity(this);
-        networkThread.start();
         lockMessages = new lock();
         mUser = new User ("", "");
 
