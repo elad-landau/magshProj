@@ -112,6 +112,17 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
         }
 
+        // Check for a valid user phone.
+        if (TextUtils.isEmpty(phoneNumber)) {
+            mPhoneNumber.setError(getString(R.string.error_field_required));
+            focusView = mPhoneNumber;
+            cancel = true;
+        } else if (!Validation.isPhoneValid(phoneNumber)) {
+            mPhoneNumber.setError(getString(R.string.error_invalid_phone));
+            focusView = mPhoneNumber;
+            cancel = true;
+        }
+
         if (cancel) {
             // There was an error; don't attempt sign up and focus the first
             // form field with an error.
