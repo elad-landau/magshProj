@@ -18,7 +18,10 @@ import android.widget.TextView;
 
 import android.util.Log;
 
+import java.sql.Time;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import commonLibrary.*;
@@ -42,11 +45,11 @@ public class ChatActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             chatName = null;
-            destPhoneNumber = "";
-            thisPhoneNumber = "";
+            destPhoneNumber = null;
+            thisPhoneNumber = null;
         } else {
             chatName = extras.getString("chatName");
-            destPhoneNumber = extras.getString("destPhoneNumber");
+            destPhoneNumber = extras.getString("phoneNumber");
             thisPhoneNumber = extras.getString("userPhoneNumber");
         }
 
@@ -56,15 +59,18 @@ public class ChatActivity extends AppCompatActivity {
         mSendButton = (Button) findViewById(R.id.send);
         mRecyclerView.setHasFixedSize(true);
 
-        Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
-        this.createMessageList();
+
 
         mAdapter = new MessageAdapter(messages);
+        mAdapter.setUserPhone(thisPhoneNumber);
+        mAdapter.setDestName(chatName);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
+        Network.getInstance().addToActiveChatList(this); //add this chat to the active chat lists
+        this.createMessageList();
 
         mChatTitel = (TextView) findViewById(R.id.chatName);
         mChatTitel.setText(chatName);
@@ -79,58 +85,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void prepareMessagesData() {//for test
-        Message movie = new Message("Mad Max: Fury Road", "Action & Adventure", "2015");
-        messages.add(movie);
-
-        movie = new Message("Inside Out", "Animation, Kids & Family", "2015");
-        messages.add(movie);
-
-        movie = new Message("Star Wars: Episode VII - The Force Awakens", "Action", "2015");
-        messages.add(movie);
-
-        movie = new Message("Shaun the Sheep", "Animation", "2015");
-        messages.add(movie);
-
-        movie = new Message("The Martian", "Science Fiction & Fantasy", "2015");
-        messages.add(movie);
-
-        movie = new Message("Mission: Impossible Rogue Nation", "Action", "2015");
-        messages.add(movie);
-
-        movie = new Message("Up", "Animation", "2009");
-        messages.add(movie);
-
-        movie = new Message("Star Trek", "Science Fiction", "2009");
-        messages.add(movie);
-
-        movie = new Message("The LEGO Movie", "Animation", "2014");
-        messages.add(movie);
-
-        movie = new Message("Iron Man", "Action & Adventure", "2008");
-        messages.add(movie);
-
-        movie = new Message("Aliens", "Science Fiction", "1986");
-        messages.add(movie);
-
-        movie = new Message("Chicken Run", "Animation", "2000");
-        messages.add(movie);
-
-        movie = new Message("Back to the Future", "Science Fiction", "1985");
-        messages.add(movie);
-
-        movie = new Message("Raiders of the Lost Ark", "Action & Adventure", "1981");
-        messages.add(movie);
-
-        movie = new Message("Goldfinger", "Action & Adventure", "1965");
-        messages.add(movie);
-
-        movie = new Message("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
-        messages.add(movie);
-
-        mAdapter.notifyDataSetChanged();
     }
 
 
@@ -163,7 +117,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage(String text)
     {
-        Message msg = new Message(text,thisPhoneNumber,destPhoneNumber);
+        Message msg = new Message(text, thisPhoneNumber, destPhoneNumber);
         messages.add(msg);
         mAdapter.notifyItemInserted(messages.size() - 1);
         mRecyclerView.scrollToPosition(messages.size()-1);
@@ -175,8 +129,8 @@ public class ChatActivity extends AppCompatActivity {
         Message[] msg = Network.getInstance().getAllMessages();
 
         for(int i = 0;i<msg.length;i++) {
-            if((msg[i].get_destination().compareTo(thisPhoneNumber) == 0 && msg[i].get_origin().compareTo(destPhoneNumber) == 0)
-                    ||(msg[i].get_destination().compareTo(destPhoneNumber) == 0 && msg[i].get_origin().compareTo(thisPhoneNumber) == 0))
+            if((msg[i].get_destination() == thisPhoneNumber && msg[i].get_origin() == destPhoneNumber)
+                    ||(msg[i].get_destination() == destPhoneNumber && msg[i].get_origin() == thisPhoneNumber))
                 messages.add(msg[i]);
         }
 
