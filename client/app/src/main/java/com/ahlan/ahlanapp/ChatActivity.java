@@ -22,7 +22,6 @@ public class ChatActivity extends AppCompatActivity {
     private TextView mChatTitel;
     private EditText mMessageText;
     private Button mSendButton;
-    private LinearLayout mLayout;
     private RecyclerView mRecyclerView;
     private MessageAdapter mAdapter;
     private String thisPhoneNumber;
@@ -78,7 +77,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-    /* //TODO: crash
+    /*
     @Override
     public void onBackPressed()
     {

@@ -32,7 +32,6 @@ class Network implements Runnable
     private Queue<Query> inQueue;
     private static final class lock {}
     private final Object lockMessages;
-    //private final Object lockChats;
     private ReentrantLock lockChats;
 
     private static Network instance = null;
@@ -54,7 +53,7 @@ class Network implements Runnable
 
     protected Network()
     {
-        ip = "10.0.0.6";
+        ip = "10.0.0.8";
         port = 7070;
         inQueue = new Queue<Query>();
 
@@ -216,7 +215,7 @@ class Network implements Runnable
     public boolean signUp(String userName,String password,String phoneNumber, LoginActivity.UserRegisterTask registerTask)
     {
         mPhoneNumber = phoneNumber;
-        String[] params = {userName,password,phoneNumber}; // need security for password
+        String[] params = {userName,password,phoneNumber};
         Query q = new Query(Constants.signUp_client,params);
         SendData.getInstance().addToOutQueue(q);
 

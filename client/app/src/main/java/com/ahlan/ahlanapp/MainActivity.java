@@ -52,9 +52,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Network.getInstance();
         new Thread(Network.getInstance()).start();
         Network.getInstance().setMainActivity(this);
+
         lockMessages = new lock();
         mUser = new User ("", "");
 

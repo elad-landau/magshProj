@@ -1,13 +1,10 @@
 package commonLibrary;
 
-import commonLibrary.*;
 import serverLibrary.DBWrapper;
 import serverLibrary.Logic;
-import serverLibrary.DBWrapper.LogLevels;
 
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

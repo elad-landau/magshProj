@@ -4,7 +4,7 @@ public class Query extends Utility
 {
 	private int opCode;
 	private Union un;
-	private ClientHandler han;;
+	private ClientHandler han;
 	
 	
 	public Query(int opCode, Message[] msg)
@@ -65,7 +65,7 @@ public class Query extends Utility
 		
 		/*
 		 * return false for the union holding Message
-		 * return true fot the union holding string
+		 * return true for the union holding string
 		 */
 		public boolean msgOrStr()
 		{
