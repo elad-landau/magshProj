@@ -53,7 +53,7 @@ class Network implements Runnable
 
     protected Network()
     {
-        ip = "10.0.0.8";
+        ip = "192.168.43.134";
         port = 7070;
         inQueue = new Queue<Query>();
 

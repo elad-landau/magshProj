@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="commonLibrary.Queue"/>
+<fullyQualifiedTypeName name="serverLibrary.Logic"/>
+<fullyQualifiedTypeName name="javax.security.auth.login.Configuration"/>
+<fullyQualifiedTypeName name="java.lang.Object"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Parameter"/>
+<fullyQualifiedTypeName name="javax.security.auth.login.Configuration.Parameters"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
+<fullyQualifiedTypeName name="serverLibrary.ClientHandler"/>
+<fullyQualifiedTypeName name="serverLibrary.DBWrapper"/>
+<fullyQualifiedTypeName name="java.util.Vector"/>
+<fullyQualifiedTypeName name="commonLibrary.User"/>
+<fullyQualifiedTypeName name="serverLibrary.DBWrapper.LogLevels"/>
+<fullyQualifiedTypeName name="commonLibrary.Constants"/>
+</qualifiedTypeNameHistroy>

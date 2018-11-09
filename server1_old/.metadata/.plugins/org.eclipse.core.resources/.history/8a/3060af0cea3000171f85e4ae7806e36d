@@ -1,0 +1,327 @@
+package serverLibrary;
+
+
+import java.util.Vector;
+import java.util.concurrent.locks.*;
+
+import commonLibrary.Message;
+import commonLibrary.Query;
+import commonLibrary.Queue;
+import commonLibrary.User;
+import commonLibrary.Constants;
+
+
+
+public class Logic implements Runnable
+{
+	private Queue<Query> queue;
+	private static Logic instance;
+	private final ReentrantLock lock;
+	private Vector<User> onlineUsers;
+	
+	protected Logic()
+	{
+		queue = new Queue<Query>();
+		lock = new ReentrantLock();
+		onlineUsers = new Vector<User>();
+	}
+	
+	public static Logic getInstance()
+	{
+		if(instance == null)
+			instance = new Logic();
+		return instance;
+	}
+	
+	
+	public static void main(String[] args)
+	{
+		Thread logicThread = new Thread(Logic.getInstance());
+		DBWrapper.getInstance();
+		if( ConfigurationManager.getInstance() == null  || DBWrapper.getInstance()==null)
+		{
+			System.out.println("server faild to upload");
+			try
+			{
+			Thread.sleep(5000);
+			}
+			catch(Exception e)
+			{
+				
+			}
+			return;
+		}
+		
+		logicThread.start();
+		Network net = Network.getInstance();
+		net.serv();
+	}
+	
+	
+	
+	public void addQuery(Query q)
+	{
+		lock.lock();
+		queue.enqueue(q);
+		lock.unlock();
+		System.out.println("added query");
+	}
+	
+	
+	public void run()
+	{
+		Query q;
+		
+		while(true)
+		{
+			lock.lock();
+			while(queue.isEmpty())
+			{
+				lock.unlock();
+				try
+				{
+				Thread.sleep(1000);
+				}
+				catch(Exception e)
+				{
+					DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING , this.getClass().getName(), "queue faild at sleeping : "+e);
+				}
+				
+				lock.lock();
+			}
+			
+			q = queue.dequeue();
+			
+			
+			lock.unlock();
+			
+		
+			
+			switch(q.getOpCode())
+			{
+			case Constants.empty_query:
+				// do nothing
+				break;
+			case Constants.signUp_client:
+				handleSignUp(q);
+				break;
+				
+			case Constants.signIn_client:
+				handleSignIn(q);
+				break;
+				
+			case Constants.sentMessage_client:
+				handleSentMessage(q);
+				break;
+			
+			case Constants.getUser_client:
+				handleGetUser(q);
+				break;
+				
+			case Constants.isUserExists_client:
+				handleIsUserExists(q);
+				break;
+				
+			case Constants.getMessagesHistory_client:
+				handleGetMessagesHistory(q);
+				break;
+				
+				default:
+					
+			}
+		}
+		
+		
+	}
+	
+	
+	private void handleGetMessagesHistory(Query q)
+	{
+		Vector<Message> messagesV;
+		Message[] messagesA;
+		Query answer;
+		
+		
+		messagesV = DBWrapper.getInstance().getChat(q.getStr()[0], q.getStr()[1]);
+		messagesA = new Message[messagesV.size()];
+		
+		for(int i =0;i<messagesV.size();i++)
+			messagesA[i] = messagesV.get(i);
+		
+		answer = new Query(Constants.getMessagesHistory_server,messagesA);
+		q.getHandler().sendData(answer);
+	}
+	
+	
+	/*
+	 * check if user with the phone number decribes in the query is exists
+	 * return success if yes, ot failure to no or for a problem
+	 */
+	private void handleIsUserExists(Query q)
+	{
+		Query answer;
+		String[] strs = new String[1];
+		
+		if(DBWrapper.getInstance().isUserExistByPhone(q.getStr()[0]))
+			strs[0] = Integer.toString(Constants.success);
+		else
+			strs[0] = Integer.toString(Constants.failure);
+		
+		answer = new Query(Constants.isUserExists_server,strs);
+		q.getHandler().sendData(answer);
+	}
+	
+	
+	/*
+	 * take care of the client ask to get a user details(username and phoneNumber)
+	 * the method send the client the details, or reason of failure
+	 */
+	private void handleGetUser(Query q)
+	{
+		Query answer;
+		String[] strs;
+		User us = DBWrapper.getInstance().getUser(q.getStr()[0]);
+		
+		if (us == null)
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "problem with get the user";
+		}
+		else
+		{
+			strs = new String[3];
+			strs[0] = Integer.toString(Constants.success);
+			strs[1] = us.getName();
+			strs[2] = us.getPhoneNumber();
+		}
+		
+		answer = new Query(Constants.getUser_server,strs);
+		q.getHandler().sendData(answer);
+	}
+	
+	
+	
+	/*
+	 * handle the user try to register
+	 * send the user query with the result
+	 */
+	private void handleSignUp(Query q)
+	{
+		Query answer;
+		String[] strs;
+		User user = null;
+		
+		if(DBWrapper.getInstance().isUserExistByName(q.getStr()[0]))
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "username already exist";
+		}
+		else if(DBWrapper.getInstance().signUp(q.getStr()[0], q.getStr()[1],q.getStr()[2]))
+		{
+			strs = new String[1];
+			strs[0] = Integer.toString(Constants.success);
+			user = new User(q.getStr()[0], q.getStr()[1], q.getStr()[2] , q.getHandler() );
+			onlineUsers.addElement(user);
+		}
+		else
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "There was a problem to register you";
+		}
+			
+		
+		answer = new Query(Constants.signUp_server,strs);
+		q.getHandler().sendData(answer);
+		
+	}
+
+	
+	
+	private void handleSignIn(Query q)
+	{
+		Query answer;
+		String strs[];
+		
+		if(!DBWrapper.getInstance().isUserExistByName(q.getStr()[0]))
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "username isn't exist";
+		}
+		
+		if(DBWrapper.getInstance().isUsernameAndPasswordMatch(q.getStr()[0],q.getStr()[1]))
+		{
+			//int phoneNumber = DBWrapper.getPhoneByName(q.getStr()[0]);
+			String phoneNumber = DBWrapper.getInstance().getPhoneByName(q.getStr()[0]);
+			User user = new User(q.getStr()[0],q.getStr()[1] , phoneNumber, q.getHandler());
+			onlineUsers.addElement(user);
+			strs = new String[1];
+			strs[0] = Integer.toString(Constants.success);
+		}
+		
+		else
+		{
+			strs = new String[2];
+			strs[0] = Integer.toString(Constants.failure);
+			strs[1] = "username and password don't match";
+		}
+
+		
+		answer = new Query(Constants.signIn_server,strs);
+		q.getHandler().sendData(answer);
+	}
+	
+	
+	/*
+	 * take care of message sent - save it and send it forword to the destination
+	 * return to the origin if succeed or not
+	 */
+	private void handleSentMessage(Query q)
+	{
+		Query answer,message; //answer - the query back to origin. message - the query to the destination
+		String[] strs;
+		User us;
+		int indexOfUser = -2;//magic number to show odd behavoir, because -1 is already taken
+		
+		
+		us = DBWrapper.getInstance().getUser(q.getMsg()[0].get_destination());
+		if(us == null)
+		{
+			DBWrapper.getInstance().writeLog(DBWrapper.LogLevels.WARNING, this.getClass().getName(), "Didnt get the user to send to");
+			indexOfUser = -1;
+		}
+		else
+			for(int i =0;i<onlineUsers.size();i++)
+				if(us.equals(onlineUsers.elementAt(i)))
+					indexOfUser = i;
+		
+		if(indexOfUser == -2)
+			indexOfUser = -1; //there was no online user found. 
+		
+		
+		if(indexOfUser == -1) // not found
+		{
+			strs = new String[2];
+			strs[0] =Integer.toString(Constants.failure);
+			strs[1] = "user not connected/exists";
+			
+			answer = new Query(Constants.sentMessage_server,strs);
+			q.getHandler().sendData(answer);
+			return;
+		}
+		
+		strs = new String[1];
+		strs[0] =Integer.toString(Constants.success);
+		answer = new Query(Constants.sentMessage_server,strs);
+		
+		message = new Query(Constants.sendMessage_server,q.getMsg());
+		DBWrapper.getInstance().saveMessage(q.getMsg()[0]);
+		
+		q.getHandler().sendData(answer);
+		onlineUsers.get(indexOfUser).getHan().sendData(message);
+	}
+
+}
